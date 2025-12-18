@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conclusions Médicales - Système Complet</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .api-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .api-status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .api-status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .category-btn, .motif-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #e0e0e0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .category-btn:hover, .motif-btn:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
+        }
+
+        .motif-btn.principal {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+
+        .motif-btn.secondaire {
+            background: #cce5ff;
+            border-color: #0056b3;
+        }
+
+        .motifs-section {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .motifs-section.active {
+            display: block;
+        }
+
+        /* Main content */
+        .main-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .generate-btn {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin-top: 20px;
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        /* Résultats */
+        .result-container {
+            margin-top: 30px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .module {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .module-icon {
+            font-size: 24px;
+        }
+
+        .module-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .module-content {
+            line-height: 1.8;
+            color: #555;
+            white-space: pre-wrap;
+        }
+
+        /* XXXX modifiables */
+        .xxxx-placeholder {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px dashed #ffc107;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .xxxx-placeholder:hover {
+            background: #ffc107;
+            color: white;
+        }
+
+        /* Bulles d'information */
+        .bulle-word {
+            color: #667eea;
+            cursor: help;
+            border-bottom: 2px dotted #667eea;
+            position: relative;
+        }
+
+        .bulle-word:hover {
+            background: #f0f0ff;
+        }
+
+        /* Boutons ordonnances */
+        .ordonnance-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: #17a2b8;
+            color: white;
+            border-radius: 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .ordonnance-btn:hover {
+            background: #138496;
+            transform: translateY(-2px);
+        }
+
+        /* Codes CCAM */
+        .codes-ccam {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .codes-ccam h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .code-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .code-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .proposition-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .chip {
+            padding: 8px 16px;
+            background: #e7e7ff;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .modal-btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .modal-btn-secondary {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Boutons d'action flottants */
+        .floating-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            background: #667eea;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+        }
+
+        .action-btn.secondary {
+            background: #6c757d;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+
+            .sidebar {
+                max-height: 300px;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Bandeau bulle d'information */
+        .bulle-banner {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .bulle-banner.active {
+            display: block;
+        }
+
+        .bulle-banner-close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            color: #856404;
+        }
+
+        .bulle-banner-title {
+            font-weight: 600;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+
+        .bulle-banner-content {
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>🏥 Catégories</h2>
+            <div id="apiStatus" class="api-status disconnected">
+                ❌ API Déconnectée
+            </div>
+            <div id="categoriesContainer"></div>
+
+            <div id="motifsContainer" class="motifs-section">
+                <h2>📝 Motif Principal</h2>
+                <div id="motifsPrincipaux"></div>
+
+                <h2 style="margin-top: 20px;">➕ Motifs Secondaires</h2>
+                <div id="categoriesSecondaires"></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>📋 Générateur de Conclusions Médicales</h1>
+                <p style="color: #666;">Sélectionnez un motif principal et générez votre conclusion</p>
+                <button id="generateBtn" class="generate-btn" disabled>
+                    ✨ Générer la conclusion
+                </button>
+            </div>
+
+            <!-- Bandeau bulle d'information -->
+            <div id="bulleBanner" class="bulle-banner">
+                <span class="bulle-banner-close" onclick="closeBulleBanner()">×</span>
+                <div class="bulle-banner-title" id="bulleBannerTitle"></div>
+                <div class="bulle-banner-content" id="bulleBannerContent"></div>
+            </div>
+
+            <!-- Résultats -->
+            <div id="resultContainer" class="result-container">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <h3>Aucune conclusion générée</h3>
+                    <p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal XXXX -->
+    <div id="xxxxModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">Remplir le champ</div>
+            <div id="propositionChips" class="proposition-chips"></div>
+            <input type="text" id="xxxxInput" class="modal-input" placeholder="Entrez votre texte...">
+            <div class="modal-buttons">
+                <button class="modal-btn modal-btn-secondary" onclick="closeXxxxModal()">Annuler</button>
+                <button class="modal-btn modal-btn-primary" onclick="validateXxxx()">✓ Valider</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ordonnance -->
+    <div id="ordoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header" id="ordoModalTitle">Ordonnance</div>
+            <div id="ordoModalContent" style="white-space: pre-wrap; line-height: 1.8;"></div>
+            <div class="modal-buttons" style="margin-top: 20px;">
+                <button class="modal-btn modal-btn-secondary" onclick="closeOrdoModal()">Fermer</button>
+                <button class="modal-btn modal-btn-primary" onclick="copyOrdonnance()">📋 Copier</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Boutons d'action flottants -->
+    <div class="floating-actions" style="display: none;" id="floatingActions">
+        <button class="action-btn secondary" onclick="resetAll()" title="Réinitialiser">🔄</button>
+        <button class="action-btn" onclick="copyToClipboard()" title="Copier">📋</button>
+    </div>
+
+    <script>
+        // Configuration - URL API DÉJÀ CONFIGURÉE
+        const API_URL = 'https://conclusions-medicales-api-1oa1.onrender.com';
+        
+        // État de l'application
+        let state = {
+            categories: [],
+            categoriePrincipaleSelectionnee: null,
+            motifPrincipalSelectionne: null,
+            motifsSecondaires: [],
+            conclusionGeneree: null,
+            currentXxxxElement: null,
+            currentXxxxPropositions: [],
+            currentOrdonnance: null
+        };
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', () => {
+            checkApiConnection();
+            loadCategories();
+            
+            document.getElementById('generateBtn').addEventListener('click', generateConclusion);
+        });
+
+        // Vérifier connexion API
+        async function checkApiConnection() {
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                
+                const statusEl = document.getElementById('apiStatus');
+                if (data.status === 'healthy') {
+                    statusEl.className = 'api-status connected';
+                    statusEl.innerHTML = '✅ API Connectée';
+                } else {
+                    throw new Error('API non disponible');
+                }
+            } catch (error) {
+                const statusEl = document.getElementById('apiStatus');
+                statusEl.className = 'api-status disconnected';
+                statusEl.innerHTML = '❌ API Déconnectée';
+                showToast('Impossible de se connecter à l\'API', 'error');
+            }
+        }
+
+        // Charger les catégories
+        async function loadCategories() {
+            try {
+                const response = await fetch(`${API_URL}/categories`);
+                const categories = await response.json();
+                state.categories = categories;
+                
+                renderCategories();
+            } catch (error) {
+                console.error('Erreur chargement catégories:', error);
+                showToast('Erreur chargement des catégories', 'error');
+            }
+        }
+
+        // Afficher les catégories
+        function renderCategories() {
+            const container = document.getElementById('categoriesContainer');
+            container.innerHTML = state.categories.map(cat => `
+                <button class="category-btn" onclick="selectCategoriePrincipale('${cat.table_name}', '${cat.nom}')">
+                    ${cat.nom}
+                </button>
+            `).join('');
+        }
+
+        // Sélectionner catégorie principale
+        async function selectCategoriePrincipale(tableName, nomCategorie) {
+            state.categoriePrincipaleSelectionnee = tableName;
+            state.motifPrincipalSelectionne = null;
+            
+            // Mise à jour UI
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Charger les motifs
+            await loadMotifs(tableName);
+            
+            // Afficher section motifs
+            document.getElementById('motifsContainer').classList.add('active');
+            
+            // Charger catégories pour motifs secondaires
+            renderCategoriesSecondaires();
+            
+            showToast(`📁 Catégorie: ${nomCategorie}`);
+        }
+
+        // Charger les motifs d'une catégorie
+        async function loadMotifs(tableName) {
+            try {
+                const response = await fetch(`${API_URL}/motifs/${tableName}`);
+                const motifs = await response.json();
+                
+                // Afficher motifs principaux
+                const container = document.getElementById('motifsPrincipaux');
+                container.innerHTML = motifs.map(motif => `
+                    <button class="motif-btn" onclick="selectMotifPrincipal('${motif.id}', '${motif.nom_motif.replace(/'/g, "\\'")}')">
+                        ${motif.nom_motif}
+                    </button>
+                `).join('');
+            } catch (error) {
+                console.error('Erreur chargement motifs:', error);
+                showToast('Erreur chargement des motifs', 'error');
+            }
+        }
+
+        // Sélectionner motif principal
+        function selectMotifPrincipal(motifId, nomMotif) {
+            state.motifPrincipalSelectionne = motifId;
+            
+            // Mise à jour UI
+            document.querySelectorAll('#motifsPrincipaux .motif-btn').forEach(btn => {
+                btn.classList.remove('principal');
+            });
+            event.target.classList.add('principal');
+            
+            // Activer le bouton Générer
+            document.getElementById('generateBtn').disabled = false;
+            
+            showToast(`✅ Motif principal: ${nomMotif}`);
+        }
+
+        // Afficher catégories pour motifs secondaires
+        function renderCategoriesSecondaires() {
+            const container = document.getElementById('categoriesSecondaires');
+            container.innerHTML = state.categories.map(cat => `
+                <div style="margin-bottom: 15px;">
+                    <button class="category-btn" onclick="toggleCategorieSecondaire('${cat.table_name}', this)">
+                        ${cat.nom}
+                    </button>
+                    <div id="motifs-sec-${cat.table_name}" style="display: none; margin-top: 8px;"></div>
+                </div>
+            `).join('');
+        }
+
+        // Toggle catégorie secondaire
+        async function toggleCategorieSecondaire(tableName, btnElement) {
+            const motifsContainer = document.getElementById(`motifs-sec-${tableName}`);
+            
+            if (motifsContainer.style.display === 'none') {
+                // Charger les motifs
+                const response = await fetch(`${API_URL}/motifs/${tableName}`);
+                const motifs = await response.json();
+                
+                motifsContainer.innerHTML = motifs.map(motif => `
+                    <button class="motif-btn" onclick="toggleMotifSecondaire('${tableName}', '${motif.id}', '${motif.nom_motif.replace(/'/g, "\\'")}', this)">
+                        ${motif.nom_motif}
+                    </button>
+                `).join('');
+                
+                motifsContainer.style.display = 'block';
+            } else {
+                motifsContainer.style.display = 'none';
+            }
+        }
+
+        // Toggle motif secondaire
+        function toggleMotifSecondaire(tableName, motifId, nomMotif, btnElement) {
+            const index = state.motifsSecondaires.findIndex(m => m.id === motifId);
+            
+            if (index === -1) {
+                // Ajouter
+                state.motifsSecondaires.push({table: tableName, id: motifId, nom: nomMotif});
+                btnElement.classList.add('secondaire');
+                showToast(`➕ Motif secondaire ajouté: ${nomMotif}`);
+            } else {
+                // Retirer
+                state.motifsSecondaires.splice(index, 1);
+                btnElement.classList.remove('secondaire');
+                showToast(`➖ Motif secondaire retiré: ${nomMotif}`);
+            }
+        }
+
+        // Générer la conclusion
+        async function generateConclusion() {
+            if (!state.motifPrincipalSelectionne) {
+                showToast('Sélectionnez un motif principal', 'error');
+                return;
+            }
+
+            showToast('⏳ Génération en cours...');
+            
+            try {
+                const response = await fetch(`${API_URL}/fusion`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        table_principale: state.categoriePrincipaleSelectionnee,
+                        motif_principal_id: state.motifPrincipalSelectionne,
+                        motifs_secondaires: state.motifsSecondaires
+                    })
+                });
+
+                const data = await response.json();
+                state.conclusionGeneree = data;
+                
+                renderConclusion(data);
+                showToast('✅ Conclusion générée !');
+                
+                // Afficher boutons flottants
+                document.getElementById('floatingActions').style.display = 'flex';
+            } catch (error) {
+                console.error('Erreur génération:', error);
+                showToast('Erreur lors de la génération', 'error');
+            }
+        }
+
+        // Afficher la conclusion
+        function renderConclusion(data) {
+            const container = document.getElementById('resultContainer');
+            
+            let html = '';
+            
+            // Modules
+            data.modules.forEach(module => {
+                let content = module.contenu;
+                
+                // Rendre les XXXX cliquables
+                content = content.replace(/XXXX/g, '<span class="xxxx-placeholder" onclick="openXxxxModal(this, [])">XXXX</span>');
+                
+                // Rendre les mots avec bulles cliquables
+                module.bulles.forEach(bulle => {
+                    const regex = new RegExp(`\\b${bulle.mot}\\b`, 'gi');
+                    content = content.replace(regex, `<span class="bulle-word" onclick="showBulle('${bulle.mot}', '${bulle.info.replace(/'/g, "\\'")}')">$&</span>`);
+                });
+                
+                html += `
+                    <div class="module">
+                        <div class="module-header">
+                            <span class="module-icon">${module.icon}</span>
+                            <span class="module-title">${module.titre}</span>
+                        </div>
+                        <div class="module-content" contenteditable="true">
+                            ${content}
+                        </div>
+                        ${module.type === 'conduite_tenir' && data.ordonnances.length > 0 ? renderOrdonnanceButtons(data.ordonnances) : ''}
+                    </div>
+                `;
+            });
+            
+            // Codes CCAM
+            if (data.codes_ccam && data.codes_ccam.length > 0) {
+                html += `
+                    <div class="codes-ccam">
+                        <h3>📊 CODAGE CCAM</h3>
+                        ${data.codes_ccam.map(code => `
+                            <div class="code-item">
+                                <strong>${code.code}</strong> : ${code.libelle}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = html;
+        }
+
+        // Boutons ordonnances
+        function renderOrdonnanceButtons(ordonnances) {
+            return `
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #e0e0e0;">
+                    <strong>💊 Ordonnances disponibles:</strong><br>
+                    ${ordonnances.map((ordo, idx) => `
+                        <span class="ordonnance-btn" onclick="showOrdonnance(${idx})">
+                            ${ordo.titre}
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Afficher ordonnance
+        function showOrdonnance(index) {
+            const ordo = state.conclusionGeneree.ordonnances[index];
+            state.currentOrdonnance = ordo.contenu;
+            
+            document.getElementById('ordoModalTitle').textContent = ordo.titre;
+            document.getElementById('ordoModalContent').textContent = ordo.contenu;
+            document.getElementById('ordoModal').classList.add('active');
+        }
+
+        // Fermer modal ordonnance
+        function closeOrdoModal() {
+            document.getElementById('ordoModal').classList.remove('active');
+        }
+
+        // Copier ordonnance
+        function copyOrdonnance() {
+            navigator.clipboard.writeText(state.currentOrdonnance);
+            showToast('✅ Ordonnance copiée !');
+            closeOrdoModal();
+        }
+
+        // Ouvrir modal XXXX
+        function openXxxxModal(element, propositions) {
+            state.currentXxxxElement = element;
+            state.currentXxxxPropositions = propositions || [];
+            
+            // Afficher propositions
+            const chipsContainer = document.getElementById('propositionChips');
+            if (propositions && propositions.length > 0) {
+                chipsContainer.innerHTML = propositions.map(prop => `
+                    <span class="chip" onclick="selectProposition('${prop}')">${prop}</span>
+                `).join('');
+                chipsContainer.style.display = 'flex';
+            } else {
+                chipsContainer.style.display = 'none';
+            }
+            
+            document.getElementById('xxxxInput').value = '';
+            document.getElementById('xxxxModal').classList.add('active');
+            document.getElementById('xxxxInput').focus();
+        }
+
+        // Sélectionner proposition
+        function selectProposition(text) {
+            document.getElementById('xxxxInput').value = text;
+        }
+
+        // Valider XXXX
+        function validateXxxx() {
+            const value = document.getElementById('xxxxInput').value.trim();
+            
+            if (value && state.currentXxxxElement) {
+                state.currentXxxxElement.textContent = value;
+                state.currentXxxxElement.classList.remove('xxxx-placeholder');
+                state.currentXxxxElement.style.background = 'transparent';
+                state.currentXxxxElement.style.border = 'none';
+            }
+            
+            closeXxxxModal();
+        }
+
+        // Fermer modal XXXX
+        function closeXxxxModal() {
+            document.getElementById('xxxxModal').classList.remove('active');
+            state.currentXxxxElement = null;
+        }
+
+        // Afficher bulle d'information
+        function showBulle(mot, info) {
+            document.getElementById('bulleBannerTitle').textContent = `💡 ${mot}`;
+            document.getElementById('bulleBannerContent').textContent = info;
+            document.getElementById('bulleBanner').classList.add('active');
+        }
+
+        // Fermer bandeau bulle
+        function closeBulleBanner() {
+            document.getElementById('bulleBanner').classList.remove('active');
+        }
+
+        // Copier dans le presse-papier
+        function copyToClipboard() {
+            if (!state.conclusionGeneree) return;
+            
+            let text = '';
+            state.conclusionGeneree.modules.forEach(module => {
+                text += `${module.titre}\n\n${module.contenu}\n\n`;
+            });
+            
+            navigator.clipboard.writeText(text);
+            showToast('✅ Copié dans le presse-papier !');
+        }
+
+        // Réinitialiser
+        function resetAll() {
+            state = {
+                categories: state.categories,
+                categoriePrincipaleSelectionnee: null,
+                motifPrincipalSelectionne: null,
+                motifsSecondaires: [],
+                conclusionGeneree: null,
+                currentXxxxElement: null,
+                currentXxxxPropositions: [],
+                currentOrdonnance: null
+            };
+            
+            // Reset UI
+            document.querySelectorAll('.category-btn, .motif-btn').forEach(btn => {
+                btn.classList.remove('active', 'principal', 'secondaire');
+            });
+            
+            document.getElementById('motifsContainer').classList.remove('active');
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('floatingActions').style.display = 'none';
+            
+            document.getElementById('resultContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📝</div>
+                    <h3>Aucune conclusion générée</h3>
+                    <p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+                </div>
+            `;
+            
+            showToast('🔄 Réinitialisé !');
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            
+            if (type === 'error') {
+                toast.style.background = '#dc3545';
+            }
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+
+        // Fermer modals en cliquant à l'extérieur
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Entrée pour valider XXXX
+        document.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && document.getElementById('xxxxModal').classList.contains('active')) {
+                validateXxxx();
+            }
+        });
+    </script>
+</body>
+</html>
