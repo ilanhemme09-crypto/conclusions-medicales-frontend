@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏥 Conclusions Médicales - Service des Urgences (API)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --primary-lighter: #334155;
+            --accent: #3b82f6;
+            --accent-light: #60a5fa;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-light: #f1f5f9;
+            --text-gray: #cbd5e1;
+            --border: #475569;
+            --bulb-yellow: #fbbf24;
+            --highlight-yellow: #fef08a;
+            --codage-purple: #a855f7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            padding: 24px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .container { max-width: 1800px; margin: 0 auto; }
+
+        .header {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            padding: 32px 40px;
+            border-radius: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--text-light) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header p { color: var(--text-gray); font-size: 0.75rem; font-weight: 300; }
+
+        .api-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .api-status.connected {
+            background: var(--success);
+            color: white;
+        }
+
+        .api-status.disconnected {
+            background: var(--danger);
+            color: white;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 450px 1fr;
+            gap: 24px;
+        }
+
+        .sidebar {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.4) 0%, rgba(185, 28, 28, 0.35) 100%);
+            backdrop-filter: blur(20px);
+            padding: 32px;
+            border-radius: 20px;
+            border: 3px solid #ff0055;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            height: fit-content;
+            position: sticky;
+            top: 24px;
+        }
+
+        .sidebar h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 28px; }
+
+        .section {
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .category-btn {
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-lighter) 100%);
+            border: 2px solid transparent;
+            border-radius: 14px;
+            color: var(--text-gray);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .category-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+        }
+
+        .motifs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+
+        .motif-btn {
+            padding: 18px 20px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-lighter) 100%);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .motif-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-light);
+            transform: translateX(4px);
+            box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        .motif-btn.selected-main {
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            border-color: var(--success);
+            color: white;
+            font-weight: 600;
+        }
+
+        .motif-btn.selected-secondary {
+            background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+            border-color: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .motif-btn::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-gray);
+            transition: all 0.3s;
+        }
+
+        .motif-btn.selected-main::before,
+        .motif-btn.selected-secondary::before {
+            background: white;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+        }
+
+        .generate-btn {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            border: none;
+            border-radius: 14px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.3);
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.4);
+        }
+
+        .generate-btn:disabled {
+            background: var(--primary-lighter);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .result-area {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            min-height: 600px;
+        }
+
+        .module {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            padding: 28px 32px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .module:hover {
+            border-color: var(--accent);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.2);
+        }
+
+        .module-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .module-content {
+            line-height: 1.8;
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .xxxx-field {
+            background: linear-gradient(135deg, var(--warning) 0%, #d97706 100%);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .xxxx-field:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .info-bubble {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            cursor: help;
+        }
+
+        .info-bubble::after {
+            content: '💡';
+            font-size: 1.1em;
+            transition: all 0.2s;
+        }
+
+        .info-bubble:hover::after {
+            transform: scale(1.2);
+            filter: brightness(1.3);
+        }
+
+        .bubble-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: var(--primary);
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            margin-bottom: 8px;
+        }
+
+        .bubble-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #f59e0b;
+        }
+
+        .bubble-banner-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: var(--primary);
+            padding: 20px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(251, 191, 36, 0.5);
+            z-index: 10000;
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .bubble-banner-modal.visible {
+            transform: translateY(0);
+        }
+
+        .bubble-banner-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: var(--primary);
+            cursor: pointer;
+            font-weight: 700;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 1;
+        }
+
+        .conduite-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            transition: all 0.3s;
+        }
+
+        .conduite-item:hover {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.15);
+        }
+
+        .conduite-number {
+            background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+            color: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .conduite-text {
+            flex: 1;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+        }
+
+        .empty-state-icon {
+            font-size: 5rem;
+            margin-bottom: 24px;
+            opacity: 0.5;
+        }
+
+        .empty-state h2 {
+            font-size: 1.8rem;
+            color: var(--text-gray);
+            margin-bottom: 12px;
+        }
+
+        .empty-state p {
+            color: var(--text-gray);
+            font-size: 1rem;
+        }
+
+        .action-buttons {
+            position: fixed;
+            bottom: 32px;
+            right: 32px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .action-btn {
+            padding: 16px 28px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        #copyBtn {
+            background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+            color: white;
+        }
+
+        #resetBtn {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(8px);
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            border: 2px solid var(--accent);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-header h3 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 2rem;
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 1;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+            transform: scale(1.1);
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary-lighter);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 16px;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .suggestion-chip {
+            padding: 8px 16px;
+            background: var(--primary-lighter);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestion-chip:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .modal-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
+
+        .ordo-content {
+            background: var(--primary-lighter);
+            padding: 24px;
+            border-radius: 12px;
+            white-space: pre-wrap;
+            line-height: 1.8;
+            font-family: 'Courier New', monospace;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+
+        .ordo-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .ordo-btn {
+            flex: 1;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ordo-btn-copy {
+            background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .ordo-btn-list {
+            background: linear-gradient(135deg, var(--primary-lighter) 0%, var(--primary) 100%);
+            color: var(--text-light);
+            border: 2px solid var(--border);
+        }
+
+        .ordo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .ordo-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .ordo-filter-btn {
+            padding: 8px 16px;
+            background: var(--primary-lighter);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .ordo-filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-light);
+        }
+
+        .ordo-filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        .ordo-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .ordo-list-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--primary-lighter);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .ordo-list-item:hover {
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .ordo-list-icon {
+            font-size: 1.5rem;
+        }
+
+        .ordo-list-content {
+            flex: 1;
+        }
+
+        .ordo-list-title {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 4px;
+        }
+
+        .ordo-list-category {
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .codage-box {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            padding: 24px 32px;
+            border-radius: 16px;
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            margin-top: 32px;
+            box-shadow: 0 8px 24px rgba(168, 85, 247, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s;
+        }
+
+        .codage-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .codage-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--codage-purple);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .codage-content {
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        .codage-item {
+            padding: 12px;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border-left: 4px solid var(--codage-purple);
+        }
+
+        .codage-code {
+            font-weight: 700;
+            color: var(--codage-purple);
+            margin-right: 12px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 110px;
+            right: 32px;
+            background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+            color: white;
+            padding: 18px 32px;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+            z-index: 2000;
+            display: none;
+            font-weight: 600;
+        }
+
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--primary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+            font-size: 1.2rem;
+        }
+
+        .loading::after {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--text-gray);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            margin-left: 12px;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Conclusions Médicales</h1>
+            <p>Service des Urgences • Version API Supabase</p>
+            <div class="api-status" id="apiStatus">🔌 Connexion...</div>
+        </div>
+
+        <div class="main-grid">
+            <div class="sidebar">
+                <h2>Sélection des motifs</h2>
+
+                <div class="section">
+                    <div class="section-title">📁 Motif Principal</div>
+                    <div class="category-grid" id="categoryGrid"></div>
+                    <div class="motifs-list" id="mainMotifsList"></div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">📂 Motifs Secondaires</div>
+                    <div class="category-grid" id="secondaryCategoryGrid"></div>
+                    <div class="motifs-list" id="secondaryMotifsList"></div>
+                </div>
+
+                <button class="generate-btn" id="generateBtn" disabled>✨ Générer la conclusion</button>
+            </div>
+
+            <div class="result-area" id="resultArea">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <h2>Aucune conclusion générée</h2>
+                    <p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="action-btn" id="copyBtn" style="display: none;">📋 Copier</button>
+            <button class="action-btn" id="resetBtn" style="display: none;">🔄 Réinitialiser</button>
+        </div>
+
+        <div class="codage-box" id="codageBox">
+            <div class="codage-title">📊 CODAGE CCAM</div>
+            <div class="codage-content" id="codageContent"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <div class="modal" id="xxxxModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Compléter l'information</h3>
+                <button class="close-btn" onclick="closeXxxxModal()">&times;</button>
+            </div>
+            <input type="text" class="modal-input" id="xxxxInput" placeholder="Entrez votre texte...">
+            <div class="suggestions" id="suggestions"></div>
+            <button class="modal-btn" onclick="saveXxxx()">✓ Valider</button>
+        </div>
+    </div>
+
+    <div class="modal" id="ordoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="ordoTitle">Ordonnance</h3>
+                <button class="close-btn" onclick="closeOrdoModal()">&times;</button>
+            </div>
+            <div id="ordoModalContent"></div>
+        </div>
+    </div>
+
+    <div class="bubble-banner-modal" id="bubbleBannerModal" style="cursor: pointer;" onclick="this.classList.remove('visible')">
+        <button class="bubble-banner-close" onclick="event.stopPropagation(); document.getElementById('bubbleBannerModal').classList.remove('visible')">×</button>
+        <div id="bubbleBannerContent"></div>
+    </div>
+
+    <script>
+        // ============= CONFIGURATION API =============
+        const API_URL = 'http://localhost:8000'; // À remplacer par l'URL de votre API sur Render
+
+        // ============= CACHE CLIENT =============
+        const cache = {
+            categories: null,
+            motifs: {},
+            fusionData: null
+        };
+
+        // ============= ÉTAT GLOBAL =============
+        let state = {
+            selectedMainCategory: null,
+            selectedSecondaryCategory: null,
+            mainMotif: null,
+            secondaryMotifs: [],
+            currentXxxxElement: null,
+            currentOrdonnanceContent: null,
+            isInOrdonnance: false,
+            allOrdonnances: []
+        };
+
+        // ============= SUGGESTIONS CONTEXTUELLES =============
+        const CONTEXT_SUGGESTIONS = {
+            'survenu': ['ce matin', 'hier soir', 'il y a 2 jours', 'il y a 1 semaine'],
+            'coté': ['droit', 'gauche', 'bilatéral'],
+            'côté': ['droit', 'gauche', 'bilatéral'],
+            'main': ['droite', 'gauche'],
+            'pied': ['droit', 'gauche'],
+            'cheville': ['droite', 'gauche'],
+            'genou': ['droit', 'gauche'],
+            'depuis': ['2 heures', '24h', '48h', '1 semaine'],
+            'heure': ['6h', '12h', '18h', '24h'],
+            'traumatisme': ['direct', 'indirect', 'chute'],
+            'douleur': ['intense', 'modérée', 'faible']
+        };
+
+        // ============= FONCTIONS API =============
+        
+        async function checkApiStatus() {
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                const statusEl = document.getElementById('apiStatus');
+                if (data.status === 'healthy') {
+                    statusEl.textContent = '✅ API Connectée';
+                    statusEl.className = 'api-status connected';
+                    return true;
+                } else {
+                    statusEl.textContent = '❌ API Déconnectée';
+                    statusEl.className = 'api-status disconnected';
+                    return false;
+                }
+            } catch (error) {
+                console.error('Erreur connexion API:', error);
+                document.getElementById('apiStatus').textContent = '❌ API Déconnectée';
+                document.getElementById('apiStatus').className = 'api-status disconnected';
+                return false;
+            }
+        }
+
+        async function loadCategories() {
+            try {
+                // Vérifier le cache
+                if (cache.categories) {
+                    displayCategories(cache.categories);
+                    return;
+                }
+
+                const response = await fetch(`${API_URL}/categories`);
+                const categories = await response.json();
+                cache.categories = categories;
+                displayCategories(categories);
+            } catch (error) {
+                console.error('Erreur chargement catégories:', error);
+                showToast('❌ Erreur de chargement');
+            }
+        }
+
+        function displayCategories(categories) {
+            [document.getElementById('categoryGrid'), document.getElementById('secondaryCategoryGrid')].forEach((grid, idx) => {
+                grid.innerHTML = '';
+                categories.forEach(cat => {
+                    const btn = document.createElement('button');
+                    btn.className = 'category-btn';
+                    btn.textContent = cat.nom;
+                    btn.onclick = () => idx === 0 ? selectMainCategory(cat, btn) : selectSecondaryCategory(cat, btn);
+                    grid.appendChild(btn);
+                });
+            });
+        }
+
+        async function loadMotifs(categorieId) {
+            try {
+                // Vérifier le cache
+                if (cache.motifs[categorieId]) {
+                    return cache.motifs[categorieId];
+                }
+
+                const response = await fetch(`${API_URL}/motifs?categorie_id=${categorieId}`);
+                const motifs = await response.json();
+                cache.motifs[categorieId] = motifs;
+                return motifs;
+            } catch (error) {
+                console.error('Erreur chargement motifs:', error);
+                showToast('❌ Erreur de chargement');
+                return [];
+            }
+        }
+
+        async function selectMainCategory(category, btnElement) {
+            state.selectedMainCategory = category;
+            document.querySelectorAll('#categoryGrid .category-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            const mainList = document.getElementById('mainMotifsList');
+            mainList.innerHTML = '<div class="loading">Chargement</div>';
+            
+            const motifs = await loadMotifs(category.id);
+            mainList.innerHTML = '';
+            
+            motifs.forEach(motif => {
+                const btn = document.createElement('button');
+                btn.className = 'motif-btn';
+                btn.innerHTML = `<span>${motif.titre}</span>`;
+                btn.onclick = () => selectMainMotif(motif, btn);
+                mainList.appendChild(btn);
+            });
+            
+            showToast('📁 Catégorie: ' + category.nom);
+        }
+
+        async function selectSecondaryCategory(category, btnElement) {
+            state.selectedSecondaryCategory = category;
+            document.querySelectorAll('#secondaryCategoryGrid .category-btn').forEach(b => b.classList.remove('active'));
+            btnElement.classList.add('active');
+            
+            const list = document.getElementById('secondaryMotifsList');
+            list.innerHTML = '<div class="loading">Chargement</div>';
+            
+            const motifs = await loadMotifs(category.id);
+            list.innerHTML = '';
+            
+            motifs.forEach(motif => {
+                const btn = document.createElement('button');
+                btn.className = 'motif-btn';
+                btn.innerHTML = `<span>${motif.titre}</span>`;
+                btn.onclick = () => toggleSecondaryMotif(motif, btn);
+                if (state.secondaryMotifs.some(m => m.id === motif.id)) {
+                    btn.classList.add('selected-secondary');
+                }
+                list.appendChild(btn);
+            });
+            
+            showToast('📁 Catégorie secondaire: ' + category.nom);
+        }
+
+        function selectMainMotif(motif, btnElement) {
+            document.querySelectorAll('#mainMotifsList .motif-btn').forEach(b => b.classList.remove('selected-main'));
+            state.mainMotif = motif;
+            btnElement.classList.add('selected-main');
+            state.secondaryMotifs = state.secondaryMotifs.filter(m => m.id !== motif.id);
+            if (state.selectedSecondaryCategory) {
+                selectSecondaryCategory(state.selectedSecondaryCategory, document.querySelector('#secondaryCategoryGrid .category-btn.active'));
+            }
+            document.getElementById('generateBtn').disabled = false;
+            showToast('⭐ ' + motif.titre);
+        }
+
+        function toggleSecondaryMotif(motif, btnElement) {
+            if (state.mainMotif && motif.id === state.mainMotif.id) {
+                showToast('⚠️ Déjà motif principal');
+                return;
+            }
+            const index = state.secondaryMotifs.findIndex(m => m.id === motif.id);
+            if (index >= 0) {
+                state.secondaryMotifs.splice(index, 1);
+                btnElement.classList.remove('selected-secondary');
+            } else {
+                state.secondaryMotifs.push(motif);
+                btnElement.classList.add('selected-secondary');
+            }
+        }
+
+        // ============= GÉNÉRATION DE CONCLUSION =============
+        
+        async function generateConclusion() {
+            if (!state.mainMotif) return;
+
+            const resultArea = document.getElementById('resultArea');
+            resultArea.innerHTML = '<div class="loading">Génération en cours</div>';
+
+            try {
+                const payload = {
+                    motif_principal_id: state.mainMotif.id,
+                    motifs_secondaires_ids: state.secondaryMotifs.map(m => m.id)
+                };
+
+                const response = await fetch(`${API_URL}/fusion`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur API');
+                }
+
+                const data = await response.json();
+                cache.fusionData = data;
+                displayConclusion(data);
+                showToast('✅ Conclusion générée !');
+            } catch (error) {
+                console.error('Erreur génération:', error);
+                showToast('❌ Erreur de génération');
+                resultArea.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">❌</div>
+                        <h2>Erreur de génération</h2>
+                        <p>Impossible de générer la conclusion. Vérifiez l'API.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function displayConclusion(data) {
+            const resultArea = document.getElementById('resultArea');
+            resultArea.innerHTML = '';
+
+            // Afficher les modules
+            data.modules.forEach(module => {
+                if (module.type === 'conduite_tenir') {
+                    createConduiteModule(resultArea, module);
+                } else {
+                    createModule(resultArea, module);
+                }
+            });
+
+            // Stocker les ordonnances
+            state.allOrdonnances = data.ordonnances;
+
+            // Afficher les codes CCAM
+            if (data.codes_ccam && data.codes_ccam.length > 0) {
+                updateCodageDisplay(data.codes_ccam);
+            }
+
+            document.getElementById('copyBtn').style.display = 'block';
+            document.getElementById('resetBtn').style.display = 'block';
+            resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function createModule(container, module) {
+            const moduleDiv = document.createElement('div');
+            moduleDiv.className = 'module';
+            
+            const title = document.createElement('div');
+            title.className = 'module-title';
+            title.textContent = `${module.icon} ${module.titre}`;
+            
+            const content = document.createElement('div');
+            content.className = 'module-content';
+            content.innerHTML = enrichContent(module.contenu, module.bulles, module.propositions);
+            
+            moduleDiv.appendChild(title);
+            moduleDiv.appendChild(content);
+            container.appendChild(moduleDiv);
+        }
+
+        function createConduiteModule(container, module) {
+            const moduleDiv = document.createElement('div');
+            moduleDiv.className = 'module';
+            
+            const title = document.createElement('div');
+            title.className = 'module-title';
+            title.textContent = `${module.icon} ${module.titre}`;
+            
+            const content = document.createElement('div');
+            content.className = 'module-content';
+            
+            const conduites = module.contenu.split('\n').filter(line => line.trim());
+            conduites.forEach((conduite, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'conduite-item';
+                
+                const numberDiv = document.createElement('div');
+                numberDiv.className = 'conduite-number';
+                numberDiv.textContent = index + 1;
+                
+                const textDiv = document.createElement('div');
+                textDiv.className = 'conduite-text';
+                const cleanText = conduite.replace(/^\d+\s*-\s*/, '');
+                textDiv.innerHTML = enrichContent(cleanText, module.bulles, module.propositions);
+                
+                itemDiv.appendChild(numberDiv);
+                itemDiv.appendChild(textDiv);
+                content.appendChild(itemDiv);
+            });
+            
+            moduleDiv.appendChild(title);
+            moduleDiv.appendChild(content);
+            container.appendChild(moduleDiv);
+        }
+
+        function enrichContent(text, bulles, propositions) {
+            let enrichedText = text;
+
+            // Ajouter les bulles
+            if (bulles && bulles.length > 0) {
+                bulles.forEach(bulle => {
+                    const regex = new RegExp(`\\b${bulle.mot}\\b`, 'gi');
+                    enrichedText = enrichedText.replace(regex, match => {
+                        return `<span class="info-bubble">${match}<span class="bubble-tooltip">${bulle.info}</span></span>`;
+                    });
+                });
+            }
+
+            // Ajouter les propositions (XXXX)
+            if (propositions && propositions.length > 0) {
+                propositions.forEach(prop => {
+                    const suggestions = prop.suggestions.join('|');
+                    enrichedText = enrichedText.replace(
+                        prop.placeholder,
+                        `<span class="xxxx-field" data-proposals="${suggestions}" contenteditable="true">${prop.placeholder}</span>`
+                    );
+                });
+            }
+
+            return enrichedText;
+        }
+
+        function updateCodageDisplay(codes) {
+            const codageBox = document.getElementById('codageBox');
+            const codageContent = document.getElementById('codageContent');
+            
+            if (!codes || codes.length === 0) {
+                codageBox.classList.remove('show');
+                return;
+            }
+
+            codageContent.innerHTML = '';
+            codes.forEach(code => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'codage-item';
+                itemDiv.innerHTML = `<span class="codage-code">${code.code}</span>${code.libelle}`;
+                codageContent.appendChild(itemDiv);
+            });
+
+            codageBox.classList.add('show');
+        }
+
+        // ============= GESTION DES ORDONNANCES =============
+
+        function showOrdonnanceList() {
+            if (!state.allOrdonnances || state.allOrdonnances.length === 0) {
+                showToast('Aucune ordonnance disponible');
+                return;
+            }
+
+            const modal = document.getElementById('ordoModal');
+            const content = document.getElementById('ordoModalContent');
+            
+            // Créer les filtres
+            const categories = [...new Set(state.allOrdonnances.map(o => o.categorie_ordo))].sort();
+            
+            const filterDiv = document.createElement('div');
+            filterDiv.className = 'ordo-filters';
+            
+            const allBtn = document.createElement('button');
+            allBtn.className = 'ordo-filter-btn active';
+            allBtn.textContent = `Toutes (${state.allOrdonnances.length})`;
+            allBtn.onclick = function() {
+                document.querySelectorAll('.ordo-filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.ordo-list-item').forEach(item => item.style.display = '');
+            };
+            filterDiv.appendChild(allBtn);
+            
+            categories.forEach(cat => {
+                const count = state.allOrdonnances.filter(o => o.categorie_ordo === cat).length;
+                const btn = document.createElement('button');
+                btn.className = 'ordo-filter-btn';
+                btn.textContent = `${cat} (${count})`;
+                btn.onclick = function() {
+                    document.querySelectorAll('.ordo-filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    document.querySelectorAll('.ordo-list-item').forEach(item => {
+                        if (item.getAttribute('data-category') === cat) {
+                            item.style.display = '';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                };
+                filterDiv.appendChild(btn);
+            });
+            
+            // Créer la liste
+            const listDiv = document.createElement('div');
+            listDiv.className = 'ordo-list-container';
+            
+            state.allOrdonnances.forEach((ordo, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'ordo-list-item';
+                itemDiv.setAttribute('data-category', ordo.categorie_ordo);
+                itemDiv.innerHTML = `
+                    <div class="ordo-list-icon">💊</div>
+                    <div class="ordo-list-content">
+                        <div class="ordo-list-title">${ordo.titre}</div>
+                        <div class="ordo-list-category">${ordo.categorie_ordo}</div>
+                    </div>
+                `;
+                itemDiv.onclick = function() {
+                    showOrdonnance(ordo);
+                };
+                listDiv.appendChild(itemDiv);
+            });
+            
+            content.innerHTML = '';
+            content.appendChild(filterDiv);
+            content.appendChild(listDiv);
+            modal.classList.add('active');
+        }
+
+        function showOrdonnance(ordo) {
+            const modal = document.getElementById('ordoModal');
+            const content = document.getElementById('ordoModalContent');
+            const title = document.getElementById('ordoTitle');
+            
+            title.textContent = ordo.titre;
+            
+            const enrichedContent = enrichContent(ordo.contenu, ordo.bulles, ordo.propositions);
+            
+            content.innerHTML = `
+                <div class="ordo-content" id="ordoContent">${enrichedContent}</div>
+                <div class="ordo-actions">
+                    <button class="ordo-btn ordo-btn-copy" onclick="copyOrdonnance()">📋 Copier</button>
+                    <button class="ordo-btn ordo-btn-list" onclick="showOrdonnanceList()">📚 Liste</button>
+                </div>
+            `;
+            
+            modal.classList.add('active');
+        }
+
+        function copyOrdonnance() {
+            const text = document.getElementById('ordoContent').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('✅ Ordonnance copiée !');
+                closeOrdoModal();
+            });
+        }
+
+        function closeOrdoModal() {
+            document.getElementById('ordoModal').classList.remove('active');
+        }
+
+        // ============= GESTION DES XXXX =============
+        
+        function openXxxxModal(element, isInOrdo, proposals) {
+            state.currentXxxxElement = element;
+            state.isInOrdonnance = isInOrdo;
+            
+            const modal = document.getElementById('xxxxModal');
+            const input = document.getElementById('xxxxInput');
+            const suggestionsDiv = document.getElementById('suggestions');
+            
+            input.value = element.textContent.trim() === 'XXXX' ? '' : element.textContent;
+            input.focus();
+            
+            suggestionsDiv.innerHTML = '';
+            if (proposals && proposals.length > 0) {
+                proposals.forEach(suggestion => {
+                    const chip = document.createElement('div');
+                    chip.className = 'suggestion-chip';
+                    chip.textContent = suggestion;
+                    chip.onclick = () => {
+                        input.value = suggestion;
+                        saveXxxx();
+                    };
+                    suggestionsDiv.appendChild(chip);
+                });
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeXxxxModal() {
+            document.getElementById('xxxxModal').classList.remove('active');
+            state.currentXxxxElement = null;
+        }
+
+        function saveXxxx() {
+            const input = document.getElementById('xxxxInput');
+            const value = input.value.trim();
+            
+            if (state.currentXxxxElement && value) {
+                state.currentXxxxElement.textContent = value;
+                state.currentXxxxElement.classList.remove('xxxx-field');
+                state.currentXxxxElement.style.background = 'transparent';
+                state.currentXxxxElement.style.color = 'inherit';
+                state.currentXxxxElement.style.padding = '0';
+                state.currentXxxxElement.contentEditable = 'false';
+                
+                showToast('✅ Modifié !');
+                closeXxxxModal();
+            }
+        }
+
+        // ============= LISTENERS XXXX =============
+        
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList && e.target.classList.contains('xxxx-field')) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                let proposals = [];
+                if (e.target.dataset.proposals) {
+                    proposals = e.target.dataset.proposals.split('|').filter(p => p.trim());
+                }
+                
+                openXxxxModal(e.target, false, proposals);
+                return false;
+            }
+        }, true);
+
+        // ============= GESTION DES BULLES =============
+        
+        document.addEventListener('click', function(e) {
+            const bubble = e.target.closest('.info-bubble');
+            if (bubble) {
+                const tooltip = bubble.querySelector('.bubble-tooltip');
+                if (tooltip) {
+                    const text = tooltip.textContent;
+                    document.getElementById('bubbleBannerContent').textContent = text;
+                    document.getElementById('bubbleBannerModal').classList.add('visible');
+                }
+            }
+        });
+
+        // Fermer les bulles si clic ailleurs
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.info-bubble')) {
+                document.querySelectorAll('.bubble-tooltip').forEach(t => {
+                    t.style.display = 'none';
+                    t.style.opacity = '0';
+                    t.style.visibility = 'hidden';
+                });
+            }
+        });
+
+        // ============= UTILITAIRES =============
+
+        function copyToClipboard() {
+            const resultArea = document.getElementById('resultArea');
+            let text = '';
+            resultArea.querySelectorAll('.module').forEach(module => {
+                const titleElement = module.querySelector('.module-title');
+                const title = titleElement.textContent.replace(/[\u{1F300}-\u{1F9FF}]/gu, '').replace(/⚠️/g, '').trim();
+                const content = module.querySelector('.module-content');
+                const skipTitles = ['DIAGNOSTIC', 'SIGNES DE GRAVITÉ'];
+                let displayTitle = title === 'AUX URGENCES' ? 'SOINS AUX URGENCES' : title;
+                if (!skipTitles.includes(title)) text += displayTitle + '\n';
+                
+                if (title.includes('CONDUITE')) {
+                    const items = content.querySelectorAll('.conduite-item');
+                    items.forEach((item, index) => {
+                        const itemText = item.querySelector('.conduite-text').innerText.trim();
+                        text += (index + 1) + ' - ' + itemText + '\n';
+                    });
+                } else {
+                    text += content.innerText.trim();
+                }
+                text += '\n\n';
+            });
+            
+            navigator.clipboard.writeText(text).then(() => showToast('✅ Copié !'));
+        }
+
+        function resetAll() {
+            state.mainMotif = null;
+            state.secondaryMotifs = [];
+            state.selectedMainCategory = null;
+            state.selectedSecondaryCategory = null;
+            
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.motif-btn').forEach(b => {
+                b.classList.remove('selected-main', 'selected-secondary');
+            });
+            document.getElementById('mainMotifsList').innerHTML = '';
+            document.getElementById('secondaryMotifsList').innerHTML = '';
+            document.getElementById('resultArea').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">📋</div>
+                    <h2>Aucune conclusion générée</h2>
+                    <p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+                </div>
+            `;
+            document.getElementById('generateBtn').disabled = true;
+            document.getElementById('copyBtn').style.display = 'none';
+            document.getElementById('resetBtn').style.display = 'none';
+            document.getElementById('codageBox').classList.remove('show');
+            
+            showToast('🔄 Réinitialisé !');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ============= EVENT LISTENERS =============
+        
+        function setupEventListeners() {
+            document.getElementById('generateBtn').addEventListener('click', generateConclusion);
+            document.getElementById('resetBtn').addEventListener('click', resetAll);
+            document.getElementById('copyBtn').addEventListener('click', copyToClipboard);
+            document.getElementById('xxxxInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') saveXxxx();
+            });
+        }
+
+        // ============= INITIALISATION =============
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            console.log('🚀 Initialisation de l\'application');
+            
+            // Vérifier l'API
+            const apiOk = await checkApiStatus();
+            if (!apiOk) {
+                showToast('⚠️ API non disponible - Mode hors ligne');
+            }
+            
+            // Charger les catégories
+            await loadCategories();
+            
+            // Setup listeners
+            setupEventListeners();
+            
+            console.log('✅ Application prête');
+        });
+
+        // Gestion des clics sur modal (fermeture)
+        window.onclick = (e) => {
+            if (e.target.id === 'ordoModal') closeOrdoModal();
+            if (e.target.id === 'xxxxModal') closeXxxxModal();
+        };
+    </script>
+</body>
+</html>
