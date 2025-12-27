@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conclusions Médicales v4.7.6</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#1a2332;color:#e2e8f0;padding:20px}
+.container{max-width:1800px;margin:0 auto;display:grid;grid-template-columns:380px 1fr;gap:24px}
+.sidebar{background:linear-gradient(170deg,#000000 0%,#000a12 15%,#001520 35%,#002030 50%,#001a28 70%,#000d15 85%,#000000 100%);border-radius:16px;padding:24px;border:1px solid rgba(0,180,216,0.4);box-shadow:0 0 40px rgba(0,180,216,0.15),0 0 80px rgba(0,119,182,0.1),inset 0 0 100px rgba(0,10,18,0.9)}
+.sidebar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.sidebar-title{font-size:22px;font-weight:700;color:#00b4d8;letter-spacing:-0.5px;text-shadow:0 0 15px rgba(0,180,216,1),0 0 30px rgba(0,180,216,0.7),0 0 45px rgba(0,119,182,0.5);animation:glowCyan 3s ease-in-out infinite}
+.notice-btn{padding:8px 14px;background:linear-gradient(135deg,rgba(0,119,182,0.8) 0%,rgba(0,150,199,0.9) 100%);color:white;border:1px solid rgba(0,180,216,0.5);border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(0,119,182,0.4)}
+.notice-btn:hover{background:linear-gradient(135deg,rgba(0,150,199,0.9) 0%,rgba(0,180,216,1) 100%);transform:translateY(-2px);box-shadow:0 0 30px rgba(0,180,216,0.6)}
+.section-title{font-size:13px;font-weight:600;color:#48cae4;margin:20px 0 12px;text-transform:uppercase;letter-spacing:0.5px;text-shadow:0 0 15px rgba(72,202,228,0.8)}
+.api-status{padding:12px;border-radius:8px;margin-bottom:20px;font-size:13px;text-align:center;font-weight:600}
+.api-status.connected{background:#065f46;color:#34d399;border:1px solid #059669}
+.api-status.disconnected{background:#7f1d1d;color:#fca5a5;border:1px solid #dc2626}
+.primary-zone{background:linear-gradient(145deg,rgba(0,0,0,0.95) 0%,rgba(0,21,32,0.9) 30%,rgba(0,53,102,0.7) 70%,rgba(0,119,182,0.5) 100%);border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid rgba(0,180,216,0.5);box-shadow:0 0 30px rgba(0,119,182,0.3),inset 0 0 40px rgba(0,0,0,0.6)}
+.primary-zone .section-title{color:#90e0ef;margin-top:0;text-shadow:0 0 15px rgba(144,224,239,0.9)}
+.secondary-zone{background:linear-gradient(145deg,rgba(0,0,0,0.95) 0%,rgba(0,15,25,0.9) 30%,rgba(0,40,70,0.7) 70%,rgba(0,96,150,0.5) 100%);border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid rgba(72,202,228,0.5);box-shadow:0 0 30px rgba(0,96,150,0.3),inset 0 0 40px rgba(0,0,0,0.6)}
+.secondary-zone .section-title{color:#caf0f8;margin-top:0;text-shadow:0 0 15px rgba(202,240,248,0.9)}
+.categories-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.category-btn{padding:14px;background:#1e293b;border:2px solid #334155;border-radius:8px;color:#e2e8f0;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.category-btn:hover{background:#334155;border-color:#475569}
+.category-btn.active{background:#1e40af;border-color:#3b82f6;color:white}
+.motif-selection-main{background:rgba(0,21,32,0.8);padding:12px;border-radius:8px;border:1px solid rgba(0,180,216,0.6);margin-bottom:12px;box-shadow:0 0 25px rgba(0,119,182,0.25),inset 0 0 20px rgba(0,180,216,0.1)}
+.motif-selection-secondary{background:rgba(0,15,25,0.8);padding:12px;border-radius:8px;border:1px solid rgba(72,202,228,0.6);margin-bottom:12px;box-shadow:0 0 25px rgba(0,96,150,0.25),inset 0 0 20px rgba(72,202,228,0.1)}
+.motif-selection-title{font-size:11px;font-weight:700;color:#48cae4;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;text-shadow:0 0 12px rgba(72,202,228,0.8)}
+.motifs-list{display:none;margin:6px 0 12px;padding:10px;background:rgba(0,0,0,0.95);border-left:2px solid rgba(0,180,216,0.6);border-radius:6px;box-shadow:inset 0 0 20px rgba(0,10,18,0.9)}
+.motifs-list.active{display:block}
+.motif-btn{width:100%;padding:10px;margin-bottom:6px;background:rgba(0,15,25,0.9);border:1px solid rgba(0,119,182,0.4);border-radius:6px;color:#caf0f8;font-size:12px;font-weight:500;cursor:pointer;text-align:left;transition:all .3s}
+.motif-btn:hover{background:rgba(0,53,102,0.5);border-color:rgba(0,180,216,0.6);box-shadow:0 0 15px rgba(0,119,182,0.3)}
+.motif-btn.principal{background:linear-gradient(135deg,rgba(0,53,102,0.8) 0%,rgba(0,119,182,0.9) 100%);border-color:rgba(0,180,216,0.8);color:#caf0f8;font-weight:600;box-shadow:0 0 20px rgba(0,180,216,0.4)}
+.motif-btn.secondaire{background:linear-gradient(135deg,rgba(0,40,70,0.8) 0%,rgba(0,96,150,0.9) 100%);border-color:rgba(72,202,228,0.8);color:#caf0f8;font-weight:600;box-shadow:0 0 20px rgba(72,202,228,0.4)}
+.generate-btn{width:100%;padding:16px;background:linear-gradient(135deg,rgba(0,53,102,0.95) 0%,rgba(0,119,182,1) 50%,rgba(0,180,216,1) 100%);color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:12px 0;transition:all .3s;box-shadow:0 0 30px rgba(0,119,182,0.5),0 0 60px rgba(0,180,216,0.2)}
+.generate-btn:disabled{opacity:.4;cursor:not-allowed}
+.generate-btn:hover:not(:disabled){background:linear-gradient(135deg,rgba(0,119,182,1) 0%,rgba(0,180,216,1) 50%,rgba(72,202,228,1) 100%);transform:translateY(-2px);box-shadow:0 0 40px rgba(0,180,216,0.7),0 0 80px rgba(0,119,182,0.3)}
+.reset-btn{width:100%;padding:14px;background:linear-gradient(135deg,rgba(0,40,70,0.9) 0%,rgba(0,96,150,1) 50%,rgba(72,202,228,1) 100%);color:white;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s;box-shadow:0 0 25px rgba(0,96,150,0.5),0 0 50px rgba(72,202,228,0.2)}
+.reset-btn:hover{background:linear-gradient(135deg,rgba(0,96,150,1) 0%,rgba(72,202,228,1) 50%,rgba(144,224,239,1) 100%);transform:translateY(-2px);box-shadow:0 0 35px rgba(72,202,228,0.7),0 0 70px rgba(0,96,150,0.3)}
+.module{background:transparent;border:2px dashed #475569;border-radius:12px;padding:28px;margin-bottom:20px;transition:all .3s;position:relative}
+.module:hover{border-color:#3b82f6;border-style:solid}
+.module-content:hover{border-color:#60a5fa!important;border-style:solid!important;box-shadow:0 0 20px rgba(59,130,246,0.5)!important}
+.module-header{font-size:17px;font-weight:700;color:#60a5fa;margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;letter-spacing:-0.3px}
+.module-title{flex:1}
+.module-title .icon{display:inline}
+.module-copy-btn{padding:8px 16px;background:#059669;color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.module-copy-btn:hover{background:#047857;transform:translateY(-1px)}
+.bulles-container{display:flex;flex-wrap:wrap;gap:8px}
+.bulle-btn{padding:8px 16px;background:#ea580c;border:2px solid #f97316;border-radius:8px;color:white;cursor:pointer;font-size:12px;font-weight:600;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.bulle-btn:hover{background:#c2410c;transform:translateY(-2px);box-shadow:0 4px 12px rgba(234,88,12,0.4)}
+.module-content{color:#cbd5e1;font-size:14px;line-height:1.7;border:2px dashed transparent;border-radius:8px;padding:16px;transition:all .3s}
+.hdm-section{margin-bottom:24px;position:relative;padding-top:28px}
+.hdm-section-content{padding:16px;background:rgba(15,23,42,0.3);border-radius:8px;border-left:3px solid #3b82f6}
+.hdm-section-title{position:absolute;top:0;left:0;font-size:11px;font-style:italic;color:#60a5fa;font-weight:500;margin-bottom:0}
+.module-line{display:block;margin-bottom:10px;line-height:1.6}
+.conduite-line{display:flex;align-items:center;gap:16px;margin-bottom:12px;padding:14px;background:#0f172a;border:1px solid #334155;border-radius:10px;transition:all .2s}
+.conduite-line:hover{background:#1e293b;border-color:#475569}
+.conduite-number{width:38px;height:38px;min-width:38px;background:#1e40af;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:15px;flex-shrink:0}
+.conduite-text{flex:1;color:#cbd5e1;line-height:1.6;font-size:14px}
+.conduite-add-line{display:flex;gap:12px;margin-top:16px;padding:14px;background:#0f172a;border:2px dashed #3b82f6;border-radius:10px;align-items:center}
+.conduite-input{flex:1;padding:12px;background:#1e293b;border:2px solid #334155;border-radius:8px;color:white;font-size:14px;font-weight:500}
+.conduite-input:focus{outline:none;border-color:#3b82f6}
+.conduite-add-btn{padding:12px 24px;background:#059669;color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.conduite-add-btn:hover{background:#047857;transform:translateY(-1px)}
+.conduite-actions{display:flex;gap:6px;flex-shrink:0}
+.action-icon{width:36px;height:36px;border-radius:8px;border:none;cursor:pointer;font-size:16px;font-weight:700;transition:all .2s;color:white}
+.action-up{background:#1e40af}
+.action-up:hover{background:#1e3a8a;transform:translateY(-2px)}
+.action-down{background:#1e40af}
+.action-down:hover{background:#1e3a8a;transform:translateY(-2px)}
+.action-delete{background:#dc2626}
+.action-delete:hover{background:#b91c1c;transform:scale(1.05)}
+.ordonnances-section{margin-top:24px;padding-top:24px;border-top:2px solid #334155}
+.ordo-btn{display:inline-block;padding:10px 20px;background:#1e40af;color:white;border-radius:8px;margin:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;border:none}
+.ordo-btn:hover{background:#1e3a8a;transform:translateY(-1px)}
+.ordo-btn.all{background:#059669}
+.ordo-btn.all:hover{background:#047857}
+.codes-section{background:#1e293b;border:2px solid #a855f7;border-radius:12px;padding:12px 16px;margin:20px auto 0 auto;max-width:350px;box-shadow:0 0 15px rgba(168,85,247,0.4),0 0 30px rgba(168,85,247,0.2);animation:glowCim 2s ease-in-out infinite}
+.codes-section h3{color:#c4b5fd;margin-bottom:8px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.code-item{background:transparent;padding:4px 0;color:#e2e8f0;font-weight:500;font-size:13px}
+@keyframes glowCim{0%,100%{box-shadow:0 0 25px rgba(168,85,247,0.5),0 0 50px rgba(168,85,247,0.3)}50%{box-shadow:0 0 35px rgba(168,85,247,0.7),0 0 70px rgba(168,85,247,0.4)}}
+@keyframes glowText{0%,100%{text-shadow:0 0 10px rgba(167,139,250,0.8),0 0 20px rgba(167,139,250,0.6)}50%{text-shadow:0 0 15px rgba(167,139,250,1),0 0 30px rgba(139,92,246,0.8),0 0 40px rgba(139,92,246,0.6),0 0 50px rgba(99,102,241,0.4)}}
+@keyframes glowCyan{0%,100%{text-shadow:0 0 15px rgba(0,180,216,1),0 0 30px rgba(0,180,216,0.7),0 0 45px rgba(0,119,182,0.5)}50%{text-shadow:0 0 20px rgba(72,202,228,1),0 0 40px rgba(0,180,216,1),0 0 60px rgba(0,119,182,0.8),0 0 80px rgba(0,53,102,0.5)}}
+.xxxx{background:transparent;padding:0;border-radius:0;cursor:pointer;border:none;color:#ef4444;font-weight:700;display:inline;transition:all .2s}
+.xxxx:hover{color:#dc2626;text-decoration:underline}
+.alternative{color:#a855f7;font-weight:600;display:inline;cursor:pointer;transition:all .2s}
+.alternative:hover{color:#9333ea;text-decoration:underline}
+.comment{color:#94a3b8;font-size:11px;font-style:italic;display:inline-block;user-select:none;pointer-events:none;opacity:0.7}
+.deletable{color:#dc2626;font-weight:600;display:inline;cursor:pointer;transition:all .2s}
+.deletable:hover{color:#b91c1c;text-decoration:line-through}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.modal.active{display:flex}
+.modal-content{background:#1e293b;border:2px solid #3b82f6;border-radius:16px;padding:32px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;color:white;box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.modal-content.large{max-width:1100px}
+.modal-header{font-size:20px;font-weight:700;margin-bottom:24px;color:#60a5fa;display:flex;justify-content:space-between;align-items:center}
+.modal-close{cursor:pointer;font-size:28px;color:#ef4444;transition:all .2s}
+.modal-close:hover{color:#dc2626;transform:rotate(90deg)}
+.modal-bulle{background:#000000;border:3px solid #a855f7;box-shadow:0 0 30px rgba(168,85,247,0.6),0 0 60px rgba(168,85,247,0.3)}
+.modal-bulle .modal-header{color:#a855f7;text-shadow:0 0 10px rgba(168,85,247,0.8)}
+.bulle-content{background:rgba(0,0,0,0.95);padding:18px;border-radius:10px;color:#fb923c;line-height:1.8;white-space:pre-wrap;text-shadow:0 0 8px rgba(251,146,60,0.6);font-weight:500}
+#xxxxModal,#alternativeModal{z-index:2000!important}
+.proposition-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.chip{padding:10px 18px;background:#334155;border:2px solid #475569;border-radius:20px;cursor:pointer;transition:all .2s;font-weight:600;font-size:13px}
+.chip:hover{background:#059669;border-color:#10b981;color:white;transform:translateY(-2px)}
+.ordo-filters{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:28px}
+.ordo-filter label{font-weight:600;color:#60a5fa;font-size:13px;margin-bottom:8px;display:block;letter-spacing:0.3px}
+.ordo-filter select{width:100%;padding:12px;background:#0f172a;border:2px solid #334155;border-radius:8px;color:white;font-size:14px;font-weight:500}
+.ordo-item{background:#0f172a;border:2px solid #334155;border-radius:10px;padding:16px;cursor:pointer;margin-bottom:12px;transition:all .2s}
+.ordo-item:hover{border-color:#3b82f6;background:#1e293b;transform:translateX(4px)}
+.ordo-item-header{font-weight:600;color:#60a5fa;margin-bottom:8px}
+.modal-input{width:100%;padding:14px;background:#0f172a;border:2px solid #334155;border-radius:8px;color:white;font-size:14px;font-weight:500;margin-bottom:18px}
+.modal-input:focus{outline:none;border-color:#3b82f6}
+.modal-buttons{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
+.modal-btn{padding:12px 24px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;transition:all .2s}
+.modal-btn-primary{background:#059669;color:white}
+.modal-btn-primary:hover{background:#047857;transform:translateY(-1px)}
+.modal-btn-secondary{background:#475569;color:white}
+.modal-btn-secondary:hover{background:#334155}
+.mode-selection{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:20px}
+.mode-btn{padding:20px;background:#1e293b;border:3px solid #334155;border-radius:12px;color:#e2e8f0;font-size:14px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.mode-btn:hover{border-color:#3b82f6;background:#334155;transform:translateY(-2px)}
+.mode-btn-icon{font-size:32px;margin-bottom:10px}
+.split-view{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.split-panel{background:#1e293b;border-radius:16px;padding:24px;border:2px solid #334155}
+.split-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #334155}
+.split-title{font-size:18px;font-weight:700;color:#60a5fa}
+.copy-btn{padding:10px 20px;background:#059669;color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.copy-btn:hover{background:#047857;transform:translateY(-1px)}
+.floating-actions{position:fixed;bottom:30px;right:30px;display:flex;flex-direction:column;gap:12px;align-items:flex-end}
+.floating-btn{padding:14px 24px;border-radius:30px;border:none;color:white;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(0,0,0,0.3)}
+.floating-btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.floating-btn.copy-examen{background:#3b82f6}
+.floating-btn.copy-examen:hover{background:#2563eb}
+.floating-btn.copy-conclusion{background:#059669}
+.floating-btn.copy-conclusion:hover{background:#047857}
+.floating-btn.regenerate{background:#64748b}
+.floating-btn.regenerate:hover{background:#475569}
+.empty-state{text-align:center;padding:80px 20px;color:#64748b}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;border:2px solid #3b82f6;color:white;padding:16px 24px;border-radius:10px;z-index:3000;animation:slideIn .3s;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.notice-menu{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.notice-menu-btn{padding:24px;background:#0f172a;border:2px solid #334155;border-radius:12px;cursor:pointer;transition:all .2s;text-align:center}
+.notice-menu-btn:hover{border-color:#3b82f6;background:#1e293b;transform:translateY(-2px)}
+.notice-menu-btn .icon{font-size:40px;margin-bottom:12px}
+.notice-menu-btn .title{font-size:14px;font-weight:700;color:#60a5fa}
+.notice-content{line-height:1.8;color:#cbd5e1}
+.notice-content h2{color:#60a5fa;font-size:18px;margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid #334155}
+.notice-content h3{color:#f59e0b;font-size:15px;margin:20px 0 10px}
+.notice-content p{margin-bottom:14px}
+.notice-content ul{margin:12px 0 12px 20px}
+.notice-content li{margin-bottom:8px}
+.notice-content .warning-box{background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 100%);border:2px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .warning-box h3{color:#fecaca;margin-top:0}
+.notice-content .info-box{background:#0f172a;border:2px solid #3b82f6;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .objectives-box{background:linear-gradient(135deg,#065f46 0%,#047857 100%);border:2px solid #10b981;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .objectives-box h2{color:#6ee7b7;margin-top:0;border:none;padding:0}
+.notice-content .objectives-box ul{color:#d1fae5}
+.notice-content .objectives-btn{display:block;width:100%;padding:16px 24px;background:linear-gradient(135deg,#059669 0%,#047857 100%);color:white;border:2px solid #10b981;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .objectives-btn:hover{background:linear-gradient(135deg,#047857 0%,#065f46 100%);transform:translateY(-2px);box-shadow:0 4px 12px rgba(5,150,105,0.4)}
+.notice-content .objectives-content{display:none;background:linear-gradient(135deg,#065f46 0%,#047857 100%);border:2px solid #10b981;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .objectives-content.active{display:block}
+.notice-content .objectives-content h2{color:#6ee7b7;margin-top:0;border:none;padding:0}
+.notice-content .objectives-content ul{color:#d1fae5}
+.notice-content .warning-btn{display:block;width:100%;padding:16px 24px;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);color:white;border:2px solid #ef4444;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .warning-btn:hover{background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);transform:translateY(-2px);box-shadow:0 4px 12px rgba(220,38,38,0.4)}
+.notice-content .warning-content{display:none;background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 100%);border:2px solid #dc2626;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .warning-content.active{display:block}
+.notice-content .warning-content h3{color:#fecaca;margin-top:0}
+.notice-content .checklist-btn{display:block;width:100%;padding:16px 24px;background:#059669;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .checklist-btn:hover{background:#047857;transform:translateY(-2px);box-shadow:0 4px 12px rgba(5,150,105,0.4)}
+.notice-content .checklist-content{display:none;background:#0f172a;border:2px solid #059669;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .checklist-content.active{display:block}
+.notice-content .example-row{display:flex;align-items:flex-start;gap:16px;margin:16px 0}
+.notice-content .example-row p{flex:1;margin:0}
+.notice-content .example-btn{display:inline-block;padding:8px 16px;background:#f59e0b;color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.notice-content .example-btn:hover{background:#d97706}
+.notice-content .example-box{display:none;background:#0f172a;border:2px solid #f59e0b;border-radius:12px;padding:20px;margin:12px 0}
+.notice-content .example-box.active{display:block}
+.notice-content .xxxx-demo{color:#ef4444;font-weight:700}
+.notice-content .alt-demo{color:#a855f7;font-weight:600}
+.notice-content .del-demo{color:#ef4444;font-weight:600}
+@keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">📋 Sélection</div>
+<button class="notice-btn" onclick="openModal('noticeMenuModal')">ℹ️ Notice et infos</button>
+</div>
+<div id="apiStatus" class="api-status disconnected">❌ Déconnecté</div>
+<button id="generateTop" class="generate-btn" disabled>🔄 Générer la Conclusion</button>
+<div class="primary-zone">
+<div class="section-title" style="margin-top:0">Catégorie Principale</div>
+<div class="motif-selection-main" style="display:none" id="mainSelectionBox">
+<div class="motif-selection-title">Motif Principal Sélectionné</div>
+<div id="mainSelectionText"></div>
+</div>
+<div class="categories-grid" id="categoriesGrid"></div>
+<div id="motifsMainContainer"></div>
+</div>
+<div id="secondarySection" style="display:none">
+<div class="secondary-zone">
+<div class="section-title" style="margin-top:0">Catégories Secondaires</div>
+<div class="motif-selection-secondary" style="display:none" id="secondarySelectionBox">
+<div class="motif-selection-title">Motifs Secondaires Sélectionnés</div>
+<div id="secondarySelectionText"></div>
+</div>
+<div class="categories-grid" id="categoriesSecondaryGrid"></div>
+<div id="motifsSecondaryContainer"></div>
+</div>
+</div>
+<button id="generateBottom" class="generate-btn" disabled>🔄 Générer la Conclusion</button>
+<button class="reset-btn" onclick="resetAll()">🔄 Recommencer</button>
+</div>
+<div id="resultContainer">
+<div class="empty-state">
+<div style="font-size:64px;margin-bottom:20px">📝</div>
+<h3>Aucune conclusion générée</h3>
+<p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+</div>
+</div>
+</div>
+
+<div id="modeSelectionModal" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<span>Choisissez le type de document</span>
+<span class="modal-close" onclick="closeModal('modeSelectionModal')">×</span>
+</div>
+<div class="mode-selection">
+<div class="mode-btn" onclick="selectMode('examen')">
+<div class="mode-btn-icon">🩺</div>
+<div>EXAMEN TYPE</div>
+</div>
+<div class="mode-btn" onclick="selectMode('conclusion')">
+<div class="mode-btn-icon">📋</div>
+<div>CONCLUSION TYPE</div>
+</div>
+<div class="mode-btn" onclick="selectMode('examen_conclusion')">
+<div class="mode-btn-icon">📋+🩺</div>
+<div>EXAMEN + CONCLUSION</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="xxxxModal" class="modal"></div>
+<div id="alternativeModal" class="modal"></div>
+<div id="bulleModal" class="modal"></div>
+<div id="ordoModal" class="modal"></div>
+<div id="allOrdosModal" class="modal"></div>
+
+<div id="noticeMenuModal" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<span>ℹ️ Notice et informations</span>
+<span class="modal-close" onclick="closeModal('noticeMenuModal')">×</span>
+</div>
+<div class="notice-menu">
+<div class="notice-menu-btn" onclick="closeModal('noticeMenuModal');openModal('objectifsModal')">
+<div class="icon">⚠️</div>
+<div class="title">Objectifs et mise en garde<br><small style="color:#f59e0b">À lire impérativement</small></div>
+</div>
+<div class="notice-menu-btn" onclick="closeModal('noticeMenuModal');openModal('manuelModal')">
+<div class="icon">📖</div>
+<div class="title">Manuel d'utilisation</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="objectifsModal" class="modal">
+<div class="modal-content large">
+<div class="modal-header">
+<span>⚠️ Objectifs et mise en garde</span>
+<span class="modal-close" onclick="closeModal('objectifsModal')">×</span>
+</div>
+<div class="notice-content">
+
+<button class="objectives-btn" onclick="toggleExample('objectifsContent')">🎯 Objectifs</button>
+<div id="objectifsContent" class="objectives-content">
+<ul>
+<li><strong>Accélérer la prise en charge</strong> en fusionnant les comptes rendus types correspondant à un ou plusieurs motifs sélectionnés, afin de générer rapidement une base de rédaction (examen clinique + conclusion) prête à être personnalisée.</li>
+<li><strong>Servir de checklist</strong>, comme dans l'aéronautique, pour ne rien oublier dans l'examen clinique, les prescriptions et la conclusion.</li>
+<li><strong>Réduire le risque d'omissions</strong> face à un motif qui peut paraître banal, afin de ne pas passer à côté d'une situation potentiellement grave.</li>
+<li><strong>Aider à produire une conclusion de sortie claire</strong> et compréhensible pour le patient, avec de vrais conseils et des consignes de reconsultation pertinentes et adaptées.</li>
+<li><strong>Avoir un intérêt pédagogique</strong>, en guidant l'utilisateur via un grand nombre d'informations cliquables et de mémo thérapeutique.</li>
+</ul>
+</div>
+
+<button class="warning-btn" onclick="toggleExample('warningContent')">🚨 MISE EN GARDE : À LIRE IMPÉRATIVEMENT !</button>
+<div id="warningContent" class="warning-content">
+<p><strong>Règle principale : ne noter que ce qui a été réellement recherché et constaté.</strong></p>
+<p>L'objectif de cette application n'est pas de faire du copier-coller. Elle doit être utilisée comme une check-list médicale, à la manière d'un pilote d'avion avant de décoller. <strong>Il est dangereux et interdit de documenter des informations qui n'ont pas été recherchées à l'examen clinique (ou non vérifiées).</strong> Cela met en danger le patient et engage votre responsabilité.</p>
+<ul>
+<li><strong>Aide à la rédaction, pas à la décision</strong> : l'application propose une trame de compte rendu. Elle ne remplace pas le raisonnement clinique et la réflexion.</li>
+<li><strong>Chaque patient est unique</strong> : le texte doit être adapté au contexte, aux constantes, aux antécédents, aux traitements, aux résultats d'examens et à l'évolution…</li>
+<li><strong>Relecture obligatoire</strong> de l'ensemble des informations : vérifiez la cohérence du texte final (négations, latéralité, chronologie, valeurs chiffrées, allergies, traitements, diagnostics évoqués/exclus).</li>
+<li><strong>Ne pas laisser des éléments par défaut</strong> : supprimez tout ce qui ne correspond pas au patient et complétez systématiquement les champs <span class="xxxx-demo">XXXX</span>.</li>
+<li><strong>Prescriptions</strong> : toute ordonnance générée doit être contrôlée (indication, dose, durée, interactions, insuffisance rénale/hépatique, grossesse/allaitement, allergies, contre-indications).</li>
+<li><strong>Conseils et reconsultation</strong> : les conseils et consignes doivent être personnalisés et adaptés au risque (signes d'alerte, délais, modalités de suivi).</li>
+<li><strong>Responsabilité</strong> : le praticien reste entièrement responsable du compte rendu final, des prescriptions et des décisions médicales.</li>
+<li><strong>Confidentialité</strong> : n'insérez pas de données identifiantes inutiles. Respectez les règles de confidentialité et de sécurité.</li>
+</ul>
+</div>
+
+<button class="checklist-btn" onclick="toggleExample('checklistContent')">✈️ Pourquoi faire le choix d'une démarche check-list ?</button>
+<div id="checklistContent" class="checklist-content">
+<p>Nous avons choisi d'assumer pleinement une démarche "check-list", inspirée de ce qui se fait dans les domaines à haut niveau d'exigence en sécurité comme l'aéronautique. En médecine d'urgence, la difficulté n'est pas seulement de connaître les diagnostics ou les traitements, mais surtout de <strong>rester fiable dans un environnement où tout va vite</strong> : fatigue, interruptions, afflux, stress, informations incomplètes, délais de biologie/imagerie, changement d'équipe…</p>
+<p>Dans ces conditions, même un clinicien expérimenté peut oublier un item important, omettre un document, ou rédiger une conclusion trop pauvre, alors que le motif initial semblait banal.</p>
+<p>L'idée de l'application est simple : <strong>fournir une trame structurée qui sert de garde-fou contre les oublis</strong>. Elle ne cherche pas à "faire à la place" du médecin, ni à imposer une conduite à tenir. Elle aide à balayer les points clés : ce qu'il faut vérifier à l'examen, ce qu'il faut envisager comme signaux d'alarme, ce qu'il faut documenter, et surtout ce que le patient doit comprendre en sortant (conseils, traitement, surveillance, signes de gravité, et consignes de reconsultation adaptées).</p>
+<p>L'objectif final est que le patient quitte le service avec un document clair, correctement écrit, utile, et cohérent avec ce qui a été réellement fait et retrouvé.</p>
+
+<p>Cette approche a un coût, et il faut l'énoncer clairement : une check-list "large" propose parfois trop d'éléments. Si l'utilisateur ne relit pas, ne supprime pas, ou laisse un item par défaut, on peut se retrouver avec des absurdités ou des phrases inappropriées.</p>
+
+<div class="example-row">
+<p>L'exemple typique est une formulation clinique qui n'a aucun sens dans le contexte, comme écrire "testicule en place" chez une petite fille. C'est très mal vu, parce que cela donne l'impression d'un compte rendu copié-collé sans réflexion, et cela décrédibilise le document. Mais surtout, cela peut devenir dangereux si des informations non vérifiées sont affirmées.</p>
+<button class="example-btn" onclick="toggleExample('exampleBox1')">📌 Voir un exemple concret</button>
+</div>
+
+<div id="exampleBox1" class="example-box">
+<p><strong>Exemple :</strong> Imaginons un patient qui consulte pour une asthénie et une faiblesse des jambes. Le compte rendu type propose, parmi les items, une ligne du genre "ROT conservés".</p>
+<p>Si l'utilisateur laisse cette phrase <strong>sans avoir réellement testé les ROT</strong>, le compte rendu affirme alors un élément clinique majeur… qui n'a pas été vérifié.</p>
+<p>Or, dans un tableau compatible avec un <strong>syndrome de Guillain-Barré</strong>, l'abolition des ROT est un signe majeur. Écrire "ROT conservés" à tort peut :</p>
+<ul>
+<li>rassurer à tort (patient renvoyé avec une conclusion banalisée),</li>
+<li>retarder la reconnaissance d'un Guillain-Barré débutant,</li>
+<li>et faire perdre du temps alors que l'évolution peut être rapide.</li>
+</ul>
+<p>C'est typiquement le genre de situation où une phrase "standard" laissée par défaut devient dangereuse : elle transforme une check-list (à vérifier) en affirmation clinique (à tort). Le bon usage, au contraire, est de considérer ces items comme un rappel : <em>"ai-je bien testé les ROT ?"</em> puis de ne documenter le résultat que si l'examen a été fait.</p>
+</div>
+
+<p>C'est pourquoi la <strong>règle non négociable</strong> de la démarche est la suivante : <strong>on ne doit noter que ce qui a été réellement recherché et constaté</strong>. L'application n'est pas un outil de copier-coller. Elle est un outil de vérification et de rédaction guidée.</p>
+<p>Conserver dans le compte rendu final une information qui n'a pas été recherchée à l'examen clinique, ou une négation non vérifiée, met potentiellement le patient en danger et engage directement la responsabilité du praticien. La trame est là pour aider à penser "ai-je vérifié ceci ?", pas pour affirmer "c'est fait" si cela n'a pas été fait.</p>
+
+<div class="info-box">
+<h3>💡 La logique</h3>
+<p>Autrement dit, la logique est : mieux vaut proposer une liste de points à considérer, quitte à ce que certains soient supprimés, plutôt que de ne pas les proposer et risquer de les oublier.</p>
+<p>C'est une balance bénéfice–risque assumée : on préfère accepter la possibilité de quelques erreurs d'inattention dans le brouillon (qui doivent être corrigées au maximum à la relecture) plutôt que de courir le risque d'oublier un symptôme clé, un point d'examen, une contre-indication, un document, ou une consigne de reconsultation essentielle. Dans une activité où l'enjeu est parfois de ne pas passer à côté d'une situation grave derrière un motif a priori simple, l'oubli est un risque majeur.</p>
+</div>
+
+<p>Cette démarche implique donc une <strong>responsabilité active de l'utilisateur</strong> : relire, corriger, personnaliser, supprimer. Le texte généré est un point de départ, pas une fin. Il faut adapter au patient réel : son âge, son sexe, ses antécédents, ses traitements (anticoagulants, immunosuppresseurs…), son contexte (grossesse, pédiatrie), ses constantes, ses résultats de biologie et d'imagerie, et l'évolution clinique. La rédaction doit rester fidèle à la réalité : ce qui a été examiné, ce qui a été retrouvé, ce qui n'a pas pu être évalué, ce qui a motivé la décision, et ce qui a été expliqué au patient.</p>
+
+<p>Enfin, cette démarche a aussi une <strong>dimension pédagogique</strong>. Le grand nombre d'éléments cliquables, d'options et de formulations alternatives a été pensé pour guider sans enfermer : explorer des propositions, se rappeler des points importants, comparer des formulations, et structurer une conclusion de sortie utile.</p>
+
+<p><strong>L'ambition n'est pas d'uniformiser les prises en charge, mais d'aider à produire des comptes rendus plus fiables, plus complets, et plus sûrs, en limitant les oublis — tout en rappelant que l'outil n'a de valeur que s'il est utilisé comme une check-list, avec une relecture rigoureuse, et avec le respect absolu de la règle : ne jamais documenter ce qui n'a pas été recherché.</strong></p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="manuelModal" class="modal">
+<div class="modal-content large">
+<div class="modal-header">
+<span>📖 Manuel d'utilisation</span>
+<span class="modal-close" onclick="closeModal('manuelModal')">×</span>
+</div>
+<div class="notice-content">
+<h2>📋 Notice — Fonctionnement & précautions d'utilisation</h2>
+<p>Cette application aide à générer un examen clinique et une conclusion à partir d'un ou plusieurs motifs.</p>
+
+<h3>1. Sélection des motifs</h3>
+<ul>
+<li>Sélectionnez un <strong>motif principal</strong> et un ou plusieurs <strong>motifs secondaires</strong></li>
+<li>L'application propose au choix :
+<ul>
+<li>Un examen clinique type</li>
+<li>Une conclusion</li>
+<li>Les deux combinés</li>
+</ul>
+</li>
+<li><strong>Adaptez systématiquement</strong> le contenu au patient, à l'examen réel, aux examens complémentaires et au contexte.</li>
+</ul>
+
+<h3>2. Interaction avec le texte</h3>
+<ul>
+<li><span class="xxxx-demo">XXXX</span> : Zone à compléter obligatoirement</li>
+<li><span class="alt-demo">Texte en violet</span> : ouvre plusieurs propositions souvent antagonistes (examen normal ↔ Examen anormal)</li>
+<li><span class="del-demo">Texte en rouge</span> : éléments spécifiques à certaines catégories de patients notés en rouge pour ne pas oublier de les supprimer si non adapté (ex. enfant, grossesse, anticoagulants, immunodépression…) ➜ À conserver uniquement si cela s'applique au patient</li>
+</ul>
+
+<h3>3. Esprit "checklist" : pourquoi c'est utile</h3>
+<p>Chaque patient est unique. L'intérêt de l'application est de réduire le risque d'oubli en situation d'urgence, notamment :</p>
+<ul>
+<li>ne pas oublier un item d'examen important,</li>
+<li>ne pas omettre une précaution ou une contre-indication dans une ordonnance,</li>
+<li>ne pas passer à côté d'un diagnostic grave derrière un motif apparemment simple,</li>
+<li>faire sortir le patient avec une conclusion claire et correctement rédigée, comprenant de vrais conseils et des consignes de reconsultation adaptées.</li>
+</ul>
+
+<div class="warning-box">
+<h3>⚠️ Avertissements indispensables</h3>
+<ul>
+<li><strong>Ne remplace pas le raisonnement clinique</strong> : le contenu généré est une aide à la rédaction et à la vérification. Il ne remplace ni l'examen clinique, ni l'interrogatoire, ni l'évaluation médicale, ni les protocoles locaux.</li>
+<li><strong>Validation obligatoire</strong> : relisez et validez chaque phrase avant de finaliser (négations, latéralité, constantes, chronologie, traitements, allergies, comorbidités, résultats d'examens).</li>
+<li><strong>Personnalisation impérative</strong> : supprimez tout ce qui ne correspond pas au patient et complétez les champs <span class="xxxx-demo">XXXX</span>.</li>
+<li><strong>Responsabilité</strong> : le praticien reste entièrement responsable du compte rendu final et des décisions associées.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="floating-actions" style="display:none" id="floatingActions">
+<button class="floating-btn copy-examen" onclick="copyExamen()">📋 Copier l'Examen Clinique</button>
+<button class="floating-btn copy-conclusion" onclick="copyConclusion()">📋 Copier la Conclusion</button>
+<button class="floating-btn regenerate" onclick="showModeSelection()">🔄 Régénérer</button>
+</div>
+
+<script>
+function toggleExample(id){
+const box=document.getElementById(id);
+if(box)box.classList.toggle('active');
+}
+</script>
+
+<script>
+const API_URL='https://conclusions-medicales-api-1oa1.onrender.com';
+let state={categories:[],motifPrincipal:null,motifsSecondaires:[],conclusion:null,conduiteLines:[],allOrdonnances:[],currentMode:null,currentBulles:[]};
+
+document.addEventListener('DOMContentLoaded',()=>{
+checkAPI();
+loadCategories();
+document.getElementById('generateTop').onclick=showModeSelection;
+document.getElementById('generateBottom').onclick=showModeSelection;
+});
+
+async function checkAPI(){
+try{
+const r=await fetch(`${API_URL}/health`);
+const d=await r.json();
+const s=document.getElementById('apiStatus');
+if(d.status==='healthy'){
+s.className='api-status connected';
+s.textContent='✅ Connecté';
+}
+}catch(e){console.error('Erreur API:',e);}
+}
+
+async function loadCategories(){
+try{
+const r=await fetch(`${API_URL}/categories`);
+const data=await r.json();
+// Gestion des 2 formats possibles: tableau direct OU objet {categories: [...]}
+let categories;
+if(Array.isArray(data)){
+categories=data;
+}else if(data && Array.isArray(data.categories)){
+categories=data.categories;
+}else{
+console.error('❌ Format de données incorrect:',data);
+state.categories=[];
+toast('⚠️ Format de données incorrect','error');
+return;
+}
+state.categories=categories;
+console.log('✅ Catégories chargées:',state.categories.length,'catégories');
+renderCategories();
+}catch(e){
+console.error('❌ Erreur catégories:',e);
+state.categories=[];
+toast('⚠️ Impossible de charger les catégories','error');
+}
+}
+
+function renderCategories(){
+// Protection : vérifier que categories est un tableau
+if(!Array.isArray(state.categories)){
+console.error('❌ state.categories n\'est pas un tableau:',state.categories);
+state.categories=[];
+return;
+}
+
+const mainHtml=state.categories.map(cat=>`
+<button class="category-btn" onclick="toggleCategory('${cat.table_name}','${cat.nom}',this,'main')">
+${cat.nom}
+</button>
+<div id="motifs-main-${cat.table_name}" class="motifs-list"></div>
+`).join('');
+
+const secHtml=state.categories.map(cat=>`
+<button class="category-btn" onclick="toggleCategory('${cat.table_name}','${cat.nom}',this,'secondary')">
+${cat.nom}
+</button>
+<div id="motifs-sec-${cat.table_name}" class="motifs-list"></div>
+`).join('');
+
+document.getElementById('categoriesGrid').innerHTML=mainHtml;
+document.getElementById('categoriesSecondaryGrid').innerHTML=secHtml;
+}
+
+async function toggleCategory(tableName,nomCategorie,btnElement,type){
+const containerId=type==='main'?`motifs-main-${tableName}`:`motifs-sec-${tableName}`;
+const container=document.getElementById(containerId);
+const isActive=container.classList.contains('active');
+
+if(isActive){
+container.classList.remove('active');
+btnElement.classList.remove('active');
+}else{
+btnElement.classList.add('active');
+container.classList.add('active');
+
+if(!container.innerHTML){
+try{
+const r=await fetch(`${API_URL}/motifs/${tableName}`);
+const data=await r.json();
+
+// Gestion des 2 formats : tableau direct OU objet {motifs: [...]}
+let motifs;
+if(Array.isArray(data)){
+motifs=data;
+}else if(data && Array.isArray(data.motifs)){
+motifs=data.motifs;
+}else{
+console.error('❌ Format motifs incorrect:',data);
+motifs=[];
+}
+
+if(motifs.length===0){
+container.innerHTML='<p style="padding:10px;color:#94a3b8">Aucun motif disponible</p>';
+}else{
+container.innerHTML=motifs.map(motif=>`
+<button class="motif-btn" onclick="selectMotif('${tableName}','${motif.id}','${motif.nom_motif.replace(/'/g,"\\'")}','${type}',this)">
+${motif.nom_motif}
+</button>
+`).join('');
+}
+}catch(e){
+console.error('❌ Erreur motifs:',e);
+container.innerHTML='<p style="padding:10px;color:#ef4444">Erreur de chargement</p>';
+}
+}
+}
+
+if(type==='main'){
+document.getElementById('secondarySection').style.display='block';
+}
+}
+
+function updateSelectionDisplay(){
+if(state.motifPrincipal){
+document.getElementById('mainSelectionBox').style.display='block';
+document.getElementById('mainSelectionText').textContent=state.motifPrincipal.nom;
+}else{
+document.getElementById('mainSelectionBox').style.display='none';
+}
+
+if(state.motifsSecondaires.length>0){
+document.getElementById('secondarySelectionBox').style.display='block';
+document.getElementById('secondarySelectionText').innerHTML=state.motifsSecondaires.map(m=>`<div style="margin-bottom:4px">• ${m.nom}</div>`).join('');
+}else{
+document.getElementById('secondarySelectionBox').style.display='none';
+}
+}
+
+function selectMotif(tableName,motifId,nomMotif,type,btnElement){
+if(type==='main'){
+document.querySelectorAll('.motif-btn.principal').forEach(btn=>btn.classList.remove('principal'));
+state.motifPrincipal={table:tableName,id:motifId,nom:nomMotif};
+btnElement.classList.add('principal');
+document.getElementById('generateTop').disabled=false;
+document.getElementById('generateBottom').disabled=false;
+toast(`✓ Motif principal: ${nomMotif}`);
+}else{
+if(btnElement.classList.contains('secondaire')){
+btnElement.classList.remove('secondaire');
+state.motifsSecondaires=state.motifsSecondaires.filter(m=>m.id!==motifId);
+toast('✗ Retiré');
+}else{
+btnElement.classList.add('secondaire');
+state.motifsSecondaires.push({table:tableName,id:motifId,nom:nomMotif});
+toast(`✓ Secondaire: ${nomMotif}`);
+}
+}
+updateSelectionDisplay();
+}
+
+function showModeSelection(){
+if(!state.motifPrincipal){
+toast('⚠️ Sélectionnez un motif principal','error');
+return;
+}
+document.getElementById('modeSelectionModal').classList.add('active');
+}
+
+async function selectMode(mode){
+state.currentMode=mode;
+closeModal('modeSelectionModal');
+await generateConclusion(mode);
+}
+
+async function generateConclusion(mode){
+if(!state.motifPrincipal){
+toast('⚠️ Sélectionnez un motif principal','error');
+return;
+}
+
+toast('⏳ Génération...');
+
+try{
+const r=await fetch(`${API_URL}/fusion`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+table_principale:state.motifPrincipal.table,
+motif_principal_id:state.motifPrincipal.id,
+motifs_secondaires:state.motifsSecondaires,
+mode:mode
+})
+});
+
+if(!r.ok){
+const errorText=await r.text();
+console.error('Erreur API:',errorText);
+throw new Error('Erreur API');
+}
+
+state.conclusion=await r.json();
+console.log('Conclusion reçue:',state.conclusion);
+renderConclusion(mode);
+toast('✅ Généré !');
+document.getElementById('floatingActions').style.display='flex';
+}catch(e){
+toast('❌ Erreur: '+e.message,'error');
+console.error('Erreur complète:',e);
+}
+}
+
+function renderBullesHtml(bulles){
+if(!bulles||!Array.isArray(bulles)||bulles.length===0)return'';
+let html='';
+bulles.forEach((bulle,idx)=>{
+if(bulle&&bulle.titre){
+const globalIdx=state.currentBulles.length;
+state.currentBulles.push(bulle);
+html+=`<button class="bulle-btn" onclick="showBulleByIndex(${globalIdx})">💡 ${bulle.titre}</button>`;
+}
+});
+return html?`<div class="bulles-container">${html}</div>`:'';
+}
+
+function renderConclusion(mode){
+if(mode==='examen_conclusion'){
+renderSplitView();
+}else{
+renderSingleView(mode);
+}
+}
+
+function renderSingleView(mode){
+let html='';
+state.currentBulles=[];
+
+if(!state.conclusion||!state.conclusion.modules){
+toast('❌ Données invalides','error');
+return;
+}
+
+state.conclusion.modules.forEach((module,moduleIdx)=>{
+let content='';
+
+if(module.type==='conduite_tenir'){
+// Extraire le texte de chaque ligne (nouvelle structure avec elements)
+state.conduiteLines=(module.lignes||[]).map((ligne,i)=>{
+let text='';
+if(ligne.elements&&Array.isArray(ligne.elements)){
+text=ligne.elements.map(e=>e.texte||'').join('');
+}else{
+text=ligne.texte||'';
+}
+return{
+id:Date.now()+i,
+text:text,
+proposition:ligne.proposition,
+alternative:ligne.alternative,
+commentaire:ligne.commentaire,
+deletable:ligne.deletable
+};
+});
+content=renderConduiteATenir();
+}else if(module.type==='hdm'){
+// HDM avec 4 sections
+content=renderHDM(module);
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+
+const copyBtn=mode==='examen'||module.type==='hdm'||module.type.startsWith('examen_')?
+`<button class="module-copy-btn" onclick="copyModule('${module.type}')">📋 Copier</button>`:'';
+
+const isEditable=module.type!=='conduite_tenir';
+
+html+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+${copyBtn}
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${isEditable}">
+${content}
+</div>
+${module.type==='conduite_tenir'?renderOrdonnancesSection():''}
+</div>
+`;
+});
+
+if(state.conclusion.codes_cim&&state.conclusion.codes_cim.length>0){
+html+=`
+<div class="codes-section">
+<h3>🗂️ Suggestion CIM-10</h3>
+${state.conclusion.codes_cim.map(code=>`
+<div class="code-item"><strong>${code.code||''}</strong> : ${code.libelle||''}</div>
+`).join('')}
+</div>
+`;
+}
+
+document.getElementById('resultContainer').innerHTML=html;
+}
+
+function renderHDM(module){
+if(!module.sections||!Array.isArray(module.sections))return'';
+
+return module.sections.map(section=>{
+// Ne pas afficher si pas de lignes
+if(!section.lignes||section.lignes.length===0)return'';
+
+// Chaque ligne a maintenant ses éléments groupés
+const lignesHtml=section.lignes.map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+
+// Ne pas afficher la section si pas de contenu
+if(!lignesHtml)return'';
+
+return `
+<div class="hdm-section">
+<div class="hdm-section-title">${section.titre||''}</div>
+<div class="hdm-section-content">
+${lignesHtml}
+</div>
+</div>
+`;
+}).filter(s=>s).join('');
+}
+
+function renderSplitView(){
+state.currentBulles=[];
+
+if(!state.conclusion||!state.conclusion.modules){
+toast('❌ Données invalides','error');
+return;
+}
+
+const examenModules=state.conclusion.modules.filter(m=>
+m.type==='hdm'||m.type.startsWith('examen_')
+);
+const conclusionModules=state.conclusion.modules.filter(m=>
+!m.type.startsWith('examen_')&&m.type!=='hdm'
+);
+
+let examenHtml='';
+examenModules.forEach(module=>{
+let content='';
+if(module.type==='hdm'){
+content=renderHDM(module);
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+const copyBtn=`<button class="module-copy-btn" onclick="copyModule('${module.type}')">📋 Copier</button>`;
+
+const isEditable=true;
+
+examenHtml+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+${copyBtn}
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${isEditable}">
+${content}
+</div>
+</div>
+`;
+});
+
+let conclusionHtml='';
+conclusionModules.forEach(module=>{
+let content='';
+
+if(module.type==='conduite_tenir'){
+// Extraire le texte de chaque ligne (nouvelle structure avec elements)
+state.conduiteLines=(module.lignes||[]).map((ligne,i)=>{
+let text='';
+if(ligne.elements&&Array.isArray(ligne.elements)){
+text=ligne.elements.map(e=>e.texte||'').join('');
+}else{
+text=ligne.texte||'';
+}
+return{
+id:Date.now()+i,
+text:text,
+proposition:ligne.proposition,
+alternative:ligne.alternative,
+commentaire:ligne.commentaire,
+deletable:ligne.deletable
+};
+});
+content=renderConduiteATenir();
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+
+conclusionHtml+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${module.type!=='conduite_tenir'}">
+${content}
+</div>
+${module.type==='conduite_tenir'?renderOrdonnancesSection():''}
+</div>
+`;
+});
+
+if(state.conclusion.codes_cim&&state.conclusion.codes_cim.length>0){
+conclusionHtml+=`
+<div class="codes-section">
+<h3>🗂️ Suggestion CIM-10</h3>
+${state.conclusion.codes_cim.map(code=>`
+<div class="code-item"><strong>${code.code||''}</strong> : ${code.libelle||''}</div>
+`).join('')}
+</div>
+`;
+}
+
+const splitHtml=`
+<div class="split-view">
+<div class="split-panel">
+<div class="split-header">
+<span class="split-title">🩺 EXAMEN TYPE</span>
+<button class="copy-btn" onclick="copyExamen()">📋 Copier</button>
+</div>
+<div id="examenContent">${examenHtml}</div>
+</div>
+<div class="split-panel">
+<div class="split-header">
+<span class="split-title">📋 CONCLUSION TYPE</span>
+<button class="copy-btn" onclick="copyConclusion()">📋 Copier</button>
+</div>
+<div id="conclusionContent">${conclusionHtml}</div>
+</div>
+</div>
+`;
+
+document.getElementById('resultContainer').innerHTML=splitHtml;
+}
+
+function renderLigne(ligne){
+if(!ligne)return'';
+
+let texte=ligne.texte||'';
+
+// Gérer les différents types de marqueurs INLINE
+if(ligne.commentaire){
+if(!texte)return'';
+return `<span class="comment">${texte}</span>`;
+}
+
+if(ligne.deletable){
+if(!texte)return'';
+const id='del-'+Date.now()+Math.random();
+return `<span class="deletable" id="${id}" onclick="deleteText('${id}')">${texte}</span>`;
+}
+
+if(texte==='XXXX'){
+const props=ligne.proposition&&ligne.proposition.suggestions?ligne.proposition.suggestions:[];
+const propsJson=JSON.stringify(props).replace(/'/g,'&#39;');
+return `<span class="xxxx" data-props='${propsJson}' onclick="openXXXXModal(this)">XXXX</span>`;
+}
+
+if(ligne.alternative&&ligne.alternative.alternatives){
+const altsJson=JSON.stringify(ligne.alternative.alternatives).replace(/'/g,'&#39;');
+return `<span class="alternative" data-alts='${altsJson}' onclick="openAlternativeModal(this)">${texte}</span>`;
+}
+
+// Texte normal
+if(!texte)return'';
+return texte;
+}
+
+// Nouvelle fonction pour rendre une ligne complète avec ses éléments groupés
+function renderLigneComplete(ligne){
+if(!ligne)return'';
+
+// Nouvelle structure : ligne.elements est un tableau d'éléments
+if(ligne.elements&&Array.isArray(ligne.elements)){
+const html=ligne.elements.map(elem=>renderLigne(elem)).join('');
+return html?`<div class="module-line">${html}</div>`:'';
+}
+
+// Ancienne structure de compatibilité : ligne directe
+const html=renderLigne(ligne);
+return html?`<div class="module-line">${html}</div>`:'';
+}
+
+function deleteText(elementId){
+const element=document.getElementById(elementId);
+if(element){
+element.remove();
+toast('✓ Texte supprimé');
+}
+}
+
+function renderConduiteATenir(){
+return state.conduiteLines.map((line,idx)=>{
+let text=line.text||'';
+text=text.replace(/XXXX/g,'<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>');
+return `
+<div class="conduite-line" data-line-idx="${idx}">
+<div class="conduite-number">${idx+1}</div>
+<div class="conduite-text" contenteditable="true" onblur="updateConduiteLineText(${idx},this.innerText)">${text}</div>
+<div class="conduite-actions">
+<button class="action-icon action-up" onclick="moveLineUp(${idx})">↑</button>
+<button class="action-icon action-down" onclick="moveLineDown(${idx})">↓</button>
+<button class="action-icon action-delete" onclick="deleteLine(${idx})">🗑</button>
+</div>
+</div>
+`;
+}).join('')+`
+<div class="conduite-add-line">
+<input type="text" id="newConduiteLineInput" class="conduite-input" placeholder="➕ Ajouter une ligne..." onkeypress="if(event.key==='Enter')addNewConduiteLine()">
+<button class="conduite-add-btn" onclick="addNewConduiteLine()">✓ Ajouter</button>
+</div>
+`;
+}
+
+function moveLineUp(idx){
+if(idx===0)return;
+[state.conduiteLines[idx],state.conduiteLines[idx-1]]=[state.conduiteLines[idx-1],state.conduiteLines[idx]];
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+}
+
+function moveLineDown(idx){
+if(idx===state.conduiteLines.length-1)return;
+[state.conduiteLines[idx],state.conduiteLines[idx+1]]=[state.conduiteLines[idx+1],state.conduiteLines[idx]];
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+}
+
+function deleteLine(idx){
+if(idx<0||idx>=state.conduiteLines.length)return;
+state.conduiteLines.splice(idx,1);
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+
+toast('✓ Ligne supprimée');
+}
+
+function updateConduiteLineText(idx,newText){
+if(idx>=0&&idx<state.conduiteLines.length){
+state.conduiteLines[idx].text=newText.trim();
+}
+}
+
+function addNewConduiteLine(){
+const input=document.getElementById('newConduiteLineInput');
+const text=input.value.trim();
+
+if(!text){
+toast('⚠️ Entrez du texte','error');
+return;
+}
+
+// Ajouter la nouvelle ligne
+state.conduiteLines.push({
+id:Date.now(),
+text:text,
+proposition:null,
+alternative:null,
+commentaire:null,
+deletable:false
+});
+
+// Re-render
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+
+// Réinitialiser l'input
+input.value='';
+toast('✓ Ligne ajoutée');
+}
+
+function renderOrdonnancesSection(){
+if(!state.conclusion.ordonnances||state.conclusion.ordonnances.length===0)return'';
+
+return`
+<div class="ordonnances-section">
+<strong>💊 Ordonnances disponibles</strong><br>
+<button class="ordo-btn all" onclick="loadAllOrdonnances()">📋 Toutes Les Ordonnances Disponibles</button>
+${state.conclusion.ordonnances.map((ordo,i)=>`
+<button class="ordo-btn" onclick="showOrdonnance(${i})">${ordo.titre||'Ordonnance'}</button>
+`).join('')}
+</div>
+`;
+}
+
+function showOrdonnance(idx){
+const ordo=state.conclusion.ordonnances[idx];
+if(!ordo)return;
+
+// Chaque ligne a maintenant ses éléments groupés
+const content=(ordo.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+
+document.getElementById('ordoModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>${ordo.titre||'Ordonnance'}</span>
+<span class="modal-close" onclick="closeModal('ordoModal')">×</span>
+</div>
+<div>${content}</div>
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('ordoModal')">Fermer</button>
+<button class="modal-btn modal-btn-primary" onclick="copyOrdonnance(${idx})">📋 Copier</button>
+</div>
+</div>
+`;
+document.getElementById('ordoModal').classList.add('active');
+}
+
+function copyOrdonnance(idx){
+const ordo=state.conclusion.ordonnances[idx];
+if(!ordo||!ordo.lignes)return;
+// Extraire le texte de chaque ligne (nouvelle structure)
+const text=ordo.lignes.map(ligne=>{
+if(ligne.elements&&Array.isArray(ligne.elements)){
+return ligne.elements.filter(e=>!e.commentaire).map(e=>e.texte||'').join('');
+}
+return ligne.texte||'';
+}).filter(t=>t).join('\n');
+copyText(text);
+}
+
+async function loadAllOrdonnances(){
+toast('⏳ Chargement...');
+state.allOrdonnances=[];
+
+try{
+for(const cat of state.categories){
+try{
+const mr=await fetch(`${API_URL}/motifs/${cat.table_name}`);
+if(!mr.ok){
+console.error(`Erreur catégorie ${cat.nom}`);
+continue;
+}
+const motifs=await mr.json();
+
+for(const motif of motifs){
+try{
+const fr=await fetch(`${API_URL}/fusion`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+table_principale:cat.table_name,
+motif_principal_id:motif.id,
+motifs_secondaires:[],
+mode:'conclusion'
+})
+});
+
+if(!fr.ok){
+console.error(`Erreur motif ${motif.nom_motif}`);
+continue;
+}
+
+const fd=await fr.json();
+
+if(fd.ordonnances&&Array.isArray(fd.ordonnances)){
+fd.ordonnances.forEach(ordo=>{
+state.allOrdonnances.push({
+categorie:cat.nom,
+motif:motif.nom_motif,
+ordonnance:ordo
+});
+});
+}
+}catch(err){
+console.error(`Erreur motif ${motif.nom_motif}:`,err);
+}
+}
+}catch(err){
+console.error(`Erreur catégorie ${cat.nom}:`,err);
+}
+}
+
+if(state.allOrdonnances.length===0){
+toast('❌ Aucune ordonnance trouvée','error');
+return;
+}
+
+renderAllOrdonnances();
+toast('✅ Chargé');
+}catch(e){
+toast('❌ Erreur: '+e.message,'error');
+console.error('Erreur loadAllOrdonnances:',e);
+}
+}
+
+function renderAllOrdonnances(){
+const categories=[...new Set(state.allOrdonnances.map(o=>o.categorie))];
+
+document.getElementById('allOrdosModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>📋 Toutes les Ordonnances</span>
+<span class="modal-close" onclick="closeModal('allOrdosModal')">×</span>
+</div>
+<div class="ordo-filters">
+<div class="ordo-filter">
+<label>Catégorie</label>
+<select id="catFilter" onchange="filterAllOrdonnances()">
+<option value="">Toutes</option>
+${categories.map(c=>`<option value="${c}">${c}</option>`).join('')}
+</select>
+</div>
+<div class="ordo-filter">
+<label>Motif</label>
+<select id="motifFilter" onchange="filterAllOrdonnances()">
+<option value="">Tous</option>
+</select>
+</div>
+</div>
+<div id="ordosList"></div>
+</div>
+`;
+
+filterAllOrdonnances();
+document.getElementById('allOrdosModal').classList.add('active');
+}
+
+function filterAllOrdonnances(){
+const catFilter=document.getElementById('catFilter').value;
+const motifFilter=document.getElementById('motifFilter').value;
+
+let filtered=state.allOrdonnances;
+
+if(catFilter){
+filtered=filtered.filter(o=>o.categorie===catFilter);
+const motifs=[...new Set(filtered.map(o=>o.motif))];
+document.getElementById('motifFilter').innerHTML=
+'<option value="">Tous</option>'+
+motifs.map(m=>`<option value="${m}">${m}</option>`).join('');
+}else{
+document.getElementById('motifFilter').innerHTML='<option value="">Tous</option>';
+}
+
+if(motifFilter)filtered=filtered.filter(o=>o.motif===motifFilter);
+
+document.getElementById('ordosList').innerHTML=filtered.map((item,idx)=>`
+<div class="ordo-item" onclick="openOrdonnanceFromList(${idx},'${catFilter}','${motifFilter}')">
+<div class="ordo-item-header">${item.ordonnance.titre||'Ordonnance'} - ${item.motif} (${item.categorie})</div>
+</div>
+`).join('');
+}
+
+function openOrdonnanceFromList(idx,catFilter,motifFilter){
+let filtered=state.allOrdonnances;
+if(catFilter)filtered=filtered.filter(o=>o.categorie===catFilter);
+if(motifFilter)filtered=filtered.filter(o=>o.motif===motifFilter);
+
+const item=filtered[idx];
+if(!item||!item.ordonnance)return;
+
+const content=(item.ordonnance.lignes||[]).map(ligne=>{
+if(!ligne||!ligne.texte)return'';
+return renderLigne(ligne);
+}).join('');
+
+closeModal('allOrdosModal');
+
+const textToCopy=(item.ordonnance.lignes||[]).filter(l=>!l.commentaire).map(l=>l.texte||'').join('\\n').replace(/'/g,"\\'");
+
+document.getElementById('ordoModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>${item.ordonnance.titre||'Ordonnance'}</span>
+<span class="modal-close" onclick="closeModal('ordoModal')">×</span>
+</div>
+<div>${content}</div>
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('ordoModal')">Fermer</button>
+<button class="modal-btn modal-btn-primary" onclick="copyText('${textToCopy}')">📋 Copier</button>
+</div>
+</div>
+`;
+document.getElementById('ordoModal').classList.add('active');
+}
+
+function showBulleByIndex(idx){
+const bulle=state.currentBulles[idx];
+if(!bulle){
+console.error('Bulle non trouvée:',idx);
+return;
+}
+document.getElementById('bulleModal').innerHTML=`
+<div class="modal-content modal-bulle">
+<div class="modal-header">
+<span>💡 ${bulle.titre||'Info'}</span>
+<span class="modal-close" onclick="closeModal('bulleModal')">×</span>
+</div>
+<div class="bulle-content">${bulle.contenu||''}</div>
+</div>
+`;
+document.getElementById('bulleModal').classList.add('active');
+}
+
+function openXXXXModal(element){
+element.id='xxxx-'+Date.now();
+
+let propositions=[];
+try{
+const propsAttr=element.getAttribute('data-props');
+if(propsAttr){
+propositions=JSON.parse(propsAttr);
+}
+}catch(e){
+console.error('Erreur parse props:',e);
+}
+
+const chipsHtml=propositions&&propositions.length>0?`
+<div class="proposition-chips">
+${propositions.map(p=>`
+<div class="chip" onclick="fillXXXX('${element.id}','${(p||'').replace(/'/g,"\\'")}')">${p||''}</div>
+`).join('')}
+</div>
+`:'';
+
+document.getElementById('xxxxModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>Remplir le champ</span>
+<span class="modal-close" onclick="closeModal('xxxxModal')">×</span>
+</div>
+${chipsHtml}
+<input type="text" id="xxxxInput" class="modal-input" placeholder="Entrez..." onkeypress="if(event.key==='Enter')validateXXXX('${element.id}')">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('xxxxModal')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="validateXXXX('${element.id}')">✓ Valider</button>
+</div>
+</div>
+`;
+document.getElementById('xxxxModal').classList.add('active');
+setTimeout(()=>document.getElementById('xxxxInput').focus(),100);
+}
+
+function fillXXXX(elementId,value){
+document.getElementById('xxxxInput').value=value;
+}
+
+function validateXXXX(elementId){
+const value=document.getElementById('xxxxInput').value.trim();
+if(value){
+const element=document.getElementById(elementId);
+if(element){
+element.textContent=value;
+element.classList.remove('xxxx');
+element.style.background='transparent';
+element.style.border='none';
+element.style.color='#cbd5e1';
+element.style.fontWeight='normal';
+element.onclick=null;
+element.removeAttribute('data-props');
+}
+}
+closeModal('xxxxModal');
+}
+
+function openAlternativeModal(element){
+element.id='alt-'+Date.now();
+
+let alternatives=[];
+try{
+const altsAttr=element.getAttribute('data-alts');
+if(altsAttr){
+alternatives=JSON.parse(altsAttr);
+}
+}catch(e){
+console.error('Erreur parse alternatives:',e);
+}
+
+// Afficher uniquement les alternatives APRÈS la première (qui est déjà affichée)
+const autresAlternatives=alternatives.slice(1);
+
+const chipsHtml=autresAlternatives&&autresAlternatives.length>0?`
+<div class="proposition-chips">
+${autresAlternatives.map((a,idx)=>`
+<div class="chip" onclick="fillAlternative('${element.id}','${(a||'').replace(/'/g,"\\'")}')">${a||''}</div>
+`).join('')}
+</div>
+`:'';
+
+document.getElementById('alternativeModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>Choisir une alternative</span>
+<span class="modal-close" onclick="closeModal('alternativeModal')">×</span>
+</div>
+${chipsHtml}
+<input type="text" id="alternativeInput" class="modal-input" placeholder="Ou entrez votre texte..." onkeypress="if(event.key==='Enter')validateAlternative('${element.id}')">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('alternativeModal')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="validateAlternative('${element.id}')">✓ Valider</button>
+</div>
+</div>
+`;
+document.getElementById('alternativeModal').classList.add('active');
+setTimeout(()=>document.getElementById('alternativeInput').focus(),100);
+}
+
+function fillAlternative(elementId,value){
+// Remplir le champ
+document.getElementById('alternativeInput').value=value;
+// Ou directement valider
+const element=document.getElementById(elementId);
+if(element){
+element.textContent=value;
+element.classList.remove('alternative');
+element.style.background='transparent';
+element.style.border='none';
+element.style.color='#cbd5e1';
+element.style.fontWeight='normal';
+element.onclick=null;
+element.removeAttribute('data-alts');
+}
+closeModal('alternativeModal');
+}
+
+function validateAlternative(elementId){
+const value=document.getElementById('alternativeInput').value.trim();
+if(value){
+const element=document.getElementById(elementId);
+if(element){
+// Remplacer le texte et retirer le style alternatif
+element.textContent=value;
+element.classList.remove('alternative');
+element.style.background='transparent';
+element.style.border='none';
+element.style.color='#cbd5e1';
+element.style.fontWeight='normal';
+element.onclick=null;
+element.removeAttribute('data-alts');
+}
+}
+closeModal('alternativeModal');
+}
+
+function openModal(modalId){
+document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId){
+document.getElementById(modalId).classList.remove('active');
+}
+
+function copyText(text){
+navigator.clipboard.writeText(text);
+toast('✅ Copié !');
+}
+
+function copyModule(moduleType){
+const moduleDiv=document.querySelector(`[data-module-content="${moduleType}"]`);
+if(!moduleDiv)return;
+
+const clone=moduleDiv.cloneNode(true);
+
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.icon').forEach(el=>el.remove());
+clone.querySelectorAll('.hdm-section-title').forEach(el=>el.remove());
+
+const text=clone.innerText;
+copyText(text);
+}
+
+function copyExamen(){
+const examenDiv=document.getElementById('examenContent');
+if(!examenDiv)return;
+
+const clone=examenDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.icon').forEach(el=>el.remove());
+clone.querySelectorAll('.module-header').forEach(el=>el.remove());
+clone.querySelectorAll('.hdm-section-title').forEach(el=>el.remove());
+clone.querySelectorAll('.codes-section').forEach(el=>el.remove());
+
+const text=clone.innerText;
+copyText(text);
+}
+
+function copyConclusion(){
+const conclusionDiv=document.getElementById('conclusionContent');
+if(!conclusionDiv)return;
+
+const clone=conclusionDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.icon').forEach(el=>el.remove());
+clone.querySelectorAll('.codes-section').forEach(el=>el.remove());
+
+const text=clone.innerText;
+copyText(text);
+}
+
+function copyAll(){
+if(!state.conclusion)return;
+let text='';
+state.conclusion.modules.forEach(module=>{
+// Extraire le texte de chaque ligne (nouvelle structure)
+const lines=(module.lignes||[]).map(ligne=>{
+if(ligne.elements&&Array.isArray(ligne.elements)){
+return ligne.elements.filter(e=>!e.commentaire).map(e=>e.texte||'').join('');
+}
+return ligne.texte||'';
+}).filter(t=>t).join('\n');
+text+=`${lines}\n\n`;
+});
+copyText(text);
+}
+
+function resetAll(){
+state={categories:state.categories,motifPrincipal:null,motifsSecondaires:[],conclusion:null,conduiteLines:[],allOrdonnances:[],currentMode:null,currentBulles:[]};
+document.querySelectorAll('.category-btn,.motif-btn').forEach(btn=>btn.classList.remove('active','principal','secondaire'));
+document.querySelectorAll('.motifs-list').forEach(list=>list.classList.remove('active'));
+document.getElementById('generateTop').disabled=true;
+document.getElementById('generateBottom').disabled=true;
+document.getElementById('floatingActions').style.display='none';
+document.getElementById('secondarySection').style.display='none';
+document.getElementById('mainSelectionBox').style.display='none';
+document.getElementById('secondarySelectionBox').style.display='none';
+document.getElementById('resultContainer').innerHTML='<div class="empty-state"><div style="font-size:64px;margin-bottom:20px">📝</div><h3>Aucune conclusion générée</h3><p>Sélectionnez un motif principal et cliquez sur "Générer"</p></div>';
+toast('🔄 Réinitialisé');
+}
+
+function toast(message,type='info'){
+const toastEl=document.createElement('div');
+toastEl.className='toast';
+toastEl.textContent=message;
+if(type==='error')toastEl.style.borderColor='#dc2626';
+document.body.appendChild(toastEl);
+setTimeout(()=>toastEl.remove(),3000);
+}
+
+window.addEventListener('click',(e)=>{
+if(e.target.classList.contains('modal'))e.target.classList.remove('active');
+});
+</script>
+</body>
+</html>
