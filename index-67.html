@@ -1,0 +1,4208 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conclusions Médicales v4.9.88</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+:root{
+--bg-body:#0a1520;
+--bg-sidebar:linear-gradient(170deg,#000508 0%,#001018 15%,#002535 35%,#003545 50%,#002535 70%,#001018 85%,#000508 100%);
+--bg-main:#0a1825;
+--bg-module:#0d2535;
+--bg-card:#0a1520;
+--bg-panel:#0d2535;
+--border-primary:#00d4ff;
+--border-secondary:#0891b2;
+--border-accent:#06b6d4;
+--border-panel:#00d4ff;
+--text-primary:#cffafe;
+--text-secondary:#67e8f9;
+--text-accent:#00d4ff;
+--text-title:#22d3ee;
+--text-heading:#a5f3fc;
+--shadow-primary:rgba(0,212,255,0.4);
+--shadow-glow:0 0 40px rgba(0,212,255,0.2),0 0 80px rgba(6,182,212,0.15);
+--shadow-panel:0 0 20px rgba(0,212,255,0.5),0 0 40px rgba(0,212,255,0.25);
+--btn-bg:#0d2535;
+--btn-border:#155e75;
+--btn-active-bg:#0e7490;
+--btn-active-border:#06b6d4;
+--module-border:#164e63;
+--module-header-bg:linear-gradient(135deg,#164e63 0%,#0a1520 100%);
+--module-icon-color:#22d3ee;
+--chip-bg:#0d2535;
+--chip-border:#155e75;
+--chip-hover-bg:#0e7490;
+--chip-hover-border:#06b6d4;
+--line-bg:#0a1520;
+--line-border:#0d2535;
+--line-hover-border:#06b6d4;
+}
+[data-theme="sober"]{
+--bg-body:#f8fafc;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f8fafc 50%,#f1f5f9 100%);
+--bg-main:#ffffff;
+--bg-module:#f8fafc;
+--bg-card:#f1f5f9;
+--bg-panel:#ffffff;
+--border-primary:#3b82f6;
+--border-secondary:#60a5fa;
+--border-accent:#2563eb;
+--border-panel:#3b82f6;
+--text-primary:#0f172a;
+--text-secondary:#334155;
+--text-accent:#1d4ed8;
+--text-title:#1e40af;
+--text-heading:#1e3a8a;
+--shadow-primary:rgba(59,130,246,0.15);
+--shadow-glow:0 4px 20px rgba(59,130,246,0.08);
+--shadow-panel:0 4px 20px rgba(59,130,246,0.15);
+--btn-bg:#e2e8f0;
+--btn-border:#cbd5e1;
+--btn-active-bg:#2563eb;
+--btn-active-border:#3b82f6;
+--module-border:#cbd5e1;
+--module-header-bg:linear-gradient(135deg,#f1f5f9 0%,#e2e8f0 100%);
+--module-icon-color:#2563eb;
+--chip-bg:#e2e8f0;
+--chip-border:#cbd5e1;
+--chip-hover-bg:#dbeafe;
+--chip-hover-border:#3b82f6;
+--line-bg:#ffffff;
+--line-border:#cbd5e1;
+--line-hover-border:#3b82f6;
+}
+[data-theme="red"]{
+--bg-body:#1a0f0f;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#1a0505 15%,#2d0a0a 35%,#3d1010 50%,#2d0a0a 70%,#1a0505 85%,#000000 100%);
+--bg-main:#150a0a;
+--bg-module:#2d1515;
+--bg-card:#1a0f0f;
+--bg-panel:#2d1515;
+--border-primary:#ef4444;
+--border-secondary:#f87171;
+--border-accent:#dc2626;
+--border-panel:#ef4444;
+--text-primary:#fecaca;
+--text-secondary:#fca5a5;
+--text-accent:#ef4444;
+--text-title:#f87171;
+--text-heading:#fca5a5;
+--shadow-primary:rgba(239,68,68,0.3);
+--shadow-glow:0 0 40px rgba(239,68,68,0.2),0 0 80px rgba(220,38,38,0.1);
+--shadow-panel:0 0 15px rgba(239,68,68,0.4),0 0 30px rgba(239,68,68,0.2);
+--btn-bg:#2d1515;
+--btn-border:#7f1d1d;
+--btn-active-bg:#991b1b;
+--btn-active-border:#ef4444;
+--module-border:#7f1d1d;
+--module-header-bg:linear-gradient(135deg,#450a0a 0%,#1a0505 100%);
+--module-icon-color:#f87171;
+--chip-bg:#2d1515;
+--chip-border:#7f1d1d;
+--chip-hover-bg:#991b1b;
+--chip-hover-border:#ef4444;
+--line-bg:#1a0f0f;
+--line-border:#2d1515;
+--line-hover-border:#ef4444;
+}
+[data-theme="violet"]{
+--bg-body:#150f1f;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#0d0517 15%,#1a0a2e 35%,#2d1548 50%,#1a0a2e 70%,#0d0517 85%,#000000 100%);
+--bg-main:#0f0a18;
+--bg-module:#1f1635;
+--bg-card:#150f1f;
+--bg-panel:#1f1635;
+--border-primary:#a855f7;
+--border-secondary:#c084fc;
+--border-accent:#9333ea;
+--border-panel:#a855f7;
+--text-primary:#e9d5ff;
+--text-secondary:#d8b4fe;
+--text-accent:#a855f7;
+--text-title:#c084fc;
+--text-heading:#d8b4fe;
+--shadow-primary:rgba(168,85,247,0.3);
+--shadow-glow:0 0 40px rgba(168,85,247,0.2),0 0 80px rgba(147,51,234,0.1);
+--shadow-panel:0 0 15px rgba(168,85,247,0.4),0 0 30px rgba(168,85,247,0.2);
+--btn-bg:#1f1635;
+--btn-border:#581c87;
+--btn-active-bg:#7e22ce;
+--btn-active-border:#a855f7;
+--module-border:#581c87;
+--module-header-bg:linear-gradient(135deg,#3b0764 0%,#1e1b4b 100%);
+--module-icon-color:#c084fc;
+--chip-bg:#1f1635;
+--chip-border:#581c87;
+--chip-hover-bg:#7e22ce;
+--chip-hover-border:#a855f7;
+--line-bg:#150f1f;
+--line-border:#1f1635;
+--line-hover-border:#a855f7;
+}
+[data-theme="orange"]{
+--bg-body:#1a140a;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#1a0f05 15%,#2d1a0a 35%,#3d2510 50%,#2d1a0a 70%,#1a0f05 85%,#000000 100%);
+--bg-main:#150f05;
+--bg-module:#2d2015;
+--bg-card:#1a140a;
+--bg-panel:#2d2015;
+--border-primary:#f59e0b;
+--border-secondary:#fbbf24;
+--border-accent:#d97706;
+--border-panel:#f59e0b;
+--text-primary:#fef3c7;
+--text-secondary:#fde68a;
+--text-accent:#f59e0b;
+--text-title:#fbbf24;
+--text-heading:#fde68a;
+--shadow-primary:rgba(245,158,11,0.3);
+--shadow-glow:0 0 40px rgba(245,158,11,0.2),0 0 80px rgba(217,119,6,0.1);
+--shadow-panel:0 0 15px rgba(245,158,11,0.4),0 0 30px rgba(245,158,11,0.2);
+--btn-bg:#2d2015;
+--btn-border:#92400e;
+--btn-active-bg:#b45309;
+--btn-active-border:#f59e0b;
+--module-border:#92400e;
+--module-header-bg:linear-gradient(135deg,#78350f 0%,#451a03 100%);
+--module-icon-color:#fbbf24;
+--chip-bg:#2d2015;
+--chip-border:#92400e;
+--chip-hover-bg:#b45309;
+--chip-hover-border:#f59e0b;
+--line-bg:#1a140a;
+--line-border:#2d2015;
+--line-hover-border:#f59e0b;
+}
+[data-theme="green"]{
+--bg-body:#0a1510;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#051a0a 15%,#0a2d15 35%,#103d20 50%,#0a2d15 70%,#051a0a 85%,#000000 100%);
+--bg-main:#051008;
+--bg-module:#152d1a;
+--bg-card:#0a1510;
+--bg-panel:#152d1a;
+--border-primary:#22c55e;
+--border-secondary:#4ade80;
+--border-accent:#facc15;
+--border-panel:#22c55e;
+--text-primary:#dcfce7;
+--text-secondary:#bbf7d0;
+--text-accent:#22c55e;
+--text-title:#fde047;
+--text-heading:#4ade80;
+--shadow-primary:rgba(34,197,94,0.3);
+--shadow-glow:0 0 40px rgba(34,197,94,0.2),0 0 80px rgba(250,204,21,0.1);
+--shadow-panel:0 0 15px rgba(34,197,94,0.4),0 0 30px rgba(250,204,21,0.2);
+--btn-bg:#152d1a;
+--btn-border:#166534;
+--btn-active-bg:#15803d;
+--btn-active-border:#22c55e;
+--module-border:#166534;
+--module-header-bg:linear-gradient(135deg,#14532d 0%,#052e16 100%);
+--module-icon-color:#4ade80;
+--chip-bg:#152d1a;
+--chip-border:#166534;
+--chip-hover-bg:#15803d;
+--chip-hover-border:#22c55e;
+--line-bg:#0a1510;
+--line-border:#152d1a;
+--line-hover-border:#22c55e;
+}
+[data-theme="pastel"]{
+--bg-body:#fdf4ff;
+--bg-sidebar:linear-gradient(170deg,#fce7f3 0%,#fbcfe8 15%,#f5d0fe 35%,#e9d5ff 50%,#ddd6fe 70%,#c7d2fe 85%,#bfdbfe 100%);
+--bg-main:#fefefe;
+--bg-module:#fdf4ff;
+--bg-card:#fef7ff;
+--bg-panel:#fdf4ff;
+--border-primary:#e879f9;
+--border-secondary:#f0abfc;
+--border-accent:#d946ef;
+--border-panel:#e879f9;
+--text-primary:#701a75;
+--text-secondary:#86198f;
+--text-accent:#c026d3;
+--text-title:#a21caf;
+--text-heading:#86198f;
+--shadow-primary:rgba(232,121,249,0.25);
+--shadow-glow:0 4px 20px rgba(232,121,249,0.15);
+--shadow-panel:0 4px 25px rgba(232,121,249,0.2);
+--btn-bg:#fdf4ff;
+--btn-border:#f5d0fe;
+--btn-active-bg:#c026d3;
+--btn-active-border:#e879f9;
+--module-border:#f5d0fe;
+--module-header-bg:linear-gradient(135deg,#fae8ff 0%,#f5d0fe 100%);
+--module-icon-color:#d946ef;
+--chip-bg:#fdf4ff;
+--chip-border:#f5d0fe;
+--chip-hover-bg:#f0abfc;
+--chip-hover-border:#e879f9;
+--line-bg:#fefefe;
+--line-border:#fdf4ff;
+--line-hover-border:#e879f9;
+}
+[data-theme="classic"]{
+--bg-body:#1e293b;
+--bg-sidebar:linear-gradient(170deg,#0f172a 0%,#1e293b 50%,#334155 100%);
+--bg-main:#1e293b;
+--bg-module:#334155;
+--bg-card:#1e293b;
+--bg-panel:#334155;
+--border-primary:#64748b;
+--border-secondary:#94a3b8;
+--border-accent:#475569;
+--border-panel:#64748b;
+--text-primary:#e2e8f0;
+--text-secondary:#cbd5e1;
+--text-accent:#94a3b8;
+--text-title:#f1f5f9;
+--text-heading:#e2e8f0;
+--shadow-primary:rgba(100,116,139,0.2);
+--shadow-glow:0 4px 20px rgba(100,116,139,0.1);
+--shadow-panel:0 4px 20px rgba(100,116,139,0.2);
+--btn-bg:#334155;
+--btn-border:#475569;
+--btn-active-bg:#475569;
+--btn-active-border:#64748b;
+--module-border:#475569;
+--module-header-bg:linear-gradient(135deg,#334155 0%,#1e293b 100%);
+--module-icon-color:#94a3b8;
+--chip-bg:#334155;
+--chip-border:#475569;
+--chip-hover-bg:#475569;
+--chip-hover-border:#64748b;
+--line-bg:#1e293b;
+--line-border:#334155;
+--line-hover-border:#64748b;
+}
+[data-theme="ocean"]{
+--bg-body:#0c1929;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#0a1628 15%,#0f2744 35%,#164e63 50%,#0f2744 70%,#0a1628 85%,#000000 100%);
+--bg-main:#0a1525;
+--bg-module:#0f2744;
+--bg-card:#0c1929;
+--bg-panel:#0f2744;
+--border-primary:#06b6d4;
+--border-secondary:#22d3ee;
+--border-accent:#0891b2;
+--border-panel:#06b6d4;
+--text-primary:#cffafe;
+--text-secondary:#a5f3fc;
+--text-accent:#06b6d4;
+--text-title:#22d3ee;
+--text-heading:#67e8f9;
+--shadow-primary:rgba(6,182,212,0.3);
+--shadow-glow:0 0 40px rgba(6,182,212,0.2),0 0 80px rgba(8,145,178,0.1);
+--shadow-panel:0 0 15px rgba(6,182,212,0.4),0 0 30px rgba(6,182,212,0.2);
+--btn-bg:#0f2744;
+--btn-border:#155e75;
+--btn-active-bg:#0e7490;
+--btn-active-border:#06b6d4;
+--module-border:#155e75;
+--module-header-bg:linear-gradient(135deg,#164e63 0%,#083344 100%);
+--module-icon-color:#22d3ee;
+--chip-bg:#0f2744;
+--chip-border:#155e75;
+--chip-hover-bg:#0e7490;
+--chip-hover-border:#06b6d4;
+--line-bg:#0c1929;
+--line-border:#0f2744;
+--line-hover-border:#06b6d4;
+}
+[data-theme="midnight"]{
+--bg-body:#0f0f1a;
+--bg-sidebar:linear-gradient(170deg,#000000 0%,#05051a 15%,#0a0a2e 35%,#0f0f4d 50%,#0a0a2e 70%,#05051a 85%,#000000 100%);
+--bg-main:#0a0a15;
+--bg-module:#151530;
+--bg-card:#0f0f1a;
+--bg-panel:#151530;
+--border-primary:#6366f1;
+--border-secondary:#818cf8;
+--border-accent:#4f46e5;
+--border-panel:#6366f1;
+--text-primary:#e0e7ff;
+--text-secondary:#c7d2fe;
+--text-accent:#6366f1;
+--text-title:#a5b4fc;
+--text-heading:#818cf8;
+--shadow-primary:rgba(99,102,241,0.3);
+--shadow-glow:0 0 40px rgba(99,102,241,0.2),0 0 80px rgba(79,70,229,0.1);
+--shadow-panel:0 0 15px rgba(99,102,241,0.4),0 0 30px rgba(99,102,241,0.2);
+--btn-bg:#151530;
+--btn-border:#3730a3;
+--btn-active-bg:#4338ca;
+--btn-active-border:#6366f1;
+--module-border:#3730a3;
+--module-header-bg:linear-gradient(135deg,#1e1b4b 0%,#0f0f2d 100%);
+--module-icon-color:#818cf8;
+--chip-bg:#151530;
+--chip-border:#3730a3;
+--chip-hover-bg:#4338ca;
+--chip-hover-border:#6366f1;
+--line-bg:#0f0f1a;
+--line-border:#151530;
+--line-hover-border:#6366f1;
+}
+[data-theme="nebula"]{
+--bg-body:#0f0a1a;
+--bg-sidebar:linear-gradient(170deg,#05000f 0%,#1a0530 15%,#350a55 35%,#5c1a7a 50%,#8b2a8f 60%,#c44088 70%,#e84a8a 80%,#5c1a7a 90%,#1a0530 100%);
+--bg-main:#150a25;
+--bg-module:#251540;
+--bg-card:#1a0f2a;
+--bg-panel:#251540;
+--border-primary:#e879f9;
+--border-secondary:#f472b6;
+--border-accent:#c026d3;
+--border-panel:#e879f9;
+--text-primary:#fce7f3;
+--text-secondary:#f9a8d4;
+--text-accent:#e879f9;
+--text-title:#f472b6;
+--text-heading:#fbcfe8;
+--shadow-primary:rgba(232,121,249,0.4);
+--shadow-glow:0 0 40px rgba(232,121,249,0.25),0 0 80px rgba(192,38,211,0.15);
+--shadow-panel:0 0 20px rgba(232,121,249,0.5),0 0 40px rgba(244,114,182,0.3);
+--btn-bg:#251540;
+--btn-border:#86198f;
+--btn-active-bg:#a21caf;
+--btn-active-border:#e879f9;
+--module-border:#701a75;
+--module-header-bg:linear-gradient(135deg,#86198f 0%,#3b0764 100%);
+--module-icon-color:#f472b6;
+--chip-bg:#251540;
+--chip-border:#86198f;
+--chip-hover-bg:#a21caf;
+--chip-hover-border:#e879f9;
+--line-bg:#1a0f2a;
+--line-border:#251540;
+--line-hover-border:#e879f9;
+}
+[data-theme="violet2"]{
+--bg-body:#1a1528;
+--bg-sidebar:linear-gradient(170deg,#0a0812 0%,#1a1530 15%,#2d2550 35%,#3d3570 50%,#2d2550 70%,#1a1530 85%,#0a0812 100%);
+--bg-main:#15122a;
+--bg-module:#252040;
+--bg-card:#1a1528;
+--bg-panel:#252040;
+--border-primary:#8b5cf6;
+--border-secondary:#a78bfa;
+--border-accent:#7c3aed;
+--border-panel:#8b5cf6;
+--text-primary:#ede9fe;
+--text-secondary:#c4b5fd;
+--text-accent:#8b5cf6;
+--text-title:#a78bfa;
+--text-heading:#ddd6fe;
+--shadow-primary:rgba(139,92,246,0.35);
+--shadow-glow:0 0 40px rgba(139,92,246,0.2),0 0 80px rgba(124,58,237,0.1);
+--shadow-panel:0 0 20px rgba(139,92,246,0.4),0 0 40px rgba(139,92,246,0.2);
+--btn-bg:#252040;
+--btn-border:#5b21b6;
+--btn-active-bg:#6d28d9;
+--btn-active-border:#8b5cf6;
+--module-border:#4c1d95;
+--module-header-bg:linear-gradient(135deg,#5b21b6 0%,#2e1065 100%);
+--module-icon-color:#a78bfa;
+--chip-bg:#252040;
+--chip-border:#5b21b6;
+--chip-hover-bg:#6d28d9;
+--chip-hover-border:#8b5cf6;
+--line-bg:#1a1528;
+--line-border:#252040;
+--line-hover-border:#8b5cf6;
+}
+[data-theme="median"]{
+--bg-body:#fefce8;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#fefce8 15%,#fef9c3 35%,#fef08a 50%,#fef9c3 70%,#fefce8 85%,#ffffff 100%);
+--bg-main:#fffef5;
+--bg-module:#fef9c3;
+--bg-card:#fefce8;
+--bg-panel:#fef9c3;
+--border-primary:#84cc16;
+--border-secondary:#a3e635;
+--border-accent:#65a30d;
+--border-panel:#84cc16;
+--text-primary:#365314;
+--text-secondary:#3f6212;
+--text-accent:#84cc16;
+--text-title:#65a30d;
+--text-heading:#4d7c0f;
+--shadow-primary:rgba(132,204,22,0.2);
+--shadow-glow:0 4px 20px rgba(132,204,22,0.1);
+--shadow-panel:0 4px 20px rgba(132,204,22,0.15);
+--btn-bg:#fef9c3;
+--btn-border:#bef264;
+--btn-active-bg:#84cc16;
+--btn-active-border:#65a30d;
+--module-border:#bef264;
+--module-header-bg:linear-gradient(135deg,#ecfccb 0%,#fef9c3 100%);
+--module-icon-color:#65a30d;
+--chip-bg:#fef9c3;
+--chip-border:#bef264;
+--chip-hover-bg:#ecfccb;
+--chip-hover-border:#84cc16;
+--line-bg:#fffef5;
+--line-border:#fef9c3;
+--line-hover-border:#84cc16;
+}
+[data-theme="paper"]{
+--bg-body:#faf7f5;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#faf7f5 15%,#f5f0eb 35%,#ebe5df 50%,#f5f0eb 70%,#faf7f5 85%,#ffffff 100%);
+--bg-main:#fefdfb;
+--bg-module:#f5f0eb;
+--bg-card:#faf7f5;
+--bg-panel:#f5f0eb;
+--border-primary:#78716c;
+--border-secondary:#a8a29e;
+--border-accent:#57534e;
+--border-panel:#78716c;
+--text-primary:#1c1917;
+--text-secondary:#44403c;
+--text-accent:#57534e;
+--text-title:#292524;
+--text-heading:#44403c;
+--shadow-primary:rgba(120,113,108,0.2);
+--shadow-glow:0 4px 20px rgba(120,113,108,0.1);
+--shadow-panel:0 4px 20px rgba(120,113,108,0.15);
+--btn-bg:#f5f0eb;
+--btn-border:#d6d3d1;
+--btn-active-bg:#78716c;
+--btn-active-border:#57534e;
+--module-border:#d6d3d1;
+--module-header-bg:linear-gradient(135deg,#e7e5e4 0%,#f5f5f4 100%);
+--module-icon-color:#57534e;
+--chip-bg:#f5f0eb;
+--chip-border:#d6d3d1;
+--chip-hover-bg:#e7e5e4;
+--chip-hover-border:#78716c;
+--line-bg:#fefdfb;
+--line-border:#f5f0eb;
+--line-hover-border:#78716c;
+}
+[data-theme="fence"]{
+--bg-body:#f0fdfa;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f0fdfa 15%,#ccfbf1 35%,#99f6e4 50%,#ccfbf1 70%,#f0fdfa 85%,#ffffff 100%);
+--bg-main:#f7fffe;
+--bg-module:#ccfbf1;
+--bg-card:#f0fdfa;
+--bg-panel:#ccfbf1;
+--border-primary:#0d9488;
+--border-secondary:#14b8a6;
+--border-accent:#0f766e;
+--border-panel:#0d9488;
+--text-primary:#134e4a;
+--text-secondary:#115e59;
+--text-accent:#0d9488;
+--text-title:#0f766e;
+--text-heading:#115e59;
+--shadow-primary:rgba(13,148,136,0.2);
+--shadow-glow:0 4px 20px rgba(13,148,136,0.1);
+--shadow-panel:0 4px 20px rgba(13,148,136,0.15);
+--btn-bg:#ccfbf1;
+--btn-border:#5eead4;
+--btn-active-bg:#0d9488;
+--btn-active-border:#0f766e;
+--module-border:#5eead4;
+--module-header-bg:linear-gradient(135deg,#99f6e4 0%,#ccfbf1 100%);
+--module-icon-color:#0f766e;
+--chip-bg:#ccfbf1;
+--chip-border:#5eead4;
+--chip-hover-bg:#99f6e4;
+--chip-hover-border:#0d9488;
+--line-bg:#f7fffe;
+--line-border:#ccfbf1;
+--line-hover-border:#0d9488;
+}
+[data-theme="wake"]{
+--bg-body:#f0f9ff;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f0f9ff 15%,#e0f2fe 35%,#bae6fd 50%,#e0f2fe 70%,#f0f9ff 85%,#ffffff 100%);
+--bg-main:#f8fcff;
+--bg-module:#e0f2fe;
+--bg-card:#f0f9ff;
+--bg-panel:#e0f2fe;
+--border-primary:#0284c7;
+--border-secondary:#0ea5e9;
+--border-accent:#0369a1;
+--border-panel:#0284c7;
+--text-primary:#0c4a6e;
+--text-secondary:#075985;
+--text-accent:#0284c7;
+--text-title:#0369a1;
+--text-heading:#075985;
+--shadow-primary:rgba(2,132,199,0.2);
+--shadow-glow:0 4px 20px rgba(2,132,199,0.1);
+--shadow-panel:0 4px 20px rgba(2,132,199,0.15);
+--btn-bg:#e0f2fe;
+--btn-border:#7dd3fc;
+--btn-active-bg:#0284c7;
+--btn-active-border:#0369a1;
+--module-border:#7dd3fc;
+--module-header-bg:linear-gradient(135deg,#bae6fd 0%,#e0f2fe 100%);
+--module-icon-color:#0369a1;
+--chip-bg:#e0f2fe;
+--chip-border:#7dd3fc;
+--chip-hover-bg:#bae6fd;
+--chip-hover-border:#0284c7;
+--line-bg:#f8fcff;
+--line-border:#e0f2fe;
+--line-hover-border:#0284c7;
+}
+[data-theme="aspect"]{
+--bg-body:#f0fdf4;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f0fdf4 15%,#dcfce7 35%,#bbf7d0 50%,#dcfce7 70%,#f0fdf4 85%,#ffffff 100%);
+--bg-main:#f7fef9;
+--bg-module:#dcfce7;
+--bg-card:#f0fdf4;
+--bg-panel:#dcfce7;
+--border-primary:#16a34a;
+--border-secondary:#22c55e;
+--border-accent:#15803d;
+--border-panel:#16a34a;
+--text-primary:#14532d;
+--text-secondary:#166534;
+--text-accent:#16a34a;
+--text-title:#15803d;
+--text-heading:#166534;
+--shadow-primary:rgba(22,163,74,0.2);
+--shadow-glow:0 4px 20px rgba(22,163,74,0.1);
+--shadow-panel:0 4px 20px rgba(22,163,74,0.15);
+--btn-bg:#dcfce7;
+--btn-border:#86efac;
+--btn-active-bg:#16a34a;
+--btn-active-border:#15803d;
+--module-border:#86efac;
+--module-header-bg:linear-gradient(135deg,#bbf7d0 0%,#dcfce7 100%);
+--module-icon-color:#15803d;
+--chip-bg:#dcfce7;
+--chip-border:#86efac;
+--chip-hover-bg:#bbf7d0;
+--chip-hover-border:#16a34a;
+--line-bg:#f7fef9;
+--line-border:#dcfce7;
+--line-hover-border:#16a34a;
+}
+[data-theme="mono"]{
+--bg-body:#fafafa;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#fafafa 15%,#f5f5f5 35%,#e5e5e5 50%,#f5f5f5 70%,#fafafa 85%,#ffffff 100%);
+--bg-main:#fefefe;
+--bg-module:#f5f5f5;
+--bg-card:#fafafa;
+--bg-panel:#f5f5f5;
+--border-primary:#171717;
+--border-secondary:#404040;
+--border-accent:#262626;
+--border-panel:#171717;
+--text-primary:#0a0a0a;
+--text-secondary:#404040;
+--text-accent:#171717;
+--text-title:#0a0a0a;
+--text-heading:#262626;
+--shadow-primary:rgba(0,0,0,0.15);
+--shadow-glow:0 4px 20px rgba(0,0,0,0.08);
+--shadow-panel:0 4px 20px rgba(0,0,0,0.12);
+--btn-bg:#f5f5f5;
+--btn-border:#d4d4d4;
+--btn-active-bg:#171717;
+--btn-active-border:#0a0a0a;
+--module-border:#d4d4d4;
+--module-header-bg:linear-gradient(135deg,#e5e5e5 0%,#f5f5f5 100%);
+--module-icon-color:#262626;
+--chip-bg:#f5f5f5;
+--chip-border:#d4d4d4;
+--chip-hover-bg:#e5e5e5;
+--chip-hover-border:#171717;
+--line-bg:#fefefe;
+--line-border:#f5f5f5;
+--line-hover-border:#171717;
+}
+[data-theme="cyber"]{
+--bg-body:#ecfeff;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#ecfeff 15%,#cffafe 35%,#a5f3fc 50%,#cffafe 70%,#ecfeff 85%,#ffffff 100%);
+--bg-main:#f5feff;
+--bg-module:#cffafe;
+--bg-card:#ecfeff;
+--bg-panel:#cffafe;
+--border-primary:#0891b2;
+--border-secondary:#06b6d4;
+--border-accent:#0e7490;
+--border-panel:#0891b2;
+--text-primary:#164e63;
+--text-secondary:#155e75;
+--text-accent:#0891b2;
+--text-title:#0e7490;
+--text-heading:#155e75;
+--shadow-primary:rgba(8,145,178,0.2);
+--shadow-glow:0 4px 20px rgba(8,145,178,0.1);
+--shadow-panel:0 4px 20px rgba(8,145,178,0.15);
+--btn-bg:#cffafe;
+--btn-border:#67e8f9;
+--btn-active-bg:#0891b2;
+--btn-active-border:#0e7490;
+--module-border:#67e8f9;
+--module-header-bg:linear-gradient(135deg,#a5f3fc 0%,#cffafe 100%);
+--module-icon-color:#0e7490;
+--chip-bg:#cffafe;
+--chip-border:#67e8f9;
+--chip-hover-bg:#a5f3fc;
+--chip-hover-border:#0891b2;
+--line-bg:#f5feff;
+--line-border:#cffafe;
+--line-hover-border:#0891b2;
+}
+[data-theme="neonpink"]{
+--bg-body:#fdf4ff;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#fdf4ff 15%,#fae8ff 35%,#f5d0fe 50%,#fae8ff 70%,#fdf4ff 85%,#ffffff 100%);
+--bg-main:#fefaff;
+--bg-module:#fae8ff;
+--bg-card:#fdf4ff;
+--bg-panel:#fae8ff;
+--border-primary:#c026d3;
+--border-secondary:#d946ef;
+--border-accent:#a21caf;
+--border-panel:#c026d3;
+--text-primary:#701a75;
+--text-secondary:#86198f;
+--text-accent:#c026d3;
+--text-title:#a21caf;
+--text-heading:#86198f;
+--shadow-primary:rgba(192,38,211,0.2);
+--shadow-glow:0 4px 20px rgba(192,38,211,0.1);
+--shadow-panel:0 4px 20px rgba(192,38,211,0.15);
+--btn-bg:#fae8ff;
+--btn-border:#e879f9;
+--btn-active-bg:#c026d3;
+--btn-active-border:#a21caf;
+--module-border:#e879f9;
+--module-header-bg:linear-gradient(135deg,#f5d0fe 0%,#fae8ff 100%);
+--module-icon-color:#a21caf;
+--chip-bg:#fae8ff;
+--chip-border:#e879f9;
+--chip-hover-bg:#f5d0fe;
+--chip-hover-border:#c026d3;
+--line-bg:#fefaff;
+--line-border:#fae8ff;
+--line-hover-border:#c026d3;
+}
+[data-theme="matrix"]{
+--bg-body:#f0fdf4;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f0fdf4 15%,#dcfce7 35%,#bbf7d0 50%,#dcfce7 70%,#f0fdf4 85%,#ffffff 100%);
+--bg-main:#f7fef9;
+--bg-module:#dcfce7;
+--bg-card:#f0fdf4;
+--bg-panel:#dcfce7;
+--border-primary:#16a34a;
+--border-secondary:#22c55e;
+--border-accent:#15803d;
+--border-panel:#16a34a;
+--text-primary:#14532d;
+--text-secondary:#166534;
+--text-accent:#16a34a;
+--text-title:#15803d;
+--text-heading:#166534;
+--shadow-primary:rgba(22,163,74,0.2);
+--shadow-glow:0 4px 20px rgba(22,163,74,0.1);
+--shadow-panel:0 4px 20px rgba(22,163,74,0.15);
+--btn-bg:#dcfce7;
+--btn-border:#86efac;
+--btn-active-bg:#16a34a;
+--btn-active-border:#15803d;
+--module-border:#86efac;
+--module-header-bg:linear-gradient(135deg,#bbf7d0 0%,#dcfce7 100%);
+--module-icon-color:#15803d;
+--chip-bg:#dcfce7;
+--chip-border:#86efac;
+--chip-hover-bg:#bbf7d0;
+--chip-hover-border:#16a34a;
+--line-bg:#f7fef9;
+--line-border:#dcfce7;
+--line-hover-border:#16a34a;
+}
+[data-theme="aurora"]{
+--bg-body:#f0fdff;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#f0fdff 15%,#e0f7fa 35%,#b2ebf2 50%,#e0f7fa 70%,#f0fdff 85%,#ffffff 100%);
+--bg-main:#f7feff;
+--bg-module:#e0f7fa;
+--bg-card:#f0fdff;
+--bg-panel:#e0f7fa;
+--border-primary:#00bcd4;
+--border-secondary:#26c6da;
+--border-accent:#00acc1;
+--border-panel:#00bcd4;
+--text-primary:#006064;
+--text-secondary:#00838f;
+--text-accent:#00bcd4;
+--text-title:#00acc1;
+--text-heading:#00838f;
+--shadow-primary:rgba(0,188,212,0.2);
+--shadow-glow:0 4px 20px rgba(0,188,212,0.1);
+--shadow-panel:0 4px 20px rgba(0,188,212,0.15);
+--btn-bg:#e0f7fa;
+--btn-border:#80deea;
+--btn-active-bg:#00bcd4;
+--btn-active-border:#00acc1;
+--module-border:#80deea;
+--module-header-bg:linear-gradient(135deg,#b2ebf2 0%,#e0f7fa 100%);
+--module-icon-color:#00acc1;
+--chip-bg:#e0f7fa;
+--chip-border:#80deea;
+--chip-hover-bg:#b2ebf2;
+--chip-hover-border:#00bcd4;
+--line-bg:#f7feff;
+--line-border:#e0f7fa;
+--line-hover-border:#00bcd4;
+}
+[data-theme="sunset"]{
+--bg-body:#fff7ed;
+--bg-sidebar:linear-gradient(170deg,#ffffff 0%,#fff7ed 15%,#ffedd5 35%,#fed7aa 50%,#ffedd5 70%,#fff7ed 85%,#ffffff 100%);
+--bg-main:#fffaf5;
+--bg-module:#ffedd5;
+--bg-card:#fff7ed;
+--bg-panel:#ffedd5;
+--border-primary:#ea580c;
+--border-secondary:#f97316;
+--border-accent:#c2410c;
+--border-panel:#ea580c;
+--text-primary:#7c2d12;
+--text-secondary:#9a3412;
+--text-accent:#ea580c;
+--text-title:#c2410c;
+--text-heading:#9a3412;
+--shadow-primary:rgba(234,88,12,0.2);
+--shadow-glow:0 4px 20px rgba(234,88,12,0.1);
+--shadow-panel:0 4px 20px rgba(234,88,12,0.15);
+--btn-bg:#ffedd5;
+--btn-border:#fdba74;
+--btn-active-bg:#ea580c;
+--btn-active-border:#c2410c;
+--module-border:#fdba74;
+--module-header-bg:linear-gradient(135deg,#fed7aa 0%,#ffedd5 100%);
+--module-icon-color:#c2410c;
+--chip-bg:#ffedd5;
+--chip-border:#fdba74;
+--chip-hover-bg:#fed7aa;
+--chip-hover-border:#ea580c;
+--line-bg:#fffaf5;
+--line-border:#ffedd5;
+--line-hover-border:#ea580c;
+}
+[data-theme="clinical"]{
+--bg-body:#faf7f5;
+--bg-sidebar:linear-gradient(170deg,#0a1628 0%,#0f2240 15%,#1a3a5c 35%,#0ea5e9 50%,#1a3a5c 70%,#0f2240 85%,#0a1628 100%);
+--bg-main:#fefdfb;
+--bg-module:#f5f0eb;
+--bg-card:#faf7f5;
+--bg-panel:#0f2240;
+--border-primary:#0ea5e9;
+--border-secondary:#38bdf8;
+--border-accent:#0284c7;
+--border-panel:#0ea5e9;
+--text-primary:#1c1917;
+--text-secondary:#44403c;
+--text-accent:#0284c7;
+--text-title:#0ea5e9;
+--text-heading:#0369a1;
+--shadow-primary:rgba(14,165,233,0.3);
+--shadow-glow:0 0 30px rgba(14,165,233,0.2),0 0 60px rgba(14,165,233,0.1);
+--shadow-panel:0 0 25px rgba(14,165,233,0.4),0 0 50px rgba(14,165,233,0.2);
+--btn-bg:#f5f0eb;
+--btn-border:#0ea5e9;
+--btn-active-bg:#0ea5e9;
+--btn-active-border:#0284c7;
+--module-border:#0ea5e9;
+--module-header-bg:linear-gradient(135deg,#e0f2fe 0%,#f0f9ff 100%);
+--module-icon-color:#0284c7;
+--chip-bg:#f0f9ff;
+--chip-border:#7dd3fc;
+--chip-hover-bg:#e0f2fe;
+--chip-hover-border:#0ea5e9;
+--line-bg:#fefdfb;
+--line-border:#f5f0eb;
+--line-hover-border:#0ea5e9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg-body);color:var(--text-primary);padding:20px;transition:background .3s,color .3s}
+.container{max-width:1800px;margin:0 auto;display:grid;grid-template-columns:380px 1fr;gap:24px}
+.sidebar{background:var(--bg-sidebar);border-radius:16px;padding:24px;border:1px solid var(--border-primary);box-shadow:var(--shadow-glow);transition:all .3s}
+.sidebar-header{display:flex;justify-content:center;align-items:center;margin-bottom:16px}
+.sidebar-title{font-size:22px;font-weight:700;color:var(--text-accent);letter-spacing:-0.5px;text-shadow:0 0 15px var(--shadow-primary);transition:color .3s}
+.section-title{font-size:13px;font-weight:600;color:var(--text-accent);margin:20px 0 12px;text-transform:uppercase;letter-spacing:0.5px;transition:color .3s}
+.api-status{padding:10px;border-radius:8px;margin-top:16px;font-size:12px;text-align:center;font-weight:600}
+.api-status.connected{background:rgba(6,95,70,0.5);color:#34d399;border:1px solid #059669}
+.api-status.disconnected{background:rgba(127,29,29,0.5);color:#fca5a5;border:1px solid #dc2626}
+.notice-btn-full{width:100%;padding:14px;background:linear-gradient(135deg,#450a0a 0%,#7f1d1d 100%);color:#fca5a5;border:2px solid #ef4444;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .3s;box-shadow:0 0 20px rgba(239,68,68,0.4),0 0 40px rgba(239,68,68,0.2);margin-bottom:8px;display:flex;align-items:center;justify-content:center;gap:8px}
+.notice-btn-full:hover{background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 100%);transform:translateY(-2px);box-shadow:0 0 30px rgba(239,68,68,0.6),0 0 60px rgba(239,68,68,0.3)}
+.primary-zone{background:var(--bg-card);border-radius:12px;padding:16px;margin-bottom:16px;border:2px solid var(--border-primary);box-shadow:var(--shadow-glow);transition:all .3s}
+.primary-zone .section-title{color:var(--text-heading);margin-top:0}
+.secondary-zone{background:var(--bg-card);border-radius:12px;padding:16px;margin-bottom:16px;border:2px solid var(--border-secondary);box-shadow:var(--shadow-glow);transition:all .3s}
+.secondary-zone .section-title{color:var(--text-heading);margin-top:0}
+.categories-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.category-btn{padding:14px;background:var(--btn-bg);border:2px solid var(--btn-border);border-radius:8px;color:var(--text-primary);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
+.category-btn:hover{background:var(--bg-module);border-color:var(--border-secondary)}
+.category-btn.active{background:var(--btn-active-bg);border-color:var(--btn-active-border);color:white}
+.motif-selection-main{background:var(--bg-card);padding:12px;border-radius:8px;border:2px solid var(--border-primary);margin-bottom:12px;box-shadow:var(--shadow-glow);transition:all .3s}
+.motif-selection-secondary{background:var(--bg-card);padding:12px;border-radius:8px;border:2px solid var(--border-secondary);margin-bottom:12px;box-shadow:var(--shadow-glow);transition:all .3s}
+.motif-selection-title{font-size:11px;font-weight:700;color:var(--text-accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;transition:color .3s}
+.selected-motif-item{padding:6px 10px;background:var(--bg-panel);border-radius:6px;font-size:13px;display:flex;align-items:center;justify-content:space-between}
+.selected-motif-item.principal-item{background:linear-gradient(135deg,var(--btn-active-bg),var(--btn-active-border));color:white;font-weight:600}
+.motifs-list{display:none;margin:6px 0 12px;padding:10px;background:var(--bg-main);border-left:2px solid var(--border-primary);border-radius:6px;transition:all .3s}
+.motifs-list.active{display:block}
+.motif-btn{width:100%;padding:10px;margin-bottom:6px;background:var(--bg-card);border:1px solid var(--module-border);border-radius:6px;color:var(--text-primary);font-size:12px;font-weight:500;cursor:pointer;text-align:left;transition:all .3s}
+.motif-btn:hover{background:var(--bg-module);border-color:var(--border-accent);box-shadow:0 0 15px var(--shadow-primary)}
+.motif-btn.principal{background:var(--btn-active-bg);border-color:var(--border-primary);color:white;font-weight:600;box-shadow:0 0 20px var(--shadow-primary)}
+.motif-btn.secondaire{background:var(--btn-active-bg);border-color:var(--border-secondary);color:white;font-weight:600;box-shadow:0 0 20px var(--shadow-primary)}
+.generate-btn{width:100%;padding:16px;background:var(--btn-active-bg);color:white;border:2px solid var(--border-primary);border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:12px 0;transition:all .3s;box-shadow:0 0 30px var(--shadow-primary)}
+.generate-btn:disabled{opacity:.4;cursor:not-allowed}
+.generate-btn:hover:not(:disabled){border-color:var(--border-secondary);transform:translateY(-2px);box-shadow:0 0 40px var(--shadow-primary)}
+.search-container{position:relative;margin:12px 0}
+.search-input{width:100%;padding:12px 16px;background:var(--bg-card);border:2px solid var(--border-primary);border-radius:10px;color:var(--text-primary);font-size:14px;outline:none;transition:all .3s}
+.search-input:focus{border-color:var(--border-secondary);box-shadow:0 0 20px var(--shadow-primary)}
+.search-input::placeholder{color:var(--text-accent);opacity:0.7}
+.search-results{position:absolute;top:100%;left:0;right:0;max-height:300px;overflow-y:auto;background:var(--bg-main);border:2px solid var(--border-primary);border-top:none;border-radius:0 0 10px 10px;z-index:100;display:none;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.search-results.active{display:block}
+.search-result-item{padding:12px 16px;cursor:pointer;border-bottom:1px solid rgba(0,180,216,0.2);transition:all .2s}
+.search-result-item:hover{background:rgba(0,53,102,0.5)}
+.search-result-item.selected-principal{background:linear-gradient(135deg,rgba(0,53,102,0.8) 0%,rgba(0,119,182,0.6) 100%);border-left:4px solid #00b4d8}
+.search-result-item.selected-secondary{background:linear-gradient(135deg,rgba(0,40,70,0.8) 0%,rgba(0,96,150,0.6) 100%);border-left:4px solid #48cae4}
+.search-result-motif{color:#caf0f8;font-weight:600;font-size:13px}
+.search-result-category{color:#48cae4;font-size:11px;margin-top:2px;opacity:0.8}
+.reset-btn{width:100%;padding:14px;background:var(--bg-module);color:var(--text-primary);border:2px solid var(--border-secondary);border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s;box-shadow:0 0 15px var(--shadow-primary)}
+.reset-btn:hover{background:var(--btn-active-bg);color:white;transform:translateY(-2px);box-shadow:0 0 25px var(--shadow-primary)}
+.module{background:transparent;border:2px dashed var(--module-border);border-radius:12px;padding:28px;margin-bottom:20px;transition:all .3s;position:relative}
+.module-note{border-style:solid;border-color:var(--border-secondary);background:var(--bg-card)}
+.module-note-content:empty::before{content:attr(placeholder);color:var(--text-secondary);opacity:0.6;font-style:italic}
+.copy-checkbox{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text-secondary);padding:6px 12px;background:var(--bg-panel);border-radius:6px;border:1px solid var(--border-secondary);transition:all .2s}
+.copy-checkbox:hover{border-color:var(--border-primary);color:var(--text-primary)}
+.copy-checkbox input[type="checkbox"]{width:16px;height:16px;cursor:pointer;accent-color:var(--border-primary)}
+.copy-checkbox span{white-space:nowrap}
+.module:hover{border-color:var(--border-accent);border-style:solid}
+.module-content:hover{border-color:var(--text-title)!important;border-style:solid!important;box-shadow:0 0 20px var(--shadow-primary)!important}
+.module-header{font-size:17px;font-weight:700;color:var(--text-title);margin-bottom:20px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;letter-spacing:-0.3px;transition:color .3s}
+.module-title{flex:1}
+.module-title .icon{display:inline;color:var(--module-icon-color)}
+.module-copy-btn{width:36px;height:36px;background:var(--bg-card);color:white;border:2px solid var(--border-primary);border-radius:8px;font-size:14px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px var(--shadow-primary);padding:0;position:relative}
+.module-copy-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 5px 18px var(--shadow-primary)}
+.module-copy-btn::after{content:attr(title);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg-card);color:var(--text-primary);padding:5px 8px;border-radius:5px;font-size:10px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--module-border)}
+.module-copy-btn:hover::after{opacity:1}
+.module-delete-btn{width:36px;height:36px;background:var(--bg-card);color:#f87171;border:2px solid #dc2626;border-radius:8px;font-size:16px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(220,38,38,0.2);padding:0;position:relative}
+.module-delete-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 5px 18px rgba(220,38,38,0.4);background:#dc2626;color:white}
+.module-delete-btn::after{content:attr(title);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);background:var(--bg-card);color:var(--text-primary);padding:5px 8px;border-radius:5px;font-size:10px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--module-border)}
+.module-delete-btn:hover::after{opacity:1}
+.module-buttons{display:flex;gap:6px}
+.bulles-container{display:flex;flex-wrap:wrap;gap:8px}
+.bulle-btn{width:36px;height:36px;padding:0;background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);border:2px solid #f97316;border-radius:8px;color:white;cursor:pointer;font-size:14px;transition:all .25s;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(249,115,22,0.3);position:relative}
+.bulle-btn:hover{background:linear-gradient(135deg,#2d2d2d 0%,#3d3d3d 100%);transform:translateY(-2px) scale(1.05);box-shadow:0 5px 18px rgba(249,115,22,0.5);border-color:#fb923c}
+.bulle-btn::after{content:attr(data-title);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%);color:#fb923c;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:600;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:2px solid #f97316;box-shadow:0 4px 15px rgba(249,115,22,0.4);z-index:100}
+.bulle-btn:hover::after{opacity:1}
+.module-content{color:var(--text-secondary);font-size:14px;line-height:1.7;border:2px dashed transparent;border-radius:8px;padding:16px;transition:all .3s}
+.hdm-section{margin-bottom:24px;position:relative;padding-top:28px}
+.hdm-section-content{padding:16px;background:var(--bg-card);border-radius:8px;border-left:3px solid var(--border-accent)}
+.hdm-section-title{position:absolute;top:0;left:0;font-size:11px;font-style:italic;color:var(--text-title);font-weight:500;margin-bottom:0}
+.module-line{display:block;margin-bottom:10px;line-height:1.6;color:var(--text-primary)}
+.conduite-line{display:flex;align-items:center;gap:16px;margin-bottom:12px;padding:14px;background:var(--line-bg);border:1px solid var(--line-border);border-radius:10px;transition:all .2s}
+.conduite-line:hover{background:var(--bg-module);border-color:var(--line-hover-border)}
+.conduite-number{width:38px;height:38px;min-width:38px;background:var(--btn-active-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;font-size:15px;flex-shrink:0}
+.conduite-text{flex:1;color:var(--text-primary);line-height:1.6;font-size:14px;transition:color .3s}
+.conduite-add-line{display:flex;gap:12px;margin-top:16px;padding:14px;background:var(--bg-card);border:2px dashed var(--border-accent);border-radius:10px;align-items:center;transition:all .3s}
+.conduite-input{flex:1;padding:12px;background:var(--bg-module);border:2px solid var(--module-border);border-radius:8px;color:var(--text-primary);font-size:14px;font-weight:500;transition:all .3s}
+.conduite-input:focus{outline:none;border-color:var(--border-primary)}
+.conduite-input::placeholder{color:var(--text-secondary)}
+.conduite-add-btn{padding:12px 24px;background:#059669;color:white;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.conduite-add-btn:hover{background:#047857;transform:translateY(-1px)}
+.conduite-actions{display:flex;gap:6px;flex-shrink:0}
+.action-icon{width:36px;height:36px;border-radius:8px;border:none;cursor:pointer;font-size:16px;font-weight:700;transition:all .2s;color:white}
+.action-up{background:#1e40af}
+.action-up:hover{background:#1e3a8a;transform:translateY(-2px)}
+.action-down{background:#1e40af}
+.action-down:hover{background:#1e3a8a;transform:translateY(-2px)}
+.action-delete{background:#dc2626}
+.action-delete:hover{background:#b91c1c;transform:scale(1.05)}
+.ordonnances-section{margin-top:24px;padding-top:24px;border-top:2px solid #334155}
+.ordo-btn{display:inline-block;padding:10px 20px;background:#1e40af;color:white;border-radius:8px;margin:6px;cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;border:none}
+.ordo-btn:hover{background:#1e3a8a;transform:translateY(-1px)}
+.ordo-btn.all{background:#059669}
+.ordo-btn.all:hover{background:#047857}
+.codes-section{background:#1e293b;border:2px solid #a855f7;border-radius:12px;padding:12px 16px;margin:20px auto 0 auto;max-width:350px;box-shadow:0 0 15px rgba(168,85,247,0.4),0 0 30px rgba(168,85,247,0.2);animation:glowCim 2s ease-in-out infinite}
+.codes-section h3{color:#c4b5fd;margin-bottom:8px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.code-item{background:transparent;padding:4px 0;color:#e2e8f0;font-weight:500;font-size:13px}
+@keyframes glowCim{0%,100%{box-shadow:0 0 25px rgba(168,85,247,0.5),0 0 50px rgba(168,85,247,0.3)}50%{box-shadow:0 0 35px rgba(168,85,247,0.7),0 0 70px rgba(168,85,247,0.4)}}
+@keyframes glowText{0%,100%{text-shadow:0 0 10px rgba(167,139,250,0.8),0 0 20px rgba(167,139,250,0.6)}50%{text-shadow:0 0 15px rgba(167,139,250,1),0 0 30px rgba(139,92,246,0.8),0 0 40px rgba(139,92,246,0.6),0 0 50px rgba(99,102,241,0.4)}}
+@keyframes glowCyan{0%,100%{text-shadow:0 0 15px rgba(0,180,216,1),0 0 30px rgba(0,180,216,0.7),0 0 45px rgba(0,119,182,0.5)}50%{text-shadow:0 0 20px rgba(72,202,228,1),0 0 40px rgba(0,180,216,1),0 0 60px rgba(0,119,182,0.8),0 0 80px rgba(0,53,102,0.5)}}
+.xxxx{background:transparent;padding:0;border-radius:0;cursor:pointer;border:none;color:#ef4444;font-weight:700;display:inline;transition:all .2s}
+.xxxx:hover{color:#dc2626;text-decoration:underline}
+.alternative{color:inherit;font-weight:inherit;display:inline;cursor:pointer;transition:all .2s;background:radial-gradient(ellipse at center,rgba(255,255,255,0.12) 0%,rgba(255,255,255,0.05) 50%,transparent 70%);padding:1px 4px;border-radius:3px;box-shadow:0 0 8px rgba(255,255,255,0.18),0 0 14px rgba(255,255,255,0.1);animation:glowAlternative 3s ease-in-out infinite}
+.alternative:hover{background:radial-gradient(ellipse at center,rgba(255,255,255,0.2) 0%,rgba(255,255,255,0.1) 50%,transparent 70%);box-shadow:0 0 12px rgba(255,255,255,0.25),0 0 20px rgba(255,255,255,0.15)}
+@keyframes glowAlternative{0%,100%{box-shadow:0 0 8px rgba(255,255,255,0.18),0 0 14px rgba(255,255,255,0.1)}50%{box-shadow:0 0 10px rgba(255,255,255,0.22),0 0 18px rgba(255,255,255,0.12)}}
+[data-theme="fence"] .alternative,[data-theme="wake"] .alternative,[data-theme="aspect"] .alternative,[data-theme="mono"] .alternative,[data-theme="cyber"] .alternative,[data-theme="sunset"] .alternative,[data-theme="paper"] .alternative,[data-theme="sober"] .alternative,[data-theme="pastel"] .alternative,[data-theme="neonpink"] .alternative,[data-theme="matrix"] .alternative,[data-theme="aurora"] .alternative,[data-theme="median"] .alternative,[data-theme="clinical"] .alternative{background:linear-gradient(135deg,rgba(250,204,21,0.25) 0%,rgba(234,179,8,0.35) 50%,rgba(250,204,21,0.25) 100%);box-shadow:0 0 8px rgba(234,179,8,0.3),0 0 14px rgba(234,179,8,0.15);animation:glowAlternativeLight 3s ease-in-out infinite}
+[data-theme="fence"] .alternative:hover,[data-theme="wake"] .alternative:hover,[data-theme="aspect"] .alternative:hover,[data-theme="mono"] .alternative:hover,[data-theme="cyber"] .alternative:hover,[data-theme="sunset"] .alternative:hover,[data-theme="paper"] .alternative:hover,[data-theme="sober"] .alternative:hover,[data-theme="pastel"] .alternative:hover,[data-theme="neonpink"] .alternative:hover,[data-theme="matrix"] .alternative:hover,[data-theme="aurora"] .alternative:hover,[data-theme="median"] .alternative:hover,[data-theme="clinical"] .alternative:hover{background:linear-gradient(135deg,rgba(250,204,21,0.35) 0%,rgba(234,179,8,0.45) 50%,rgba(250,204,21,0.35) 100%);box-shadow:0 0 12px rgba(234,179,8,0.4),0 0 20px rgba(234,179,8,0.25)}
+@keyframes glowAlternativeLight{0%,100%{box-shadow:0 0 8px rgba(234,179,8,0.3),0 0 14px rgba(234,179,8,0.15)}50%{box-shadow:0 0 10px rgba(234,179,8,0.4),0 0 18px rgba(234,179,8,0.2)}}
+.comment{color:#94a3b8;font-size:11px;font-style:italic;display:inline-block;user-select:none;pointer-events:none;opacity:0.7}
+.deletable{color:#dc2626;font-weight:600;display:inline;cursor:pointer;transition:all .2s}
+.deletable:hover{color:#b91c1c;text-decoration:line-through}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:1000;justify-content:center;align-items:center;padding:20px;backdrop-filter:blur(4px)}
+.modal.active{display:flex}
+.modal-content{background:var(--bg-module);border:2px solid var(--border-accent);border-radius:16px;padding:32px;max-width:900px;width:100%;max-height:85vh;overflow-y:auto;color:var(--text-primary);box-shadow:0 20px 60px rgba(0,0,0,0.5);transition:all .3s}
+.modal-content-large{max-width:600px}
+.modal-content.large{max-width:1100px}
+.modal-header{font-size:20px;font-weight:700;margin-bottom:24px;color:var(--text-title);display:flex;justify-content:space-between;align-items:center;transition:color .3s}
+.modal-close{cursor:pointer;font-size:28px;color:#ef4444;transition:all .2s}
+.modal-close:hover{color:#dc2626;transform:rotate(90deg)}
+.modal-bulle{background:#ffffff;border:3px solid #0ea5e9;box-shadow:0 0 30px rgba(14,165,233,0.6),0 0 60px rgba(14,165,233,0.3),0 0 100px rgba(14,165,233,0.15);max-width:1400px;width:90%}
+.modal-bulle .modal-header{color:#0369a1;text-shadow:0 0 10px rgba(14,165,233,0.5);border-bottom:1px solid #bae6fd}
+.modal-bulle .modal-close{color:#64748b}
+.modal-bulle .modal-close:hover{color:#0ea5e9}
+.bulle-content{background:#f8fafc;padding:24px;border-radius:10px;color:#1e293b;line-height:1.7;white-space:pre-wrap;font-weight:400;font-size:13px;border:1px solid #e2e8f0}
+.bulle-content h3,.bulle-content h4{color:#0369a1;margin-top:12px;margin-bottom:8px}
+.bulle-content ul,.bulle-content ol{margin-left:20px;margin-bottom:12px}
+.bulle-content li{margin-bottom:6px}
+.bulle-content a{color:#0ea5e9;text-decoration:underline}
+#xxxxModal,#alternativeModal{z-index:2000!important}
+#xxxxModal2{z-index:2500!important}
+.theme-modal-content{max-width:950px}
+.theme-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.theme-option{cursor:pointer;text-align:center;padding:8px;border-radius:10px;border:2px solid #334155;transition:all .2s;background:#0f172a}
+.theme-option:hover{border-color:#3b82f6;transform:translateY(-2px);box-shadow:0 6px 15px rgba(0,0,0,0.3)}
+.theme-option.active{border-color:#10b981;box-shadow:0 0 15px rgba(16,185,129,0.4)}
+.theme-preview{width:100%;height:45px;border-radius:6px;display:flex;overflow:hidden;border:1px solid rgba(255,255,255,0.1)}
+.tp-sidebar{width:30%;height:100%}
+.tp-content{width:70%;height:100%}
+.theme-option span{display:block;margin-top:6px;font-size:10px;font-weight:600;color:#94a3b8}
+.theme-preview-default .tp-sidebar{background:linear-gradient(180deg,#001018,#003545)}
+.theme-preview-default .tp-content{background:#0a1825;border-left:2px solid #00d4ff}
+.theme-preview-sober .tp-sidebar{background:#f8fafc}
+.theme-preview-sober .tp-content{background:#ffffff;border-left:2px solid #3b82f6}
+.theme-preview-red .tp-sidebar{background:linear-gradient(180deg,#1a0a0a,#2d1515)}
+.theme-preview-red .tp-content{background:#1f1515;border-left:2px solid #ef4444}
+.theme-preview-violet .tp-sidebar{background:linear-gradient(180deg,#0f0a1a,#1a1025)}
+.theme-preview-violet .tp-content{background:#1a1525;border-left:2px solid #a855f7}
+.theme-preview-orange .tp-sidebar{background:linear-gradient(180deg,#1a120a,#2d1f0f)}
+.theme-preview-orange .tp-content{background:#1f1a15;border-left:2px solid #f59e0b}
+.theme-preview-green .tp-sidebar{background:linear-gradient(180deg,#0a1a0f,#0f2518)}
+.theme-preview-green .tp-content{background:#151f1a;border-left:2px solid #22c55e}
+.theme-preview-pastel .tp-sidebar{background:linear-gradient(180deg,#fce7f3,#e0e7ff)}
+.theme-preview-pastel .tp-content{background:#faf5ff;border-left:2px solid #c084fc}
+.theme-preview-classic .tp-sidebar{background:#1e293b}
+.theme-preview-classic .tp-content{background:#334155;border-left:2px solid #64748b}
+.theme-preview-ocean .tp-sidebar{background:linear-gradient(180deg,#0a1628,#164e63)}
+.theme-preview-ocean .tp-content{background:#0f2744;border-left:2px solid #06b6d4}
+.theme-preview-midnight .tp-sidebar{background:linear-gradient(180deg,#05051a,#0f0f4d)}
+.theme-preview-midnight .tp-content{background:#151530;border-left:2px solid #6366f1}
+.theme-preview-nebula .tp-sidebar{background:linear-gradient(180deg,#1a0530,#c44088)}
+.theme-preview-nebula .tp-content{background:#251540;border-left:2px solid #e879f9}
+.theme-preview-violet2 .tp-sidebar{background:linear-gradient(180deg,#1a1530,#3d3570)}
+.theme-preview-violet2 .tp-content{background:#252040;border-left:2px solid #8b5cf6}
+.theme-preview-median .tp-sidebar{background:linear-gradient(180deg,#fefce8,#fef08a)}
+.theme-preview-median .tp-content{background:#fef9c3;border-left:2px solid #84cc16}
+.theme-preview-paper .tp-sidebar{background:linear-gradient(180deg,#faf7f5,#ebe5df)}
+.theme-preview-paper .tp-content{background:#f5f0eb;border-left:2px solid #78716c}
+.theme-preview-fence .tp-sidebar{background:linear-gradient(180deg,#f0fdfa,#99f6e4)}
+.theme-preview-fence .tp-content{background:#ccfbf1;border-left:2px solid #0d9488}
+.theme-preview-wake .tp-sidebar{background:linear-gradient(180deg,#f0f9ff,#bae6fd)}
+.theme-preview-wake .tp-content{background:#e0f2fe;border-left:2px solid #0284c7}
+.theme-preview-aspect .tp-sidebar{background:linear-gradient(180deg,#f0fdf4,#bbf7d0)}
+.theme-preview-aspect .tp-content{background:#dcfce7;border-left:2px solid #16a34a}
+.theme-preview-mono .tp-sidebar{background:linear-gradient(180deg,#fafafa,#e5e5e5)}
+.theme-preview-mono .tp-content{background:#f5f5f5;border-left:2px solid #171717}
+.theme-preview-cyber .tp-sidebar{background:linear-gradient(180deg,#ecfeff,#a5f3fc)}
+.theme-preview-cyber .tp-content{background:#cffafe;border-left:2px solid #0891b2}
+.theme-preview-neonpink .tp-sidebar{background:linear-gradient(180deg,#fdf4ff,#f5d0fe)}
+.theme-preview-neonpink .tp-content{background:#fae8ff;border-left:2px solid #c026d3}
+.theme-preview-matrix .tp-sidebar{background:linear-gradient(180deg,#f0fdf4,#bbf7d0)}
+.theme-preview-matrix .tp-content{background:#dcfce7;border-left:2px solid #16a34a}
+.theme-preview-aurora .tp-sidebar{background:linear-gradient(180deg,#f0fdff,#b2ebf2)}
+.theme-preview-aurora .tp-content{background:#e0f7fa;border-left:2px solid #00bcd4}
+.theme-preview-sunset .tp-sidebar{background:linear-gradient(180deg,#fff7ed,#fed7aa)}
+.theme-preview-sunset .tp-content{background:#ffedd5;border-left:2px solid #ea580c}
+.theme-preview-clinical .tp-sidebar{background:linear-gradient(180deg,#0a1628,#0ea5e9,#0a1628)}
+.theme-preview-clinical .tp-content{background:#faf7f5;border-left:2px solid #0ea5e9}
+[data-theme="clinical"] .sidebar{color:#1c1917}
+[data-theme="clinical"] .sidebar .sidebar-title{color:#0ea5e9}
+[data-theme="clinical"] .sidebar .sidebar-header h2{color:#0ea5e9}
+[data-theme="clinical"] .sidebar button{color:#1c1917}
+[data-theme="clinical"] .sidebar .search-input{background:#ffffff;color:#1c1917;border-color:#0ea5e9}
+[data-theme="clinical"] .sidebar .search-input::placeholder{color:#64748b}
+[data-theme="clinical"] .sidebar .category-title{color:#1c1917}
+[data-theme="clinical"] .sidebar .motif-chip{background:#ffffff;border-color:#0ea5e9;color:#1c1917}
+[data-theme="clinical"] .sidebar .motif-chip:hover{background:#f0f9ff;border-color:#38bdf8}
+[data-theme="clinical"] .sidebar .motif-chip.selected{background:#0ea5e9;color:#ffffff}
+[data-theme="clinical"] .sidebar .notice-btn{background:#ffffff;border-color:#f59e0b;color:#92400e}
+[data-theme="clinical"] .sidebar .generate-btn{background:#ffffff;border-color:#0ea5e9;color:#0369a1}
+[data-theme="clinical"] .sidebar .reset-btn{background:#ffffff;border-color:#0ea5e9;color:#0369a1}
+[data-theme="clinical"] .sidebar .status{background:#ffffff;border-color:#0ea5e9;color:#1c1917}
+[data-theme="clinical"] .sidebar .category-box{background:#ffffff;border-color:#0ea5e9}
+[data-theme="clinical"] .sidebar .category-btn{background:#ffffff;border-color:#0ea5e9;color:#1c1917}
+[data-theme="clinical"] .sidebar .category-btn:hover{background:#f0f9ff;border-color:#38bdf8}
+[data-theme="clinical"] .sidebar .category-btn.active{background:#0ea5e9;color:#ffffff}
+[data-theme="clinical"] .sidebar .motif-btn{background:#ffffff;border-color:#7dd3fc;color:#1c1917}
+[data-theme="clinical"] .sidebar .motif-btn:hover{background:#f0f9ff;border-color:#0ea5e9}
+[data-theme="clinical"] .sidebar .motif-btn.selected{background:#0ea5e9;color:#ffffff}
+[data-theme="clinical"] .sidebar .motif-selection-main,[data-theme="clinical"] .sidebar .motif-selection-secondary{background:#ffffff;border-color:#0ea5e9}
+[data-theme="clinical"] .sidebar .motif-selection-title{color:#0369a1}
+[data-theme="clinical"] .sidebar .selected-motif-item{background:#f0f9ff;color:#1c1917}
+[data-theme="clinical"] .sidebar .selected-motif-item.principal-item{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:white}
+[data-theme="clinical"] .sidebar .selected-motif{background:#f0f9ff;border-color:#0ea5e9;color:#1c1917}
+[data-theme="clinical"] .sidebar .motifs-list{background:transparent}
+[data-theme="clinical"] .module{background:#ffffff;border-color:#0ea5e9}
+[data-theme="clinical"] .module-note{background:#f8fafc}
+[data-theme="clinical"] .copy-checkbox{background:#f0f9ff;border-color:#7dd3fc;color:#0369a1}
+[data-theme="clinical"] .module-content{background:#ffffff;color:#1c1917}
+[data-theme="clinical"] .module-header{color:#0369a1}
+[data-theme="clinical"] .module-title{color:#0369a1}
+[data-theme="clinical"] .module-line{color:#1c1917}
+[data-theme="clinical"] .hdm-section-content{background:#ffffff;color:#1c1917}
+[data-theme="clinical"] .hdm-section-title{color:#0369a1}
+[data-theme="clinical"] .split-panel{background:#0f2240}
+[data-theme="clinical"] .split-header{background:linear-gradient(135deg,#0a1628,#1a3a5c);border-color:#0ea5e9}
+[data-theme="clinical"] .split-title{color:#38bdf8}
+[data-theme="clinical"] .module-copy-btn{background:#ffffff;color:#0369a1;border-color:#0ea5e9}
+[data-theme="clinical"] .module-delete-btn{background:#ffffff}
+[data-theme="clinical"] .bulle-btn{background:#ffffff;border-color:#f97316}
+[data-theme="clinical"] .conduite-line{background:#ffffff;color:#1c1917}
+[data-theme="clinical"] .conduite-text{color:#1c1917}
+[data-theme="clinical"] .xxxx{color:#0369a1}
+[data-theme="clinical"] .deletable{color:#dc2626}
+.proposition-chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+.chip{padding:10px 18px;background:var(--chip-bg);border:2px solid var(--chip-border);border-radius:20px;cursor:pointer;transition:all .2s;font-weight:600;font-size:13px;color:var(--text-primary)}
+.chip:hover{background:var(--chip-hover-bg);border-color:var(--chip-hover-border);color:white;transform:translateY(-2px)}
+.chip.selected{background:var(--btn-active-bg);border-color:var(--btn-active-border);color:white;box-shadow:0 0 10px var(--shadow-primary)}
+.xxxx-in-chip{background:#ef4444;color:white;padding:2px 6px;border-radius:4px;cursor:pointer;font-weight:700}
+.xxxx-in-chip:hover{background:#dc2626;text-decoration:underline}
+.modal-ordos{max-width:1200px;width:95%;max-height:90vh;display:flex;flex-direction:column;background:#fdfbf7;border:3px solid #facc15;box-shadow:0 0 20px rgba(250,204,21,0.5),0 0 40px rgba(250,204,21,0.3),0 0 60px rgba(250,204,21,0.2),0 20px 60px rgba(0,0,0,0.3);border-radius:16px}
+.modal-ordos .modal-header{background:linear-gradient(135deg,#854d0e 0%,#ca8a04 100%)!important;color:#fefce8;border-radius:12px 12px 0 0}
+.modal-ordos .modal-close{color:#fefce8}
+.modal-ordos .modal-close:hover{color:#ffffff}
+.modal-header-ordos{background:linear-gradient(135deg,#854d0e 0%,#ca8a04 100%);border-radius:12px 12px 0 0;color:#fefce8}
+.ordo-search-container{padding:16px 20px;background:#fef9e7;border-bottom:1px solid #fde68a}
+.ordo-search-input{width:100%;padding:14px 18px;background:#ffffff;border:2px solid #facc15;border-radius:10px;color:#1c1917;font-size:15px;outline:none;transition:all .2s}
+.ordo-search-input:focus{border-color:#eab308;box-shadow:0 0 20px rgba(250,204,21,0.4)}
+.ordo-search-input::placeholder{color:#a1a1aa}
+.ordo-filters{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:16px 20px;background:#fef9e7;border-bottom:1px solid #fde68a}
+.ordo-filter label{font-weight:600;color:#854d0e;font-size:12px;margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.5px}
+.ordo-filter select{width:100%;padding:10px 12px;background:#ffffff;border:2px solid #fde68a;border-radius:8px;color:#1c1917;font-size:14px;cursor:pointer;transition:all .2s}
+.ordo-filter select:hover{border-color:#facc15}
+.ordos-count{padding:12px 20px;background:#fffef7;color:#78716c;font-size:13px;border-bottom:1px solid #fde68a}
+.ordos-count span{font-weight:600;color:#854d0e}
+.ordos-list{flex:1;overflow-y:auto;padding:16px 20px;background:#fdfbf7}
+.ordo-category-group{margin-bottom:20px}
+.ordo-category-title{font-size:13px;font-weight:700;color:#854d0e;text-transform:uppercase;letter-spacing:1px;padding:8px 12px;background:linear-gradient(90deg,rgba(250,204,21,0.3) 0%,transparent 100%);border-left:3px solid #facc15;margin-bottom:10px;border-radius:0 6px 6px 0}
+.ordo-category-items{display:flex;flex-direction:column;gap:8px}
+.ordo-item{display:flex;align-items:center;gap:12px;background:#ffffff;border:2px solid #fde68a;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s}
+.ordo-item:hover{border-color:#facc15;background:#fefce8;transform:translateX(4px);box-shadow:0 4px 12px rgba(250,204,21,0.3)}
+.ordo-item-icon{font-size:24px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:#fef9c3;border-radius:8px}
+.ordo-item-content{flex:1;min-width:0}
+.ordo-item-title{font-weight:600;color:#1c1917;font-size:14px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ordo-item-motif{font-size:12px;color:#78716c}
+.ordo-item-arrow{font-size:24px;color:#eab308;font-weight:300}
+.ordo-empty{text-align:center;padding:40px;color:#78716c;font-size:15px}
+.modal-ordo-detail{max-width:1350px;width:95%;background:#fdfbf7;border:3px solid #facc15;box-shadow:0 0 20px rgba(250,204,21,0.5),0 0 40px rgba(250,204,21,0.3),0 0 60px rgba(250,204,21,0.2),0 20px 60px rgba(0,0,0,0.3);border-radius:16px}
+.modal-ordo-detail .modal-header{background:linear-gradient(135deg,#854d0e 0%,#ca8a04 100%);color:#fefce8;border-radius:12px 12px 0 0;border-bottom:2px solid #facc15}
+.modal-ordo-detail .modal-close{color:#fefce8}
+.modal-ordo-detail .modal-close:hover{color:#ffffff}
+.modal-ordo-detail #ordoContent{background:#ffffff;border:1px solid #fde68a;color:#1c1917;padding:20px;line-height:1.8}
+.modal-ordo-detail #ordoContent .module-line{color:#1c1917}
+.modal-ordo-detail .modal-buttons{border-top:1px solid #fde68a;padding-top:16px;margin-top:16px}
+.modal-ordo-detail .modal-btn-primary{background:#ca8a04;color:white}
+.modal-ordo-detail .modal-btn-primary:hover{background:#a16207}
+.modal-ordo-detail .modal-btn-secondary{background:#78716c;color:white}
+.modal-ordo-detail .modal-btn-secondary:hover{background:#57534e}
+.modal-input{width:100%;padding:14px;background:#0f172a;border:2px solid #334155;border-radius:8px;color:white;font-size:14px;font-weight:500;margin-bottom:18px}
+.modal-input:focus{outline:none;border-color:#3b82f6}
+.datetime-picker{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px;background:#0f172a;border-radius:8px;border:1px solid #334155}
+.datetime-picker label{color:#94a3b8;font-size:13px;font-weight:500;min-width:50px}
+.datetime-picker select{flex:1;padding:10px 12px;background:#1e293b;border:2px solid #3b82f6;border-radius:6px;color:white;font-size:14px;cursor:pointer}
+.datetime-picker select:hover{border-color:#60a5fa}
+.datetime-picker select:focus{outline:none;border-color:#60a5fa;box-shadow:0 0 0 3px rgba(59,130,246,0.3)}
+.calendar-container{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-radius:12px;padding:16px;margin-bottom:16px;border:2px solid #3b82f6;box-shadow:0 4px 20px rgba(59,130,246,0.2)}
+.calendar-header{display:flex;justify-content:center;align-items:center;margin-bottom:12px;color:#60a5fa;font-weight:600;font-size:14px}
+.calendar-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px}
+.calendar-weekday{text-align:center;font-size:11px;font-weight:600;color:#94a3b8;padding:6px 0}
+.calendar-days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.calendar-day{text-align:center;padding:8px 4px;font-size:13px;border-radius:8px;cursor:pointer;transition:all .2s;color:#e2e8f0;background:#1e293b;border:1px solid transparent}
+.calendar-day:hover{background:#3b82f6;color:white;transform:scale(1.05)}
+.calendar-day.today{border-color:#3b82f6;font-weight:700}
+.calendar-day.selected{background:#3b82f6;color:white;box-shadow:0 0 10px rgba(59,130,246,0.5)}
+.calendar-day.other-month{color:#475569;background:#0f172a}
+.time-picker-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-top:12px;padding-top:12px;border-top:1px solid #334155}
+.time-slot{padding:6px 2px;text-align:center;font-size:11px;background:#1e293b;border:1px solid #334155;border-radius:6px;cursor:pointer;transition:all .2s;color:#e2e8f0}
+.time-slot:hover{background:#3b82f6;color:white;border-color:#3b82f6}
+.time-slot.selected{background:#3b82f6;color:white;box-shadow:0 0 8px rgba(59,130,246,0.4)}
+.time-slot.current{border-color:#22c55e;background:#166534;color:#4ade80;font-weight:600}
+.calendar-section-title{font-size:12px;color:#94a3b8;margin:12px 0 8px;font-weight:500}
+.modal-buttons{display:flex;gap:12px;justify-content:flex-end;margin-top:18px}
+#ordoContent{padding:20px;background:#ffffff;border-radius:8px;border:1px solid #fde68a;min-height:100px;max-height:400px;overflow-y:auto;color:#1c1917;line-height:1.8}
+#ordoContent .module-line{color:#1c1917}
+.modal-btn{padding:12px 24px;border:none;border-radius:8px;cursor:pointer;font-size:14px;font-weight:700;transition:all .2s}
+.modal-btn-primary{background:#059669;color:white}
+.modal-btn-primary:hover{background:#047857;transform:translateY(-1px)}
+.modal-btn-secondary{background:#475569;color:white}
+.modal-btn-secondary:hover{background:#334155}
+.mode-selection{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+.mode-btn{padding:16px 12px;background:#1e293b;border:3px solid #334155;border-radius:12px;color:#e2e8f0;font-size:13px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.mode-btn:hover{border-color:#3b82f6;background:#334155;transform:translateY(-2px)}
+.mode-btn-icon{font-size:28px;margin-bottom:8px}
+.mode-btn.memo-btn{border-color:#f59e0b}
+.mode-btn.memo-btn:hover{border-color:#fbbf24;background:rgba(245,158,11,0.2)}
+.memo-content{padding:20px;background:#ffffff;border-radius:0 0 12px 12px;max-height:calc(90vh - 80px);overflow-y:auto;line-height:1.8;color:#1e293b;font-size:15px}
+.memo-single{}
+.memo-grid{display:grid;gap:20px;height:100%}
+.memo-column{background:#f8fafc;border-radius:10px;border:2px solid #e2e8f0;overflow:hidden;display:flex;flex-direction:column}
+.memo-column.memo-principal{border-color:#0066cc;box-shadow:0 0 15px rgba(0,102,204,0.2)}
+.memo-column.memo-secondaire{border-color:#48cae4}
+.memo-column-header{padding:12px 16px;font-weight:700;font-size:14px;border-bottom:2px solid #e2e8f0}
+.memo-principal .memo-column-header{background:linear-gradient(135deg,#001a33 0%,#003366 100%);color:#ffffff;border-bottom-color:#0066cc}
+.memo-secondaire .memo-column-header{background:linear-gradient(135deg,#0a2540 0%,#0d3a5c 100%);color:#caf0f8;border-bottom-color:#48cae4}
+.memo-column-content{padding:16px;flex:1;overflow-y:auto;font-size:14px;line-height:1.7}
+/* Styles HTML pour les mémos */
+.memo-single h1,.memo-column-content h1{font-size:20px;font-weight:700;color:#0066cc;margin:0 0 16px 0;padding-bottom:8px;border-bottom:2px solid #0066cc}
+.memo-single h2,.memo-column-content h2{font-size:17px;font-weight:700;color:#1e40af;margin:20px 0 12px 0;padding-bottom:6px;border-bottom:1px solid #cbd5e1}
+.memo-single h3,.memo-column-content h3{font-size:15px;font-weight:700;color:#334155;margin:16px 0 8px 0}
+.memo-single p,.memo-column-content p{margin:0 0 12px 0}
+.memo-single b,.memo-single strong,.memo-column-content b,.memo-column-content strong{color:#1e293b;font-weight:700}
+.memo-single mark,.memo-column-content mark{background:linear-gradient(120deg,#fef08a 0%,#fde047 100%);padding:2px 6px;border-radius:4px;color:#1e293b}
+.memo-single ul,.memo-column-content ul{margin:8px 0 16px 0;padding-left:20px}
+.memo-single li,.memo-column-content li{margin-bottom:6px;position:relative}
+.memo-single .alerte,.memo-column-content .alerte{background:linear-gradient(135deg,#fef2f2 0%,#fee2e2 100%);border-left:4px solid #dc2626;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;color:#991b1b}
+.memo-single .info,.memo-column-content .info{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%);border-left:4px solid #2563eb;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;color:#1e40af}
+.memo-single .success,.memo-column-content .success{background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%);border-left:4px solid #16a34a;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;color:#166534}
+.memo-single .warning,.memo-column-content .warning{background:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%);border-left:4px solid #f59e0b;padding:12px 16px;margin:12px 0;border-radius:0 8px 8px 0;color:#92400e}
+.memo-single table,.memo-column-content table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+.memo-single th,.memo-column-content th{background:#1e40af;color:white;padding:10px 12px;text-align:left;font-weight:600}
+.memo-single td,.memo-column-content td{padding:10px 12px;border-bottom:1px solid #e2e8f0}
+.memo-single tr:nth-child(even),.memo-column-content tr:nth-child(even){background:#f8fafc}
+.memo-single code,.memo-column-content code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px;color:#be185d}
+.memo-single hr,.memo-column-content hr{border:none;height:2px;background:linear-gradient(90deg,transparent,#cbd5e1,transparent);margin:20px 0}
+.memo-single a,.memo-column-content a{color:#2563eb;text-decoration:underline;font-weight:600;cursor:pointer;transition:all .2s}
+.memo-single a:hover,.memo-column-content a:hover{color:#1d4ed8;text-decoration:none;background:rgba(37,99,235,0.1);padding:2px 4px;border-radius:4px}
+.memo-single a:visited,.memo-column-content a:visited{color:#7c3aed}
+.memo-single button,.memo-column-content button{padding:8px 16px;background:#2563eb;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:600;transition:all .2s}
+.memo-single button:hover,.memo-column-content button:hover{background:#1d4ed8;transform:translateY(-1px)}
+.memo-single .accordion-item,.memo-column-content .accordion-item{margin-bottom:12px;border-radius:8px;overflow:hidden}
+.memo-single .accordion-header,.memo-column-content .accordion-header{background:linear-gradient(135deg,#001f3f 0%,#0066cc 100%);color:white;padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:600;transition:all .3s;border:none;width:100%;text-align:left;box-shadow:0 2px 8px rgba(0,100,255,0.3)}
+.memo-single .accordion-header:hover,.memo-column-content .accordion-header:hover{background:linear-gradient(135deg,#002a5c 0%,#0080ff 100%);box-shadow:0 4px 12px rgba(0,212,255,0.5)}
+.memo-single .accordion-header::after,.memo-column-content .accordion-header::after{content:'▼';font-size:0.9em;transition:transform .3s;color:#00d4ff}
+.memo-single .accordion-header.active::after,.memo-column-content .accordion-header.active::after{transform:rotate(180deg)}
+.memo-single .accordion-content,.memo-column-content .accordion-content{max-height:0;overflow:hidden;transition:max-height .4s ease-out;background:white}
+.memo-single .accordion-content.active,.memo-column-content .accordion-content.active{max-height:15000px;transition:max-height .6s ease-in}
+.memo-single .accordion-body,.memo-column-content .accordion-body{padding:20px;background:white;border:1px solid #e0e0e0;border-top:none}
+.memo-single .accordion-body h3,.memo-column-content .accordion-body h3{color:#0066cc;margin-top:16px;margin-bottom:10px;font-size:1.2em;border-left:4px solid #00d4ff;padding-left:12px}
+.memo-single .accordion-body h4,.memo-column-content .accordion-body h4{color:#001f3f;margin-top:12px;margin-bottom:8px;font-size:1.1em}
+.memo-single .highlight-box,.memo-column-content .highlight-box{background:#e6f3ff;border-left:4px solid #0066cc;padding:15px;margin:15px 0;border-radius:4px}
+.memo-single .image-container,.memo-column-content .image-container{margin:20px 0;text-align:center;background:#f8f9fa;padding:15px;border-radius:8px}
+.memo-single .image-container img,.memo-column-content .image-container img{max-width:100%;height:auto;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+.memo-single .header,.memo-column-content .header{background:linear-gradient(135deg,#001f3f 0%,#0a4d8c 100%);color:white;padding:15px 20px;border-bottom:3px solid #00d4ff;border-radius:8px 8px 0 0;margin:-16px -16px 16px -16px}
+.memo-single .header h1,.memo-column-content .header h1{font-size:1.3em;margin:0}
+.memo-single .header p,.memo-column-content .header p{font-size:0.9em;opacity:0.9;margin:5px 0 0 0}
+.memo-single .content,.memo-column-content .content{padding:0}
+.modal-memo{width:90vw;max-width:90vw;height:90vh;max-height:90vh;background:#ffffff;border:3px solid #0066cc;border-radius:12px;box-shadow:0 0 40px rgba(0,102,204,0.5),0 0 80px rgba(0,102,204,0.3)}
+.modal-memo .modal-header{background:linear-gradient(135deg,#001a33 0%,#003366 100%);color:#ffffff;padding:20px 25px;border-radius:8px 8px 0 0;border-bottom:3px solid #0066cc;display:flex;justify-content:space-between;align-items:center}
+.modal-memo .modal-header span:first-child{font-size:20px;font-weight:700;text-shadow:0 0 10px rgba(0,102,204,0.5)}
+.memo-close{width:36px;height:36px;background:#dc2626;border:none;border-radius:50%;color:white;font-size:24px;font-weight:bold;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;box-shadow:0 0 10px rgba(220,38,38,0.5)}
+.memo-close:hover{background:#ef4444;transform:scale(1.1);box-shadow:0 0 20px rgba(220,38,38,0.7)}
+.split-view{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.split-panel{background:var(--bg-panel);border-radius:16px;padding:24px;border:2px solid var(--border-panel);box-shadow:var(--shadow-panel);transition:all .3s}
+.split-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid var(--module-border)}
+.split-title{font-size:18px;font-weight:700;color:var(--text-title);transition:color .3s}
+.copy-btn{width:42px;height:42px;background:var(--bg-card);color:white;border:2px solid var(--border-primary);border-radius:10px;font-size:16px;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px var(--shadow-primary);position:relative}
+.copy-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 6px 20px var(--shadow-primary)}
+.copy-btn::after{content:attr(title);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--bg-card);color:var(--text-primary);padding:6px 10px;border-radius:6px;font-size:11px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s;border:1px solid var(--module-border)}
+.copy-btn:hover::after{opacity:1}
+.floating-actions{position:fixed;bottom:30px;right:30px;display:flex;flex-direction:row;gap:8px;align-items:center}
+.floating-btn{width:48px;height:48px;border-radius:12px;border:2px solid;color:white;font-size:18px;font-weight:600;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(0,0,0,0.3)}
+.floating-btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 6px 20px rgba(0,0,0,0.4)}
+.floating-btn span{display:none}
+.floating-btn.copy-hdm{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-color:#0ea5e9;box-shadow:0 4px 15px rgba(14,165,233,0.3)}
+.floating-btn.copy-hdm:hover{box-shadow:0 6px 25px rgba(14,165,233,0.5)}
+.floating-btn.copy-examen{background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 100%);border-color:#3b82f6;box-shadow:0 4px 15px rgba(59,130,246,0.3)}
+.floating-btn.copy-examen:hover{box-shadow:0 6px 25px rgba(59,130,246,0.5)}
+.floating-btn.copy-conclusion{background:linear-gradient(135deg,#0f172a 0%,#0d3d2e 100%);border-color:#10b981;box-shadow:0 4px 15px rgba(16,185,129,0.3)}
+.floating-btn.copy-conclusion:hover{box-shadow:0 6px 25px rgba(16,185,129,0.5)}
+.floating-btn.open-memo{background:linear-gradient(135deg,#0f172a 0%,#3d2a0f 100%);border-color:#f59e0b;box-shadow:0 4px 15px rgba(245,158,11,0.3)}
+.floating-btn.open-memo:hover{box-shadow:0 6px 25px rgba(245,158,11,0.5)}
+.floating-btn.regenerate{background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);border-color:#64748b;box-shadow:0 4px 15px rgba(100,116,139,0.3)}
+.floating-btn.regenerate:hover{box-shadow:0 6px 25px rgba(100,116,139,0.5)}
+.floating-btn.theme-btn{background:linear-gradient(135deg,#0f172a 0%,#2d1f3d 100%);border-color:#ec4899;box-shadow:0 4px 15px rgba(236,72,153,0.3)}
+.floating-btn.theme-btn:hover{box-shadow:0 6px 25px rgba(236,72,153,0.5)}
+.floating-btn{position:relative}
+.floating-btn::after{content:attr(title);position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%);background:#0f172a;color:#e2e8f0;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:500;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;border:1px solid #334155;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.floating-btn:hover::after{opacity:1;transform:translateX(-50%) translateY(-2px)}
+.empty-state{text-align:center;padding:80px 20px;color:#64748b}
+.toast{position:fixed;bottom:20px;left:20px;background:#1e293b;border:2px solid #3b82f6;color:white;padding:16px 24px;border-radius:10px;z-index:3000;animation:slideInLeft .3s;font-weight:600;box-shadow:0 10px 30px rgba(0,0,0,0.5)}
+.notice-menu{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.notice-menu-btn{padding:24px;background:var(--bg-card);border:2px solid var(--module-border);border-radius:12px;cursor:pointer;transition:all .2s;text-align:center}
+.notice-menu-btn:hover{border-color:var(--border-accent);background:var(--bg-module);transform:translateY(-2px)}
+.notice-menu-btn .icon{font-size:40px;margin-bottom:12px}
+.notice-menu-btn .title{font-size:14px;font-weight:700;color:var(--text-title)}
+.notice-content{line-height:1.8;color:#cbd5e1}
+.notice-content h2{color:#60a5fa;font-size:18px;margin:24px 0 12px;padding-bottom:8px;border-bottom:2px solid #334155}
+.notice-content h3{color:#f59e0b;font-size:15px;margin:20px 0 10px}
+.notice-content p{margin-bottom:14px}
+.notice-content ul{margin:12px 0 12px 20px}
+.notice-content li{margin-bottom:8px}
+.notice-content .warning-box{background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 100%);border:2px solid #dc2626;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .warning-box h3{color:#fecaca;margin-top:0}
+.notice-content .info-box{background:#0f172a;border:2px solid #3b82f6;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .objectives-box{background:linear-gradient(135deg,#065f46 0%,#047857 100%);border:2px solid #10b981;border-radius:12px;padding:20px;margin:20px 0}
+.notice-content .objectives-box h2{color:#6ee7b7;margin-top:0;border:none;padding:0}
+.notice-content .objectives-box ul{color:#d1fae5}
+.notice-content .objectives-btn{display:block;width:100%;padding:16px 24px;background:linear-gradient(135deg,#059669 0%,#047857 100%);color:white;border:2px solid #10b981;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .objectives-btn:hover{background:linear-gradient(135deg,#047857 0%,#065f46 100%);transform:translateY(-2px);box-shadow:0 4px 12px rgba(5,150,105,0.4)}
+.notice-content .objectives-content{display:none;background:linear-gradient(135deg,#065f46 0%,#047857 100%);border:2px solid #10b981;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .objectives-content.active{display:block}
+.notice-content .objectives-content h2{color:#6ee7b7;margin-top:0;border:none;padding:0}
+.notice-content .objectives-content ul{color:#d1fae5}
+.notice-content .warning-btn{display:block;width:100%;padding:16px 24px;background:linear-gradient(135deg,#dc2626 0%,#b91c1c 100%);color:white;border:2px solid #ef4444;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .warning-btn:hover{background:linear-gradient(135deg,#b91c1c 0%,#991b1b 100%);transform:translateY(-2px);box-shadow:0 4px 12px rgba(220,38,38,0.4)}
+.notice-content .warning-content{display:none;background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 100%);border:2px solid #dc2626;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .warning-content.active{display:block}
+.notice-content .warning-content h3{color:#fecaca;margin-top:0}
+.notice-content .checklist-btn{display:block;width:100%;padding:16px 24px;background:#059669;color:white;border:none;border-radius:10px;font-size:15px;font-weight:700;cursor:pointer;margin:0 0 12px 0;transition:all .2s;text-align:left}
+.notice-content .checklist-btn:hover{background:#047857;transform:translateY(-2px);box-shadow:0 4px 12px rgba(5,150,105,0.4)}
+.notice-content .checklist-content{display:none;background:#0f172a;border:2px solid #059669;border-radius:12px;padding:20px;margin:0 0 20px 0}
+.notice-content .checklist-content.active{display:block}
+.notice-content .example-row{display:flex;align-items:flex-start;gap:16px;margin:16px 0}
+.notice-content .example-row p{flex:1;margin:0}
+.notice-content .example-btn{display:inline-block;padding:8px 16px;background:#f59e0b;color:white;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0}
+.notice-content .example-btn:hover{background:#d97706}
+.notice-content .example-box{display:none;background:#0f172a;border:2px solid #f59e0b;border-radius:12px;padding:20px;margin:12px 0}
+.notice-content .example-box.active{display:block}
+.notice-content .xxxx-demo{color:#ef4444;font-weight:700}
+.notice-content .alt-demo{background:radial-gradient(ellipse at center,rgba(255,255,255,0.12) 0%,rgba(255,255,255,0.05) 50%,transparent 70%);padding:1px 4px;border-radius:3px;box-shadow:0 0 8px rgba(255,255,255,0.18),0 0 14px rgba(255,255,255,0.1)}
+[data-theme="fence"] .notice-content .alt-demo,[data-theme="wake"] .notice-content .alt-demo,[data-theme="aspect"] .notice-content .alt-demo,[data-theme="mono"] .notice-content .alt-demo,[data-theme="cyber"] .notice-content .alt-demo,[data-theme="sunset"] .notice-content .alt-demo,[data-theme="paper"] .notice-content .alt-demo,[data-theme="sober"] .notice-content .alt-demo,[data-theme="pastel"] .notice-content .alt-demo,[data-theme="neonpink"] .notice-content .alt-demo,[data-theme="matrix"] .notice-content .alt-demo,[data-theme="aurora"] .notice-content .alt-demo,[data-theme="median"] .notice-content .alt-demo,[data-theme="clinical"] .notice-content .alt-demo{background:linear-gradient(135deg,rgba(250,204,21,0.25) 0%,rgba(234,179,8,0.35) 50%,rgba(250,204,21,0.25) 100%);box-shadow:0 0 8px rgba(234,179,8,0.3),0 0 14px rgba(234,179,8,0.15)}
+.notice-content .del-demo{color:#ef4444;font-weight:600}
+@keyframes slideIn{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes slideInLeft{from{transform:translateX(-400px);opacity:0}to{transform:translateX(0);opacity:1}}
+</style>
+</head>
+<body>
+<div class="container">
+<div class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">📋 Sélection</div>
+</div>
+<button class="notice-btn-full" onclick="openModal('noticeMenuModal')">⚠️ Notice et mise en garde</button>
+<button id="generateTop" class="generate-btn" disabled>🔄 Générer la Conclusion</button>
+<div class="search-container">
+<input type="text" id="motifSearch" class="search-input" placeholder="🔍 Rechercher un motif..." oninput="searchMotifs(this.value)">
+<div id="searchResults" class="search-results"></div>
+</div>
+<div class="selection-zone">
+<div class="motif-selection-main" style="display:none" id="mainSelectionBox">
+<div class="motif-selection-title">⭐ Motif Principal</div>
+<div id="mainSelectionText"></div>
+</div>
+<div class="motif-selection-secondary" style="display:none" id="secondarySelectionBox">
+<div class="motif-selection-title">📎 Motifs Secondaires</div>
+<div id="secondarySelectionText"></div>
+</div>
+<div class="section-title" style="margin-top:12px">Catégories</div>
+<div class="categories-grid" id="categoriesGrid"></div>
+<div id="motifsContainer"></div>
+</div>
+<button id="generateBottom" class="generate-btn" disabled>🔄 Générer la Conclusion</button>
+<button class="reset-btn" onclick="resetAll()">🔄 Recommencer</button>
+<div id="apiStatus" class="api-status disconnected">❌ Déconnecté</div>
+</div>
+<div id="resultContainer">
+<div class="empty-state">
+<div style="font-size:64px;margin-bottom:20px">📝</div>
+<h3>Aucune conclusion générée</h3>
+<p>Sélectionnez un motif principal et cliquez sur "Générer"</p>
+</div>
+</div>
+</div>
+
+<div id="modeSelectionModal" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<span>Choisissez le type de document</span>
+<span class="modal-close" onclick="closeModal('modeSelectionModal')">×</span>
+</div>
+<div class="mode-selection">
+<div class="mode-btn" onclick="selectMode('examen')">
+<div class="mode-btn-icon">🩺</div>
+<div>EXAMEN TYPE</div>
+</div>
+<div class="mode-btn" onclick="selectMode('conclusion')">
+<div class="mode-btn-icon">📋</div>
+<div>CONCLUSION TYPE</div>
+</div>
+<div class="mode-btn" onclick="selectMode('examen_conclusion')">
+<div class="mode-btn-icon">📋+🩺</div>
+<div>EXAMEN + CONCLUSION</div>
+</div>
+<div class="mode-btn memo-btn" onclick="openMemo()">
+<div class="mode-btn-icon">📝</div>
+<div>MEMO</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="memoModal" class="modal">
+<div class="modal-memo">
+<div class="modal-header">
+<span>📝 MEMO : <span id="memoMotifName"></span></span>
+<button class="memo-close" onclick="closeModal('memoModal')">×</button>
+</div>
+<div id="memoContent" class="memo-content"></div>
+</div>
+</div>
+
+<div id="xxxxModal" class="modal"></div>
+<div id="xxxxModal2" class="modal"></div>
+<div id="alternativeModal" class="modal"></div>
+<div id="bulleModal" class="modal"></div>
+<div id="ordoModal" class="modal"></div>
+<div id="allOrdosModal" class="modal"></div>
+
+<div id="noticeMenuModal" class="modal">
+<div class="modal-content">
+<div class="modal-header">
+<span>ℹ️ Notice et informations</span>
+<span class="modal-close" onclick="closeModal('noticeMenuModal')">×</span>
+</div>
+<div class="notice-menu">
+<div class="notice-menu-btn" onclick="closeModal('noticeMenuModal');openModal('objectifsModal')">
+<div class="icon">⚠️</div>
+<div class="title">Objectifs et mise en garde<br><small style="color:#f59e0b">À lire impérativement</small></div>
+</div>
+<div class="notice-menu-btn" onclick="closeModal('noticeMenuModal');openModal('manuelModal')">
+<div class="icon">📖</div>
+<div class="title">Manuel d'utilisation</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="objectifsModal" class="modal">
+<div class="modal-content large">
+<div class="modal-header">
+<span>⚠️ Objectifs et mise en garde</span>
+<span class="modal-close" onclick="closeModal('objectifsModal')">×</span>
+</div>
+<div class="notice-content">
+
+<button class="objectives-btn" onclick="toggleExample('objectifsContent')">🎯 Objectifs</button>
+<div id="objectifsContent" class="objectives-content">
+<ul>
+<li><strong>Accélérer la prise en charge</strong> en fusionnant les comptes rendus types correspondant à un ou plusieurs motifs sélectionnés, afin de générer rapidement une base de rédaction (examen clinique + conclusion) prête à être personnalisée.</li>
+<li><strong>Servir de checklist</strong>, comme dans l'aéronautique, pour ne rien oublier dans l'examen clinique, les prescriptions et la conclusion.</li>
+<li><strong>Réduire le risque d'omissions</strong> face à un motif qui peut paraître banal, afin de ne pas passer à côté d'une situation potentiellement grave.</li>
+<li><strong>Aider à produire une conclusion de sortie claire</strong> et compréhensible pour le patient, avec de vrais conseils et des consignes de reconsultation pertinentes et adaptées.</li>
+<li><strong>Avoir un intérêt pédagogique</strong>, en guidant l'utilisateur via un grand nombre d'informations cliquables et de mémo thérapeutique.</li>
+</ul>
+</div>
+
+<button class="warning-btn" onclick="toggleExample('warningContent')">🚨 MISE EN GARDE : À LIRE IMPÉRATIVEMENT !</button>
+<div id="warningContent" class="warning-content">
+<p><strong>Règle principale : ne noter que ce qui a été réellement recherché et constaté.</strong></p>
+<p>L'objectif de cette application n'est pas de faire du copier-coller. Elle doit être utilisée comme une check-list médicale, à la manière d'un pilote d'avion avant de décoller. <strong>Il est dangereux et interdit de documenter des informations qui n'ont pas été recherchées à l'examen clinique (ou non vérifiées).</strong> Cela met en danger le patient et engage votre responsabilité.</p>
+<ul>
+<li><strong>Aide à la rédaction, pas à la décision</strong> : l'application propose une trame de compte rendu. Elle ne remplace pas le raisonnement clinique et la réflexion.</li>
+<li><strong>Chaque patient est unique</strong> : le texte doit être adapté au contexte, aux constantes, aux antécédents, aux traitements, aux résultats d'examens et à l'évolution…</li>
+<li><strong>Relecture obligatoire</strong> de l'ensemble des informations : vérifiez la cohérence du texte final (négations, latéralité, chronologie, valeurs chiffrées, allergies, traitements, diagnostics évoqués/exclus).</li>
+<li><strong>Ne pas laisser des éléments par défaut</strong> : supprimez tout ce qui ne correspond pas au patient et complétez systématiquement les champs <span class="xxxx-demo">XXXX</span>.</li>
+<li><strong>Prescriptions</strong> : toute ordonnance générée doit être contrôlée (indication, dose, durée, interactions, insuffisance rénale/hépatique, grossesse/allaitement, allergies, contre-indications).</li>
+<li><strong>Conseils et reconsultation</strong> : les conseils et consignes doivent être personnalisés et adaptés au risque (signes d'alerte, délais, modalités de suivi).</li>
+<li><strong>Responsabilité</strong> : le praticien reste entièrement responsable du compte rendu final, des prescriptions et des décisions médicales.</li>
+<li><strong>Confidentialité</strong> : n'insérez pas de données identifiantes inutiles. Respectez les règles de confidentialité et de sécurité.</li>
+</ul>
+</div>
+
+<button class="checklist-btn" onclick="toggleExample('checklistContent')">✈️ Pourquoi faire le choix d'une démarche check-list ?</button>
+<div id="checklistContent" class="checklist-content">
+<p>Nous avons choisi d'assumer pleinement une démarche "check-list", inspirée de ce qui se fait dans les domaines à haut niveau d'exigence en sécurité comme l'aéronautique. En médecine d'urgence, la difficulté n'est pas seulement de connaître les diagnostics ou les traitements, mais surtout de <strong>rester fiable dans un environnement où tout va vite</strong> : fatigue, interruptions, afflux, stress, informations incomplètes, délais de biologie/imagerie, changement d'équipe…</p>
+<p>Dans ces conditions, même un clinicien expérimenté peut oublier un item important, omettre un document, ou rédiger une conclusion trop pauvre, alors que le motif initial semblait banal.</p>
+<p>L'idée de l'application est simple : <strong>fournir une trame structurée qui sert de garde-fou contre les oublis</strong>. Elle ne cherche pas à "faire à la place" du médecin, ni à imposer une conduite à tenir. Elle aide à balayer les points clés : ce qu'il faut vérifier à l'examen, ce qu'il faut envisager comme signaux d'alarme, ce qu'il faut documenter, et surtout ce que le patient doit comprendre en sortant (conseils, traitement, surveillance, signes de gravité, et consignes de reconsultation adaptées).</p>
+<p>L'objectif final est que le patient quitte le service avec un document clair, correctement écrit, utile, et cohérent avec ce qui a été réellement fait et retrouvé.</p>
+
+<p>Cette approche a un coût, et il faut l'énoncer clairement : une check-list "large" propose parfois trop d'éléments. Si l'utilisateur ne relit pas, ne supprime pas, ou laisse un item par défaut, on peut se retrouver avec des absurdités ou des phrases inappropriées.</p>
+
+<div class="example-row">
+<p>L'exemple typique est une formulation clinique qui n'a aucun sens dans le contexte, comme écrire "testicule en place" chez une petite fille. C'est très mal vu, parce que cela donne l'impression d'un compte rendu copié-collé sans réflexion, et cela décrédibilise le document. Mais surtout, cela peut devenir dangereux si des informations non vérifiées sont affirmées.</p>
+<button class="example-btn" onclick="toggleExample('exampleBox1')">📌 Voir un exemple concret</button>
+</div>
+
+<div id="exampleBox1" class="example-box">
+<p><strong>Exemple :</strong> Imaginons un patient qui consulte pour une asthénie et une faiblesse des jambes. Le compte rendu type propose, parmi les items, une ligne du genre "ROT conservés".</p>
+<p>Si l'utilisateur laisse cette phrase <strong>sans avoir réellement testé les ROT</strong>, le compte rendu affirme alors un élément clinique majeur… qui n'a pas été vérifié.</p>
+<p>Or, dans un tableau compatible avec un <strong>syndrome de Guillain-Barré</strong>, l'abolition des ROT est un signe majeur. Écrire "ROT conservés" à tort peut :</p>
+<ul>
+<li>rassurer à tort (patient renvoyé avec une conclusion banalisée),</li>
+<li>retarder la reconnaissance d'un Guillain-Barré débutant,</li>
+<li>et faire perdre du temps alors que l'évolution peut être rapide.</li>
+</ul>
+<p>C'est typiquement le genre de situation où une phrase "standard" laissée par défaut devient dangereuse : elle transforme une check-list (à vérifier) en affirmation clinique (à tort). Le bon usage, au contraire, est de considérer ces items comme un rappel : <em>"ai-je bien testé les ROT ?"</em> puis de ne documenter le résultat que si l'examen a été fait.</p>
+</div>
+
+<p>C'est pourquoi la <strong>règle non négociable</strong> de la démarche est la suivante : <strong>on ne doit noter que ce qui a été réellement recherché et constaté</strong>. L'application n'est pas un outil de copier-coller. Elle est un outil de vérification et de rédaction guidée.</p>
+<p>Conserver dans le compte rendu final une information qui n'a pas été recherchée à l'examen clinique, ou une négation non vérifiée, met potentiellement le patient en danger et engage directement la responsabilité du praticien. La trame est là pour aider à penser "ai-je vérifié ceci ?", pas pour affirmer "c'est fait" si cela n'a pas été fait.</p>
+
+<div class="info-box">
+<h3>💡 La logique</h3>
+<p>Autrement dit, la logique est : mieux vaut proposer une liste de points à considérer, quitte à ce que certains soient supprimés, plutôt que de ne pas les proposer et risquer de les oublier.</p>
+<p>C'est une balance bénéfice–risque assumée : on préfère accepter la possibilité de quelques erreurs d'inattention dans le brouillon (qui doivent être corrigées au maximum à la relecture) plutôt que de courir le risque d'oublier un symptôme clé, un point d'examen, une contre-indication, un document, ou une consigne de reconsultation essentielle. Dans une activité où l'enjeu est parfois de ne pas passer à côté d'une situation grave derrière un motif a priori simple, l'oubli est un risque majeur.</p>
+</div>
+
+<p>Cette démarche implique donc une <strong>responsabilité active de l'utilisateur</strong> : relire, corriger, personnaliser, supprimer. Le texte généré est un point de départ, pas une fin. Il faut adapter au patient réel : son âge, son sexe, ses antécédents, ses traitements (anticoagulants, immunosuppresseurs…), son contexte (grossesse, pédiatrie), ses constantes, ses résultats de biologie et d'imagerie, et l'évolution clinique. La rédaction doit rester fidèle à la réalité : ce qui a été examiné, ce qui a été retrouvé, ce qui n'a pas pu être évalué, ce qui a motivé la décision, et ce qui a été expliqué au patient.</p>
+
+<p>Enfin, cette démarche a aussi une <strong>dimension pédagogique</strong>. Le grand nombre d'éléments cliquables, d'options et de formulations alternatives a été pensé pour guider sans enfermer : explorer des propositions, se rappeler des points importants, comparer des formulations, et structurer une conclusion de sortie utile.</p>
+
+<p><strong>L'ambition n'est pas d'uniformiser les prises en charge, mais d'aider à produire des comptes rendus plus fiables, plus complets, et plus sûrs, en limitant les oublis — tout en rappelant que l'outil n'a de valeur que s'il est utilisé comme une check-list, avec une relecture rigoureuse, et avec le respect absolu de la règle : ne jamais documenter ce qui n'a pas été recherché.</strong></p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="manuelModal" class="modal">
+<div class="modal-content large">
+<div class="modal-header">
+<span>📖 Manuel d'utilisation</span>
+<span class="modal-close" onclick="closeModal('manuelModal')">×</span>
+</div>
+<div class="notice-content">
+<h2>📋 Notice — Fonctionnement & précautions d'utilisation</h2>
+<p>Cette application aide à générer un examen clinique et une conclusion à partir d'un ou plusieurs motifs.</p>
+
+<h3>1. Sélection des motifs</h3>
+<ul>
+<li>Sélectionnez un <strong>motif principal</strong> et un ou plusieurs <strong>motifs secondaires</strong></li>
+<li>L'application propose au choix :
+<ul>
+<li>Un examen clinique type</li>
+<li>Une conclusion</li>
+<li>Les deux combinés</li>
+</ul>
+</li>
+<li><strong>Adaptez systématiquement</strong> le contenu au patient, à l'examen réel, aux examens complémentaires et au contexte.</li>
+</ul>
+
+<h3>2. Interaction avec le texte</h3>
+<ul>
+<li><span class="xxxx-demo">XXXX</span> : Zone à compléter</li>
+<li><span class="alt-demo">Texte lumineux</span> : ouvre plusieurs propositions souvent antagonistes (examen normal ↔ Examen anormal)</li>
+<li><span class="del-demo">Texte en rouge</span> : éléments spécifiques à certaines catégories de patients notés en rouge pour ne pas oublier de les supprimer si non adapté (ex. enfant, grossesse, anticoagulants, immunodépression…) ➜ À conserver uniquement si cela s'applique au patient</li>
+</ul>
+
+<h3>3. Esprit "checklist" : pourquoi c'est utile</h3>
+<p>Chaque patient est unique. L'intérêt de l'application est de réduire le risque d'oubli en situation d'urgence, notamment :</p>
+<ul>
+<li>ne pas oublier un item d'examen important,</li>
+<li>ne pas omettre une précaution ou une contre-indication dans une ordonnance,</li>
+<li>ne pas passer à côté d'un diagnostic grave derrière un motif apparemment simple,</li>
+<li>faire sortir le patient avec une conclusion claire et correctement rédigée, comprenant de vrais conseils et des consignes de reconsultation adaptées.</li>
+</ul>
+
+<div class="warning-box">
+<h3>⚠️ Avertissements indispensables</h3>
+<ul>
+<li><strong>Ne remplace pas le raisonnement clinique</strong> : le contenu généré est une aide à la rédaction et à la vérification. Il ne remplace ni l'examen clinique, ni l'interrogatoire, ni l'évaluation médicale, ni les protocoles locaux.</li>
+<li><strong>Validation obligatoire</strong> : relisez et validez chaque phrase avant de finaliser (négations, latéralité, constantes, chronologie, traitements, allergies, comorbidités, résultats d'examens).</li>
+<li><strong>Personnalisation impérative</strong> : supprimez tout ce qui ne correspond pas au patient et complétez les champs <span class="xxxx-demo">XXXX</span>.</li>
+<li><strong>Responsabilité</strong> : le praticien reste entièrement responsable du compte rendu final et des décisions associées.</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div class="floating-actions" style="display:none" id="floatingActions">
+<button class="floating-btn copy-hdm" onclick="copyHDM()" title="Copier l'Histoire de la Maladie">📝</button>
+<button class="floating-btn copy-examen" onclick="copyExamen()" title="Copier l'Examen Clinique">🩺</button>
+<button class="floating-btn copy-conclusion" onclick="copyConclusion()" title="Copier la Conclusion">📋</button>
+<button class="floating-btn open-memo" onclick="openMemoFromFloating()" title="Ouvrir les Mémos">💡</button>
+<button class="floating-btn theme-btn" onclick="openThemeModal()" title="Changer le thème">🎨</button>
+<button class="floating-btn regenerate" onclick="resetAll()" title="Recommencer">🔄</button>
+</div>
+
+<div id="themeModal" class="modal">
+<div class="modal-content theme-modal-content">
+<div class="modal-header">
+<span>🎨 Choisir un thème</span>
+<span class="modal-close" onclick="closeModal('themeModal')">×</span>
+</div>
+<div class="theme-grid">
+<div class="theme-option" onclick="setTheme('default')" data-theme="default">
+<div class="theme-preview theme-preview-default">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Bioluminescent</span>
+</div>
+<div class="theme-option" onclick="setTheme('sober')" data-theme="sober">
+<div class="theme-preview theme-preview-sober">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Sobre</span>
+</div>
+<div class="theme-option" onclick="setTheme('red')" data-theme="red">
+<div class="theme-preview theme-preview-red">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Néon Rouge</span>
+</div>
+<div class="theme-option" onclick="setTheme('violet')" data-theme="violet">
+<div class="theme-preview theme-preview-violet">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Néon Violet</span>
+</div>
+<div class="theme-option" onclick="setTheme('orange')" data-theme="orange">
+<div class="theme-preview theme-preview-orange">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Néon Orange</span>
+</div>
+<div class="theme-option" onclick="setTheme('green')" data-theme="green">
+<div class="theme-preview theme-preview-green">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Vert & Jaune</span>
+</div>
+<div class="theme-option" onclick="setTheme('pastel')" data-theme="pastel">
+<div class="theme-preview theme-preview-pastel">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Pastel</span>
+</div>
+<div class="theme-option" onclick="setTheme('classic')" data-theme="classic">
+<div class="theme-preview theme-preview-classic">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Classique</span>
+</div>
+<div class="theme-option" onclick="setTheme('ocean')" data-theme="ocean">
+<div class="theme-preview theme-preview-ocean">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Océan</span>
+</div>
+<div class="theme-option" onclick="setTheme('midnight')" data-theme="midnight">
+<div class="theme-preview theme-preview-midnight">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Minuit</span>
+</div>
+<div class="theme-option" onclick="setTheme('nebula')" data-theme="nebula">
+<div class="theme-preview theme-preview-nebula">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Nébuleuse</span>
+</div>
+<div class="theme-option" onclick="setTheme('violet2')" data-theme="violet2">
+<div class="theme-preview theme-preview-violet2">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Violet II</span>
+</div>
+<div class="theme-option" onclick="setTheme('median')" data-theme="median">
+<div class="theme-preview theme-preview-median">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Médian</span>
+</div>
+<div class="theme-option" onclick="setTheme('paper')" data-theme="paper">
+<div class="theme-preview theme-preview-paper">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Papier</span>
+</div>
+<div class="theme-option" onclick="setTheme('fence')" data-theme="fence">
+<div class="theme-preview theme-preview-fence">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Palissade</span>
+</div>
+<div class="theme-option" onclick="setTheme('wake')" data-theme="wake">
+<div class="theme-preview theme-preview-wake">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Sillage</span>
+</div>
+<div class="theme-option" onclick="setTheme('aspect')" data-theme="aspect">
+<div class="theme-preview theme-preview-aspect">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Aspect</span>
+</div>
+<div class="theme-option" onclick="setTheme('mono')" data-theme="mono">
+<div class="theme-preview theme-preview-mono">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Monochrome</span>
+</div>
+<div class="theme-option" onclick="setTheme('cyber')" data-theme="cyber">
+<div class="theme-preview theme-preview-cyber">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Cyber</span>
+</div>
+<div class="theme-option" onclick="setTheme('neonpink')" data-theme="neonpink">
+<div class="theme-preview theme-preview-neonpink">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Néon Rose</span>
+</div>
+<div class="theme-option" onclick="setTheme('matrix')" data-theme="matrix">
+<div class="theme-preview theme-preview-matrix">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Matrix</span>
+</div>
+<div class="theme-option" onclick="setTheme('aurora')" data-theme="aurora">
+<div class="theme-preview theme-preview-aurora">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Aurore</span>
+</div>
+<div class="theme-option" onclick="setTheme('sunset')" data-theme="sunset">
+<div class="theme-preview theme-preview-sunset">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Crépuscule</span>
+</div>
+<div class="theme-option" onclick="setTheme('clinical')" data-theme="clinical">
+<div class="theme-preview theme-preview-clinical">
+<div class="tp-sidebar"></div>
+<div class="tp-content"></div>
+</div>
+<span>Clinique</span>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+function toggleExample(id){
+const box=document.getElementById(id);
+if(box)box.classList.toggle('active');
+}
+</script>
+
+<script>
+const API_URL='https://conclusions-medicales-api-1oa1.onrender.com';
+let state={categories:[],motifPrincipal:null,motifsSecondaires:[],conclusion:null,conduiteLines:[],allOrdonnances:[],currentMode:null,currentBulles:[],allMotifs:[]};
+
+document.addEventListener('DOMContentLoaded',()=>{
+checkAPI();
+loadCategories();
+document.getElementById('generateTop').onclick=showModeSelection;
+document.getElementById('generateBottom').onclick=showModeSelection;
+
+// Fermer les résultats de recherche quand on clique ailleurs
+document.addEventListener('click',(e)=>{
+const searchContainer=document.querySelector('.search-container');
+if(searchContainer&&!searchContainer.contains(e.target)){
+document.getElementById('searchResults').classList.remove('active');
+}
+});
+});
+
+async function checkAPI(){
+try{
+const r=await fetch(`${API_URL}/health`);
+const d=await r.json();
+const s=document.getElementById('apiStatus');
+if(d.status==='healthy'){
+s.className='api-status connected';
+s.textContent='✅ Connecté';
+}
+}catch(e){console.error('Erreur API:',e);}
+}
+
+async function loadCategories(){
+try{
+const r=await fetch(`${API_URL}/categories`);
+const data=await r.json();
+// Gestion des 2 formats possibles: tableau direct OU objet {categories: [...]}
+let categories;
+if(Array.isArray(data)){
+categories=data;
+}else if(data && Array.isArray(data.categories)){
+categories=data.categories;
+}else{
+console.error('❌ Format de données incorrect:',data);
+state.categories=[];
+toast('⚠️ Format de données incorrect','error');
+return;
+}
+state.categories=categories;
+console.log('✅ Catégories chargées:',state.categories.length,'catégories');
+renderCategories();
+loadAllMotifsForSearch();
+}catch(e){
+console.error('❌ Erreur catégories:',e);
+state.categories=[];
+toast('⚠️ Impossible de charger les catégories','error');
+}
+}
+
+function renderCategories(){
+// Protection : vérifier que categories est un tableau
+if(!Array.isArray(state.categories)){
+console.error('❌ state.categories n\'est pas un tableau:',state.categories);
+state.categories=[];
+return;
+}
+
+const html=state.categories.map(cat=>`
+<button class="category-btn" onclick="toggleCategory('${cat.table_name}','${cat.nom}',this)">
+${cat.nom}
+</button>
+<div id="motifs-${cat.table_name}" class="motifs-list"></div>
+`).join('');
+
+document.getElementById('categoriesGrid').innerHTML=html;
+}
+
+async function toggleCategory(tableName,nomCategorie,btnElement){
+const containerId=`motifs-${tableName}`;
+const container=document.getElementById(containerId);
+const isActive=container.classList.contains('active');
+
+if(isActive){
+container.classList.remove('active');
+btnElement.classList.remove('active');
+}else{
+btnElement.classList.add('active');
+container.classList.add('active');
+
+if(!container.innerHTML){
+try{
+const r=await fetch(`${API_URL}/motifs/${tableName}`);
+const data=await r.json();
+
+// Gestion des 2 formats : tableau direct OU objet {motifs: [...]}
+let motifs;
+if(Array.isArray(data)){
+motifs=data;
+}else if(data && Array.isArray(data.motifs)){
+motifs=data.motifs;
+}else{
+console.error('❌ Format motifs incorrect:',data);
+motifs=[];
+}
+
+if(motifs.length===0){
+container.innerHTML='<p style="padding:10px;color:#94a3b8">Aucun motif disponible</p>';
+}else{
+// Trier par ordre alphabétique
+motifs.sort((a,b)=>a.nom_motif.localeCompare(b.nom_motif,'fr',{sensitivity:'base'}));
+container.innerHTML=motifs.map(motif=>{
+const safeName=motif.nom_motif.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/"/g,'&quot;').replace(/\n/g,' ').replace(/\r/g,'');
+return `<button class="motif-btn" onclick="selectMotif('${tableName}','${motif.id}','${safeName}',this)">${motif.nom_motif}</button>`;
+}).join('');
+}
+}catch(e){
+console.error('❌ Erreur motifs:',e);
+container.innerHTML='<p style="padding:10px;color:#ef4444">Erreur de chargement</p>';
+}
+}
+}
+}
+
+function updateSelectionDisplay(){
+if(state.motifPrincipal){
+document.getElementById('mainSelectionBox').style.display='block';
+document.getElementById('mainSelectionText').innerHTML=`<div class="selected-motif-item principal-item">${state.motifPrincipal.nom} <span onclick="removeMotifPrincipal()" style="cursor:pointer;margin-left:8px">✕</span></div>`;
+}else{
+document.getElementById('mainSelectionBox').style.display='none';
+}
+
+if(state.motifsSecondaires.length>0){
+document.getElementById('secondarySelectionBox').style.display='block';
+document.getElementById('secondarySelectionText').innerHTML=state.motifsSecondaires.map((m,i)=>`<div class="selected-motif-item" style="margin-bottom:4px">• ${m.nom} <span onclick="removeMotifSecondaire(${i})" style="cursor:pointer;margin-left:8px;color:#ef4444">✕</span></div>`).join('');
+}else{
+document.getElementById('secondarySelectionBox').style.display='none';
+}
+}
+
+function removeMotifPrincipal(){
+// Retirer le style du bouton
+document.querySelectorAll('.motif-btn.principal').forEach(btn=>btn.classList.remove('principal'));
+state.motifPrincipal=null;
+document.getElementById('generateTop').disabled=true;
+document.getElementById('generateBottom').disabled=true;
+updateSelectionDisplay();
+updateSearchResultsSelection();
+toast('✗ Motif principal retiré');
+}
+
+function removeMotifSecondaire(index){
+const removed=state.motifsSecondaires.splice(index,1)[0];
+// Retirer le style du bouton
+document.querySelectorAll('.motif-btn.secondaire').forEach(btn=>{
+if(btn.textContent===removed.nom)btn.classList.remove('secondaire');
+});
+updateSelectionDisplay();
+updateSearchResultsSelection();
+toast('✗ Motif secondaire retiré');
+}
+
+function selectMotif(tableName,motifId,nomMotif,btnElement){
+// Vérifier si ce motif est déjà sélectionné
+const isPrincipal=state.motifPrincipal&&state.motifPrincipal.id===motifId;
+const isSecondaire=state.motifsSecondaires.some(m=>m.id===motifId);
+
+if(isPrincipal){
+// Désélectionner le motif principal
+btnElement.classList.remove('principal');
+state.motifPrincipal=null;
+document.getElementById('generateTop').disabled=true;
+document.getElementById('generateBottom').disabled=true;
+toast('✗ Motif principal retiré');
+}else if(isSecondaire){
+// Désélectionner un motif secondaire
+btnElement.classList.remove('secondaire');
+state.motifsSecondaires=state.motifsSecondaires.filter(m=>m.id!==motifId);
+toast('✗ Motif secondaire retiré');
+}else{
+// Nouveau motif à ajouter
+if(!state.motifPrincipal){
+// Pas de motif principal, celui-ci devient le principal
+document.querySelectorAll('.motif-btn.principal').forEach(btn=>btn.classList.remove('principal'));
+state.motifPrincipal={table:tableName,id:motifId,nom:nomMotif};
+btnElement.classList.add('principal');
+document.getElementById('generateTop').disabled=false;
+document.getElementById('generateBottom').disabled=false;
+toast(`⭐ Motif principal: ${nomMotif}`);
+}else{
+// Déjà un principal, celui-ci devient secondaire
+btnElement.classList.add('secondaire');
+state.motifsSecondaires.push({table:tableName,id:motifId,nom:nomMotif});
+toast(`📎 Secondaire: ${nomMotif}`);
+}
+}
+updateSelectionDisplay();
+updateSearchResultsSelection();
+}
+
+// Charger tous les motifs pour la recherche
+async function loadAllMotifsForSearch(){
+state.allMotifs=[];
+for(const cat of state.categories){
+try{
+const r=await fetch(`${API_URL}/motifs/${cat.table_name}`);
+if(r.ok){
+const motifs=await r.json();
+motifs.forEach(m=>{
+state.allMotifs.push({
+id:m.id,
+nom:m.nom_motif,
+table:cat.table_name,
+categorie:cat.nom
+});
+});
+}
+}catch(e){console.error('Erreur chargement motifs:',e);}
+}
+// Trier par ordre alphabétique
+state.allMotifs.sort((a,b)=>a.nom.localeCompare(b.nom,'fr',{sensitivity:'base'}));
+console.log('✅ Motifs chargés pour recherche:',state.allMotifs.length);
+}
+
+// Rechercher les motifs
+function searchMotifs(query){
+const resultsDiv=document.getElementById('searchResults');
+const searchInput=document.getElementById('motifSearch');
+
+if(!query||query.length<2){
+resultsDiv.classList.remove('active');
+return;
+}
+
+const queryLower=query.toLowerCase();
+const filtered=state.allMotifs.filter(m=>
+m.nom.toLowerCase().includes(queryLower)||
+m.categorie.toLowerCase().includes(queryLower)
+).slice(0,15);
+
+if(filtered.length===0){
+resultsDiv.innerHTML='<div class="search-result-item" style="color:#94a3b8;cursor:default">Aucun motif trouvé</div>';
+resultsDiv.classList.add('active');
+return;
+}
+
+resultsDiv.innerHTML=filtered.map(m=>{
+const isPrincipal=state.motifPrincipal&&state.motifPrincipal.id===m.id;
+const isSecondary=state.motifsSecondaires.some(s=>s.id===m.id);
+const selectedClass=isPrincipal?'selected-principal':isSecondary?'selected-secondary':'';
+return `<div class="search-result-item ${selectedClass}" onclick="selectMotifFromSearch('${m.table}','${m.id}','${m.nom.replace(/'/g,"\\'")}','${m.categorie}')">
+<div class="search-result-motif">${m.nom}${isPrincipal?' ⭐':isSecondary?' ✓':''}</div>
+<div class="search-result-category">${m.categorie}</div>
+</div>`;
+}).join('');
+resultsDiv.classList.add('active');
+}
+
+// Sélectionner un motif depuis la recherche
+function selectMotifFromSearch(tableName,motifId,nomMotif,categorie){
+// Si pas de motif principal, c'est le principal
+if(!state.motifPrincipal){
+state.motifPrincipal={table:tableName,id:motifId,nom:nomMotif};
+document.getElementById('generateTop').disabled=false;
+document.getElementById('generateBottom').disabled=false;
+toast(`⭐ Motif principal: ${nomMotif}`);
+}else if(state.motifPrincipal.id===motifId){
+// Clic sur le principal déjà sélectionné -> le désélectionner
+state.motifPrincipal=null;
+document.getElementById('generateTop').disabled=true;
+document.getElementById('generateBottom').disabled=true;
+toast('✗ Motif principal retiré');
+}else{
+// Vérifier si c'est déjà un secondaire
+const idx=state.motifsSecondaires.findIndex(m=>m.id===motifId);
+if(idx>=0){
+state.motifsSecondaires.splice(idx,1);
+toast(`✗ Retiré: ${nomMotif}`);
+}else{
+state.motifsSecondaires.push({table:tableName,id:motifId,nom:nomMotif});
+toast(`✓ Secondaire: ${nomMotif}`);
+}
+}
+updateSelectionDisplay();
+updateSearchResultsSelection();
+updateMotifButtonsSelection();
+}
+
+// Mettre à jour l'affichage des sélections dans les résultats de recherche
+function updateSearchResultsSelection(){
+const query=document.getElementById('motifSearch').value;
+if(query&&query.length>=2){
+searchMotifs(query);
+}
+}
+
+// Mettre à jour les boutons dans les listes de catégories
+function updateMotifButtonsSelection(){
+document.querySelectorAll('.motif-btn').forEach(btn=>{
+btn.classList.remove('principal','secondaire');
+});
+if(state.motifPrincipal){
+const principalBtns=document.querySelectorAll(`.motif-btn[onclick*="'${state.motifPrincipal.id}'"]`);
+principalBtns.forEach(btn=>btn.classList.add('principal'));
+}
+state.motifsSecondaires.forEach(m=>{
+const secBtns=document.querySelectorAll(`.motif-btn[onclick*="'${m.id}'"]`);
+secBtns.forEach(btn=>btn.classList.add('secondaire'));
+});
+}
+
+function showModeSelection(){
+if(!state.motifPrincipal){
+toast('⚠️ Sélectionnez un motif principal','error');
+return;
+}
+document.getElementById('modeSelectionModal').classList.add('active');
+}
+
+// Ouvrir le mémo du motif principal
+async function openMemo(){
+closeModal('modeSelectionModal');
+if(!state.motifPrincipal){
+toast('⚠️ Sélectionnez un motif principal','error');
+return;
+}
+
+// Collecter tous les motifs (principal + secondaires)
+const tousLesMotifs=[
+{table:state.motifPrincipal.table,id:state.motifPrincipal.id,nom:state.motifPrincipal.nom},
+...state.motifsSecondaires.map(m=>({table:m.table,id:m.id,nom:m.nom}))
+];
+
+toast('⏳ Chargement des mémos...');
+
+// Récupérer tous les mémos en parallèle
+const memosPromises=tousLesMotifs.map(async(motif)=>{
+try{
+const r=await fetch(`${API_URL}/memo/${motif.table}/${motif.id}`);
+if(!r.ok)throw new Error('Mémo non disponible');
+const data=await r.json();
+return {nom:motif.nom,memo:data.memo||'Aucun mémo disponible pour ce motif.'};
+}catch(e){
+return {nom:motif.nom,memo:'Aucun mémo disponible pour ce motif.\n\nLe mémo sera ajouté prochainement.'};
+}
+});
+
+const memos=await Promise.all(memosPromises);
+
+// Générer le HTML selon le nombre de mémos
+if(memos.length===1){
+document.getElementById('memoMotifName').textContent=memos[0].nom;
+document.getElementById('memoContent').innerHTML=`<div class="memo-single">${memos[0].memo}</div>`;
+}else{
+document.getElementById('memoMotifName').textContent=`${memos.length} motifs`;
+const gridCols=memos.length<=2?memos.length:memos.length<=4?2:3;
+document.getElementById('memoContent').innerHTML=`
+<div class="memo-grid" style="grid-template-columns:repeat(${gridCols},1fr)">
+${memos.map((m,i)=>`
+<div class="memo-column ${i===0?'memo-principal':'memo-secondaire'}">
+<div class="memo-column-header">${i===0?'⭐':''} ${escapeHtml(m.nom)}</div>
+<div class="memo-column-content">${m.memo}</div>
+</div>
+`).join('')}
+</div>`;
+}
+
+document.getElementById('memoModal').classList.add('active');
+
+// Rendre tous les liens cliquables (ouvrent dans un nouvel onglet)
+document.querySelectorAll('#memoContent a').forEach(link=>{
+link.setAttribute('target','_blank');
+link.setAttribute('rel','noopener noreferrer');
+});
+
+// Exécuter les scripts contenus dans le HTML du mémo
+const scripts=document.querySelectorAll('#memoContent script');
+scripts.forEach(oldScript=>{
+const newScript=document.createElement('script');
+if(oldScript.src){
+newScript.src=oldScript.src;
+}else{
+newScript.textContent=oldScript.textContent;
+}
+oldScript.parentNode.replaceChild(newScript,oldScript);
+});
+
+// Initialiser les accordéons présents dans le mémo
+initMemoAccordions();
+}
+
+// Fonction pour initialiser les accordéons dans les mémos
+function initMemoAccordions(){
+const accordionHeaders=document.querySelectorAll('#memoContent .accordion-header');
+accordionHeaders.forEach(header=>{
+// Supprimer les anciens event listeners en clonant l'élément
+const newHeader=header.cloneNode(true);
+header.parentNode.replaceChild(newHeader,header);
+// Ajouter le nouvel event listener
+newHeader.addEventListener('click',function(e){
+e.preventDefault();
+e.stopPropagation();
+const content=this.nextElementSibling;
+const isActive=this.classList.contains('active');
+// Fermer tous les accordéons du même niveau
+const parent=this.closest('.accordion-item')?.parentNode||document.getElementById('memoContent');
+parent.querySelectorAll('.accordion-header').forEach(h=>{
+h.classList.remove('active');
+if(h.nextElementSibling)h.nextElementSibling.classList.remove('active');
+});
+// Ouvrir celui cliqué si il était fermé
+if(!isActive){
+this.classList.add('active');
+if(content)content.classList.add('active');
+}
+});
+});
+}
+
+// Ouvrir les mémos depuis le bouton flottant (sans affecter le contenu actuel)
+function openMemoFromFloating(){
+if(!state.motifPrincipal){
+toast('⚠️ Aucun motif sélectionné','error');
+return;
+}
+openMemo();
+}
+
+function escapeHtml(text){
+const div=document.createElement('div');
+div.textContent=text;
+return div.innerHTML;
+}
+
+// Copier le contenu du mémo
+function copyMemo(){
+const memoContent=document.getElementById('memoContent').textContent;
+copyText(memoContent);
+}
+
+async function selectMode(mode){
+state.currentMode=mode;
+closeModal('modeSelectionModal');
+await generateConclusion(mode);
+}
+
+async function generateConclusion(mode){
+if(!state.motifPrincipal){
+toast('⚠️ Sélectionnez un motif principal','error');
+return;
+}
+
+toast('⏳ Génération...');
+
+try{
+const r=await fetch(`${API_URL}/fusion`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+table_principale:state.motifPrincipal.table,
+motif_principal_id:state.motifPrincipal.id,
+motifs_secondaires:state.motifsSecondaires,
+mode:mode
+})
+});
+
+if(!r.ok){
+const errorText=await r.text();
+console.error('Erreur API:',errorText);
+throw new Error('Erreur API');
+}
+
+state.conclusion=await r.json();
+console.log('Conclusion reçue:',state.conclusion);
+renderConclusion(mode);
+toast('✅ Généré !');
+document.getElementById('floatingActions').style.display='flex';
+}catch(e){
+toast('❌ Erreur: '+e.message,'error');
+console.error('Erreur complète:',e);
+}
+}
+
+function renderBullesHtml(bulles){
+if(!bulles||!Array.isArray(bulles)||bulles.length===0)return'';
+let html='';
+const seenTitles=new Set(); // Déduplication locale au module
+bulles.forEach((bulle,idx)=>{
+if(bulle&&bulle.titre){
+// Vérifier si une bulle avec le même titre existe déjà dans CE module
+if(!seenTitles.has(bulle.titre)){
+seenTitles.add(bulle.titre);
+const globalIdx=state.currentBulles.length;
+state.currentBulles.push(bulle);
+html+=`<button class="bulle-btn" onclick="showBulleByIndex(${globalIdx})" data-title="${bulle.titre.replace(/"/g,'&quot;')}">💡</button>`;
+}
+// Si elle existe déjà dans ce module, on ne l'ajoute pas
+}
+});
+return html?`<div class="bulles-container">${html}</div>`:'';
+}
+
+function renderConclusion(mode){
+if(mode==='examen_conclusion'){
+renderSplitView();
+}else{
+renderSingleView(mode);
+}
+}
+
+function renderSingleView(mode){
+let html='';
+state.currentBulles=[];
+
+if(!state.conclusion||!state.conclusion.modules){
+toast('❌ Données invalides','error');
+return;
+}
+
+let modulesToRender=state.conclusion.modules;
+
+// Pour le mode conclusion, s'assurer que tous les modules standards sont présents
+if(mode==='conclusion'){
+const standardConclusionModules=[
+{type:'diagnostic',icon:'🔍',titre:'Diagnostic'},
+{type:'signes_gravite',icon:'⚠️',titre:'Signes de gravité'},
+{type:'soins_urgences',icon:'🏥',titre:'Soins aux urgences'},
+{type:'conduite_tenir',icon:'📋',titre:'Conduite à tenir'},
+{type:'conseils',icon:'💡',titre:'Conseils'},
+{type:'suivi',icon:'🔄',titre:'Suivi'},
+{type:'consignes_reconsultation',icon:'⚠️',titre:'Consignes de reconsultation'}
+];
+
+modulesToRender=modulesToRender.filter(m=>!m.type.startsWith('examen_')&&m.type!=='hdm');
+
+standardConclusionModules.forEach(stdModule=>{
+if(!modulesToRender.find(m=>m.type===stdModule.type)){
+modulesToRender.push({
+type:stdModule.type,
+icon:stdModule.icon,
+titre:stdModule.titre,
+lignes:[],
+bulles:[]
+});
+}
+});
+
+modulesToRender.sort((a,b)=>{
+const orderA=standardConclusionModules.findIndex(s=>s.type===a.type);
+const orderB=standardConclusionModules.findIndex(s=>s.type===b.type);
+return (orderA===-1?999:orderA)-(orderB===-1?999:orderB);
+});
+}
+
+modulesToRender.forEach((module,moduleIdx)=>{
+let content='';
+
+if(module.type==='conduite_tenir'){
+// Extraire le texte de chaque ligne (nouvelle structure avec elements)
+state.conduiteLines=(module.lignes||[]).map((ligne,i)=>{
+let text='';
+if(ligne.elements&&Array.isArray(ligne.elements)){
+text=ligne.elements.map(e=>e.texte||'').join('');
+}else{
+text=ligne.texte||'';
+}
+return{
+id:Date.now()+i,
+text:text,
+proposition:ligne.proposition,
+alternative:ligne.alternative,
+commentaire:ligne.commentaire,
+deletable:ligne.deletable
+};
+});
+content=renderConduiteATenir();
+}else if(module.type==='hdm'){
+// HDM avec 4 sections
+content=renderHDM(module);
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+
+const copyBtn=mode==='examen'||module.type==='hdm'||module.type.startsWith('examen_')?
+`<button class="module-copy-btn" onclick="copyModule('${module.type}')" title="Copier">📋</button>`:'';
+const deleteBtn=`<button class="module-delete-btn" onclick="deleteModule(this)" title="Supprimer">✕</button>`;
+
+const isEditable=module.type!=='conduite_tenir';
+
+html+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+<div class="module-buttons">
+${copyBtn}
+${deleteBtn}
+</div>
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${isEditable}">
+${content}
+</div>
+${module.type==='conduite_tenir'?renderOrdonnancesSection():''}
+</div>
+`;
+});
+
+// Ajouter le module de note pour le mode examen
+if(mode==='examen'){
+html+=`
+<div class="module module-note" data-module-type="note_examen">
+<div class="module-header">
+<span class="module-title"><span class="icon">📝</span> Ajouter une note ou un examen</span>
+<div class="module-buttons">
+<label class="copy-checkbox" title="Inclure dans la copie de l'examen">
+<input type="checkbox" id="includeNoteCheckbox" checked>
+<span>Copier avec l'examen</span>
+</label>
+</div>
+</div>
+<div class="module-content module-note-content" data-module-content="note_examen" contenteditable="true" placeholder="Saisissez ici une note ou un examen complémentaire..."></div>
+</div>
+`;
+}
+
+if(state.conclusion.codes_cim&&state.conclusion.codes_cim.length>0){
+html+=`
+<div class="codes-section">
+<h3>🗂️ Suggestion CIM-10</h3>
+${state.conclusion.codes_cim.map(code=>`
+<div class="code-item"><strong>${code.code||''}</strong> : ${code.libelle||''}</div>
+`).join('')}
+</div>
+`;
+}
+
+document.getElementById('resultContainer').innerHTML=html;
+}
+
+function renderHDM(module){
+if(!module.sections||!Array.isArray(module.sections))return'';
+
+return module.sections.map(section=>{
+// Ne pas afficher si pas de lignes
+if(!section.lignes||section.lignes.length===0)return'';
+
+// Chaque ligne a maintenant ses éléments groupés
+const lignesHtml=section.lignes.map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+
+// Ne pas afficher la section si pas de contenu
+if(!lignesHtml)return'';
+
+return `
+<div class="hdm-section">
+<div class="hdm-section-title">${section.titre||''}</div>
+<div class="hdm-section-content">
+${lignesHtml}
+</div>
+</div>
+`;
+}).filter(s=>s).join('');
+}
+
+function renderSplitView(){
+state.currentBulles=[];
+
+if(!state.conclusion||!state.conclusion.modules){
+toast('❌ Données invalides','error');
+return;
+}
+
+const examenModules=state.conclusion.modules.filter(m=>
+m.type==='hdm'||m.type.startsWith('examen_')
+);
+let conclusionModules=state.conclusion.modules.filter(m=>
+!m.type.startsWith('examen_')&&m.type!=='hdm'
+);
+
+// Liste des modules de conclusion standards avec leurs icônes et titres
+const standardConclusionModules=[
+{type:'diagnostic',icon:'🔍',titre:'Diagnostic'},
+{type:'signes_gravite',icon:'⚠️',titre:'Signes de gravité'},
+{type:'soins_urgences',icon:'🏥',titre:'Soins aux urgences'},
+{type:'conduite_tenir',icon:'📋',titre:'Conduite à tenir'},
+{type:'conseils',icon:'💡',titre:'Conseils'},
+{type:'suivi',icon:'🔄',titre:'Suivi'},
+{type:'consignes_reconsultation',icon:'⚠️',titre:'Consignes de reconsultation'}
+];
+
+// S'assurer que tous les modules standards sont présents
+standardConclusionModules.forEach(stdModule=>{
+if(!conclusionModules.find(m=>m.type===stdModule.type)){
+conclusionModules.push({
+type:stdModule.type,
+icon:stdModule.icon,
+titre:stdModule.titre,
+lignes:[],
+bulles:[]
+});
+}
+});
+
+// Trier les modules dans l'ordre standard
+conclusionModules.sort((a,b)=>{
+const orderA=standardConclusionModules.findIndex(s=>s.type===a.type);
+const orderB=standardConclusionModules.findIndex(s=>s.type===b.type);
+return (orderA===-1?999:orderA)-(orderB===-1?999:orderB);
+});
+
+let examenHtml='';
+examenModules.forEach(module=>{
+let content='';
+if(module.type==='hdm'){
+content=renderHDM(module);
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+const copyBtn=`<button class="module-copy-btn" onclick="copyModule('${module.type}')" title="Copier">📋</button>`;
+const deleteBtn=`<button class="module-delete-btn" onclick="deleteModule(this)" title="Supprimer">✕</button>`;
+
+const isEditable=true;
+
+examenHtml+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+<div class="module-buttons">
+${copyBtn}
+${deleteBtn}
+</div>
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${isEditable}">
+${content}
+</div>
+</div>
+`;
+});
+
+// Ajouter le module de note/examen supplémentaire
+examenHtml+=`
+<div class="module module-note" data-module-type="note_examen">
+<div class="module-header">
+<span class="module-title"><span class="icon">📝</span> Ajouter une note ou un examen</span>
+<div class="module-buttons">
+<label class="copy-checkbox" title="Inclure dans la copie de l'examen">
+<input type="checkbox" id="includeNoteCheckbox" checked>
+<span>Copier avec l'examen</span>
+</label>
+</div>
+</div>
+<div class="module-content module-note-content" data-module-content="note_examen" contenteditable="true" placeholder="Saisissez ici une note ou un examen complémentaire..."></div>
+</div>
+`;
+
+let conclusionHtml='';
+conclusionModules.forEach(module=>{
+let content='';
+
+if(module.type==='conduite_tenir'){
+// Extraire le texte de chaque ligne (nouvelle structure avec elements)
+state.conduiteLines=(module.lignes||[]).map((ligne,i)=>{
+let text='';
+if(ligne.elements&&Array.isArray(ligne.elements)){
+text=ligne.elements.map(e=>e.texte||'').join('');
+}else{
+text=ligne.texte||'';
+}
+return{
+id:Date.now()+i,
+text:text,
+proposition:ligne.proposition,
+alternative:ligne.alternative,
+commentaire:ligne.commentaire,
+deletable:ligne.deletable
+};
+});
+content=renderConduiteATenir();
+}else{
+// Chaque ligne a maintenant ses éléments groupés
+content=(module.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+}
+
+const bullesHtml=renderBullesHtml(module.bulles);
+const deleteBtn=`<button class="module-delete-btn" onclick="deleteModule(this)" title="Supprimer">✕</button>`;
+
+conclusionHtml+=`
+<div class="module" data-module-type="${module.type}">
+<div class="module-header">
+<span class="module-title"><span class="icon">${module.icon||''}</span> ${module.titre||''}</span>
+<div class="module-buttons">
+${deleteBtn}
+</div>
+${bullesHtml}
+</div>
+<div class="module-content" data-module-content="${module.type}" contenteditable="${module.type!=='conduite_tenir'}">
+${content}
+</div>
+${module.type==='conduite_tenir'?renderOrdonnancesSection():''}
+</div>
+`;
+});
+
+if(state.conclusion.codes_cim&&state.conclusion.codes_cim.length>0){
+conclusionHtml+=`
+<div class="codes-section">
+<h3>🗂️ Suggestion CIM-10</h3>
+${state.conclusion.codes_cim.map(code=>`
+<div class="code-item"><strong>${code.code||''}</strong> : ${code.libelle||''}</div>
+`).join('')}
+</div>
+`;
+}
+
+const splitHtml=`
+<div class="split-view">
+<div class="split-panel">
+<div class="split-header">
+<span class="split-title">🩺 EXAMEN TYPE</span>
+<button class="copy-btn" onclick="copyExamen()" title="Copier l'examen">📋</button>
+</div>
+<div id="examenContent">${examenHtml}</div>
+</div>
+<div class="split-panel">
+<div class="split-header">
+<span class="split-title">📋 CONCLUSION TYPE</span>
+<button class="copy-btn" onclick="copyConclusion()" title="Copier la conclusion">📋</button>
+</div>
+<div id="conclusionContent">${conclusionHtml}</div>
+</div>
+</div>
+`;
+
+document.getElementById('resultContainer').innerHTML=splitHtml;
+}
+
+function renderLigne(ligne){
+if(!ligne)return'';
+
+let texte=ligne.texte||'';
+
+// Gérer les différents types de marqueurs INLINE
+if(ligne.commentaire){
+if(!texte)return'';
+return `<span class="comment">${texte}</span>`;
+}
+
+if(ligne.deletable){
+if(!texte)return'';
+const id='del-'+Date.now()+Math.random();
+return `<span class="deletable" id="${id}" onclick="deleteText('${id}')">${texte}</span>`;
+}
+
+// XXXX avec propositions venant du backend
+if(texte==='XXXX'){
+const props=ligne.proposition&&ligne.proposition.suggestions?ligne.proposition.suggestions:[];
+const propsJson=JSON.stringify(props).replace(/'/g,'&#39;');
+return `<span class="xxxx" data-props='${propsJson}' onclick="openXXXXModal(this)">XXXX</span>`;
+}
+
+if(ligne.alternative&&ligne.alternative.alternatives&&ligne.alternative.alternatives.length>0){
+const alts=ligne.alternative.alternatives;
+if(alts.length<=1){
+return alts[0]||'';
+}
+const altsJson=JSON.stringify(alts).replace(/'/g,'&#39;');
+return `<span class="alternative" data-alts='${altsJson}' onclick="openAlternativeModal(this)">${alts[0]}</span>`;
+}
+
+// Parser le texte brut s'il contient des marqueurs @@
+if(texte.includes('@@')){
+return parseTextWithMarkers(texte);
+}
+
+// Filtrer les résidus orphelins PROPOSITION : ... FINI (ne devrait plus arriver avec le backend corrigé)
+if(/PROPOSITION\s*:/i.test(texte)&&/FINI/i.test(texte)){
+return'';
+}
+
+// Texte normal
+if(!texte)return'';
+return texte;
+}
+
+// Fonction simple pour remplacer XXXX par un span cliquable
+function renderXXXXSimple(text){
+if(!text||!text.includes('XXXX'))return text;
+return text.replace(/XXXX/g,'<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>');
+}
+
+// Fonction pour parser le texte avec marqueurs @@ et /
+function parseTextWithMarkers(texte){
+// Format: "texte avant @@ alt1 / alt2 / alt3 @@ texte après"
+// Le @@ délimite la zone d'alternatives
+
+// Chercher le pattern @@ ... @@
+const regex=/@@\s*(.+?)\s*@@/g;
+let result='';
+let lastIndex=0;
+let match;
+
+while((match=regex.exec(texte))!==null){
+// Ajouter le texte avant le @@
+let beforeText=texte.substring(lastIndex,match.index);
+result+=renderXXXXSimple(beforeText);
+
+// Parser les alternatives entre @@
+const altText=match[1];
+const alternatives=altText.split('/').map(a=>a.trim()).filter(a=>a);
+
+if(alternatives.length<=1){
+// Pas d'alternatives, juste du texte
+let displayText=alternatives[0]||altText;
+result+=renderXXXXSimple(displayText);
+}else{
+// Plusieurs alternatives: afficher la première en violet
+const firstOption=alternatives[0];
+const altsJson=JSON.stringify(alternatives).replace(/'/g,'&#39;');
+let displayText=renderXXXXSimple(firstOption);
+result+=`<span class="alternative" data-alts='${altsJson}' onclick="openAlternativeModal(this)">${displayText}</span>`;
+}
+
+lastIndex=regex.lastIndex;
+}
+
+// Ajouter le texte après le dernier @@
+let afterText=texte.substring(lastIndex);
+result+=renderXXXXSimple(afterText);
+
+return result;
+}
+
+// Fonction pour fusionner les éléments XXXX avec leur PROPOSITION : ... FINI suivant
+function fusionnerXXXXProposition(elements){
+if(!elements||elements.length<2)return elements||[];
+const result=[];
+let i=0;
+while(i<elements.length){
+const elem=elements[i];
+const txt=(elem.texte||'').trim();
+// Vérifie si cet élément finit par XXXX ou est juste XXXX
+if(/XXXX\s*$/.test(txt)){
+// Cherche si le suivant est une PROPOSITION : ... FINI
+if(i+1<elements.length){
+const nextTxt=(elements[i+1].texte||'').trim();
+if(/^PROPOSITION\s*:/i.test(nextTxt)&&/FINI\s*$/i.test(nextTxt)){
+// Fusionner les deux
+result.push({...elem,texte:elem.texte+' '+elements[i+1].texte});
+i+=2;
+continue;
+}
+}
+}
+result.push(elem);
+i++;
+}
+return result;
+}
+
+// Nouvelle fonction pour rendre une ligne complète avec ses éléments groupés
+function renderLigneComplete(ligne){
+if(!ligne)return'';
+
+// Nouvelle structure : ligne.elements est un tableau d'éléments
+if(ligne.elements&&Array.isArray(ligne.elements)){
+// PRÉ-TRAITEMENT: Fusionner les éléments XXXX avec PROPOSITION : ... FINI
+const elements=fusionnerXXXXProposition(ligne.elements);
+
+// Chercher si un élément a des alternatives
+const altIndex=elements.findIndex(elem=>
+elem.alternative&&elem.alternative.alternatives&&elem.alternative.alternatives.length>0
+);
+
+if(altIndex!==-1){
+const altElement=elements[altIndex];
+const alts=altElement.alternative.alternatives;
+
+// Joindre toutes les alternatives pour détecter les résidus (en minuscules pour comparaison)
+const allAltsText=alts.join(' ').toLowerCase();
+
+let resultHtml='';
+
+// Texte AVANT l'alternative
+for(let i=0;i<altIndex;i++){
+const elem=elements[i];
+if(elem.commentaire){
+resultHtml+=`<span class="comment">${elem.texte||''}</span>`;
+}else{
+let txt=elem.texte||'';
+if(txt.trim()==='/'||txt.trim()===''||txt.trim()==='@@')continue;
+// Résidu si contient / ou @@
+if(txt.includes('/')||txt.includes('@@'))continue;
+// Résidu si texte très court (1-2 caractères) comme "à", "h", etc.
+if(txt.trim().length<=2)continue;
+// Résidu si le texte est contenu dans une des alternatives (insensible à la casse)
+if(allAltsText.includes(txt.trim().toLowerCase())&&txt.trim().length>1)continue;
+// Résidu PROPOSITION orphelin (sans XXXX)
+if(/PROPOSITION\s*:/i.test(txt)&&/FINI/i.test(txt)&&!txt.includes('XXXX'))continue;
+txt=renderXXXXSimple(txt);
+resultHtml+=txt;
+}
+}
+
+// L'alternative elle-même
+if(alts.length<=1){
+let displayText=alts[0]||'';
+displayText=renderXXXXSimple(displayText);
+resultHtml+=displayText;
+}else{
+const firstOption=alts[0];
+const altsJson=JSON.stringify(alts).replace(/'/g,'&#39;');
+let displayText=renderXXXXSimple(firstOption);
+resultHtml+=`<span class="alternative" data-alts='${altsJson}' onclick="openAlternativeModal(this)">${displayText}</span>`;
+}
+
+// Texte APRÈS l'alternative
+for(let i=altIndex+1;i<elements.length;i++){
+const elem=elements[i];
+if(elem.commentaire){
+resultHtml+=`<span class="comment">${elem.texte||''}</span>`;
+}else{
+let txt=elem.texte||'';
+if(txt.trim()==='/'||txt.trim()===''||txt.trim()==='@@')continue;
+// Résidu si contient / ou @@
+if(txt.includes('/')||txt.includes('@@'))continue;
+// Résidu si texte très court (1-2 caractères) comme "à", "h", etc.
+if(txt.trim().length<=2)continue;
+// Résidu si le texte est contenu dans une des alternatives (insensible à la casse)
+if(allAltsText.includes(txt.trim().toLowerCase())&&txt.trim().length>1)continue;
+// Résidu PROPOSITION orphelin
+if(/PROPOSITION\s*:/i.test(txt)&&/FINI/i.test(txt)&&!txt.includes('XXXX'))continue;
+txt=renderXXXXSimple(txt);
+resultHtml+=txt;
+}
+}
+
+return resultHtml?`<div class="module-line">${resultHtml}</div>`:'';
+}
+
+// Sinon, rendre chaque élément normalement
+const html=elements.map(elem=>renderLigne(elem)).join('');
+return html?`<div class="module-line">${html}</div>`:'';
+}
+
+// Ancienne structure de compatibilité : ligne directe
+const html=renderLigne(ligne);
+return html?`<div class="module-line">${html}</div>`:'';
+}
+
+function deleteText(elementId){
+const element=document.getElementById(elementId);
+if(element){
+element.remove();
+toast('✓ Texte supprimé');
+}
+}
+
+function renderConduiteATenir(){
+return state.conduiteLines.map((line,idx)=>{
+let text=line.text||'';
+text=text.replace(/XXXX/g,'<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>');
+return `
+<div class="conduite-line" data-line-idx="${idx}">
+<div class="conduite-number">${idx+1}</div>
+<div class="conduite-text" contenteditable="true" onblur="updateConduiteLineText(${idx},this.innerText)">${text}</div>
+<div class="conduite-actions">
+<button class="action-icon action-up" onclick="moveLineUp(${idx})">↑</button>
+<button class="action-icon action-down" onclick="moveLineDown(${idx})">↓</button>
+<button class="action-icon action-delete" onclick="deleteLine(${idx})">🗑</button>
+</div>
+</div>
+`;
+}).join('')+`
+<div class="conduite-add-line">
+<input type="text" id="newConduiteLineInput" class="conduite-input" placeholder="➕ Ajouter une ligne..." onkeypress="if(event.key==='Enter')addNewConduiteLine()">
+<button class="conduite-add-btn" onclick="addNewConduiteLine()">✓ Ajouter</button>
+</div>
+`;
+}
+
+function moveLineUp(idx){
+if(idx===0)return;
+[state.conduiteLines[idx],state.conduiteLines[idx-1]]=[state.conduiteLines[idx-1],state.conduiteLines[idx]];
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+}
+
+function moveLineDown(idx){
+if(idx===state.conduiteLines.length-1)return;
+[state.conduiteLines[idx],state.conduiteLines[idx+1]]=[state.conduiteLines[idx+1],state.conduiteLines[idx]];
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+}
+
+function deleteLine(idx){
+if(idx<0||idx>=state.conduiteLines.length)return;
+state.conduiteLines.splice(idx,1);
+
+// Re-render uniquement le module conduite
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+
+toast('✓ Ligne supprimée');
+}
+
+function updateConduiteLineText(idx,newText){
+if(idx>=0&&idx<state.conduiteLines.length){
+state.conduiteLines[idx].text=newText.trim();
+}
+}
+
+function addNewConduiteLine(){
+const input=document.getElementById('newConduiteLineInput');
+const text=input.value.trim();
+
+if(!text){
+toast('⚠️ Entrez du texte','error');
+return;
+}
+
+// Ajouter la nouvelle ligne
+state.conduiteLines.push({
+id:Date.now(),
+text:text,
+proposition:null,
+alternative:null,
+commentaire:null,
+deletable:false
+});
+
+// Re-render
+const conduiteModule=document.querySelector('[data-module-type="conduite_tenir"] .module-content');
+if(conduiteModule){
+conduiteModule.innerHTML=renderConduiteATenir();
+}
+
+// Réinitialiser l'input
+input.value='';
+toast('✓ Ligne ajoutée');
+}
+
+function renderOrdonnancesSection(){
+if(!state.conclusion.ordonnances||state.conclusion.ordonnances.length===0)return'';
+
+return`
+<div class="ordonnances-section">
+<strong>💊 Ordonnances disponibles</strong><br>
+<button class="ordo-btn all" onclick="loadAllOrdonnances()">📋 Toutes Les Ordonnances Disponibles</button>
+${state.conclusion.ordonnances.map((ordo,i)=>`
+<button class="ordo-btn" onclick="showOrdonnance(${i})">${ordo.titre||'Ordonnance'}</button>
+`).join('')}
+</div>
+`;
+}
+
+function showOrdonnance(idx){
+const ordo=state.conclusion.ordonnances[idx];
+if(!ordo)return;
+
+// Chaque ligne a maintenant ses éléments groupés
+const content=(ordo.lignes||[]).map(ligne=>renderLigneComplete(ligne)).filter(h=>h).join('');
+
+document.getElementById('ordoModal').innerHTML=`
+<div class="modal-content modal-ordo-detail">
+<div class="modal-header">
+<span>📋 ${ordo.titre||'Ordonnance'}</span>
+<span class="modal-close" onclick="closeModal('ordoModal')">×</span>
+</div>
+<div id="ordoContent" contenteditable="true">${content}</div>
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('ordoModal')">Fermer</button>
+<button class="modal-btn modal-btn-primary" onclick="copyOrdonnance(${idx})">📋 Copier</button>
+</div>
+</div>
+`;
+document.getElementById('ordoModal').classList.add('active');
+}
+
+function copyOrdonnance(idx){
+// Lire depuis le DOM du modal (pour prendre en compte les modifications)
+const ordoContent=document.getElementById('ordoContent');
+if(ordoContent){
+const clone=ordoContent.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+const text=cleanTextFromDOM(clone);
+if(text){
+copyText(text);
+return;
+}
+}
+
+// Fallback sur les données de state
+const ordo=state.conclusion.ordonnances[idx];
+if(!ordo||!ordo.lignes)return;
+const text=ordo.lignes.map(ligne=>{
+if(ligne.elements&&Array.isArray(ligne.elements)){
+return ligne.elements.filter(e=>!e.commentaire).map(e=>e.texte||'').join('');
+}
+return ligne.texte||'';
+}).filter(t=>t).join('\n');
+copyText(text);
+}
+
+async function loadAllOrdonnances(){
+// Si déjà chargé, afficher directement
+if(state.allOrdonnances&&state.allOrdonnances.length>0){
+renderAllOrdonnances();
+return;
+}
+
+toast('⏳ Chargement des ordonnances...');
+state.allOrdonnances=[];
+
+try{
+// Charger toutes les catégories en parallèle
+const catPromises=state.categories.map(async(cat)=>{
+try{
+const mr=await fetch(`${API_URL}/motifs/${cat.table_name}`);
+if(!mr.ok)return[];
+const motifs=await mr.json();
+return motifs.map(m=>({cat,motif:m}));
+}catch(e){return[];}
+});
+
+const allMotifs=(await Promise.all(catPromises)).flat();
+
+// Charger les ordonnances par batch de 10 en parallèle
+const batchSize=10;
+for(let i=0;i<allMotifs.length;i+=batchSize){
+const batch=allMotifs.slice(i,i+batchSize);
+const batchPromises=batch.map(async({cat,motif})=>{
+try{
+const fr=await fetch(`${API_URL}/fusion`,{
+method:'POST',
+headers:{'Content-Type':'application/json'},
+body:JSON.stringify({
+table_principale:cat.table_name,
+motif_principal_id:motif.id,
+motifs_secondaires:[],
+mode:'conclusion'
+})
+});
+if(!fr.ok)return[];
+const fd=await fr.json();
+if(fd.ordonnances&&Array.isArray(fd.ordonnances)){
+return fd.ordonnances.map(ordo=>({
+categorie:cat.nom,
+motif:motif.nom_motif,
+ordonnance:ordo
+}));
+}
+return[];
+}catch(e){return[];}
+});
+
+const batchResults=await Promise.all(batchPromises);
+state.allOrdonnances.push(...batchResults.flat());
+
+// Afficher progressivement
+if(i===0||state.allOrdonnances.length>0){
+renderAllOrdonnances();
+}
+}
+
+if(state.allOrdonnances.length===0){
+toast('❌ Aucune ordonnance trouvée','error');
+return;
+}
+
+renderAllOrdonnances();
+toast(`✅ ${state.allOrdonnances.length} ordonnances chargées`);
+}catch(e){
+toast('❌ Erreur: '+e.message,'error');
+console.error('Erreur loadAllOrdonnances:',e);
+}
+}
+
+function renderAllOrdonnances(){
+const categories=[...new Set(state.allOrdonnances.map(o=>o.categorie))];
+
+document.getElementById('allOrdosModal').innerHTML=`
+<div class="modal-content modal-ordos">
+<div class="modal-header modal-header-ordos">
+<span>📋 Toutes les Ordonnances (${state.allOrdonnances.length})</span>
+<span class="modal-close" onclick="closeModal('allOrdosModal')">×</span>
+</div>
+<div class="ordo-search-container">
+<input type="text" id="ordoSearchInput" class="ordo-search-input" placeholder="🔍 Rechercher une ordonnance..." oninput="filterAllOrdonnances()">
+</div>
+<div class="ordo-filters">
+<div class="ordo-filter">
+<label>📁 Catégorie</label>
+<select id="catFilter" onchange="filterAllOrdonnances()">
+<option value="">Toutes les catégories</option>
+${categories.map(c=>`<option value="${c}">${c}</option>`).join('')}
+</select>
+</div>
+<div class="ordo-filter">
+<label>📌 Motif</label>
+<select id="motifFilter" onchange="filterAllOrdonnances()">
+<option value="">Tous les motifs</option>
+</select>
+</div>
+</div>
+<div id="ordosCount" class="ordos-count"></div>
+<div id="ordosList" class="ordos-list"></div>
+</div>
+`;
+
+filterAllOrdonnances();
+document.getElementById('allOrdosModal').classList.add('active');
+setTimeout(()=>document.getElementById('ordoSearchInput').focus(),100);
+}
+
+function filterAllOrdonnances(){
+const catFilter=document.getElementById('catFilter').value;
+const motifFilter=document.getElementById('motifFilter').value;
+const searchQuery=(document.getElementById('ordoSearchInput')?.value||'').toLowerCase().trim();
+
+let filtered=state.allOrdonnances;
+
+// Filtre par catégorie
+if(catFilter){
+filtered=filtered.filter(o=>o.categorie===catFilter);
+const motifs=[...new Set(filtered.map(o=>o.motif))];
+document.getElementById('motifFilter').innerHTML=
+'<option value="">Tous les motifs</option>'+
+motifs.map(m=>`<option value="${m}"${m===motifFilter?' selected':''}>${m}</option>`).join('');
+}else{
+document.getElementById('motifFilter').innerHTML='<option value="">Tous les motifs</option>';
+}
+
+// Filtre par motif
+if(motifFilter)filtered=filtered.filter(o=>o.motif===motifFilter);
+
+// Filtre par recherche textuelle
+if(searchQuery){
+filtered=filtered.filter(o=>{
+const titre=(o.ordonnance.titre||'').toLowerCase();
+const motif=o.motif.toLowerCase();
+const cat=o.categorie.toLowerCase();
+return titre.includes(searchQuery)||motif.includes(searchQuery)||cat.includes(searchQuery);
+});
+}
+
+// Afficher le compteur
+document.getElementById('ordosCount').innerHTML=`<span>${filtered.length} ordonnance${filtered.length>1?'s':''} trouvée${filtered.length>1?'s':''}</span>`;
+
+// Grouper par catégorie pour un meilleur affichage
+const grouped={};
+filtered.forEach((item,idx)=>{
+if(!grouped[item.categorie])grouped[item.categorie]=[];
+grouped[item.categorie].push({...item,globalIdx:state.allOrdonnances.indexOf(item)});
+});
+
+let html='';
+Object.keys(grouped).sort().forEach(cat=>{
+html+=`<div class="ordo-category-group">
+<div class="ordo-category-title">${cat}</div>
+<div class="ordo-category-items">
+${grouped[cat].map(item=>`
+<div class="ordo-item" onclick="openOrdonnanceFromList(${item.globalIdx})">
+<div class="ordo-item-icon">💊</div>
+<div class="ordo-item-content">
+<div class="ordo-item-title">${item.ordonnance.titre||'Ordonnance'}</div>
+<div class="ordo-item-motif">${item.motif}</div>
+</div>
+<div class="ordo-item-arrow">›</div>
+</div>
+`).join('')}
+</div>
+</div>`;
+});
+
+document.getElementById('ordosList').innerHTML=html||'<div class="ordo-empty">Aucune ordonnance trouvée</div>';
+}
+
+function openOrdonnanceFromList(globalIdx){
+const item=state.allOrdonnances[globalIdx];
+if(!item||!item.ordonnance)return;
+
+const content=(item.ordonnance.lignes||[]).map(ligne=>{
+if(!ligne||!ligne.texte)return'';
+return renderLigne(ligne);
+}).join('');
+
+closeModal('allOrdosModal');
+
+const textToCopy=(item.ordonnance.lignes||[]).filter(l=>!l.commentaire).map(l=>l.texte||'').join('\n').replace(/'/g,"\\'");
+
+document.getElementById('ordoModal').innerHTML=`
+<div class="modal-content modal-ordo-detail">
+<div class="modal-header">
+<span>📋 ${item.ordonnance.titre||'Ordonnance'}</span>
+<span class="modal-close" onclick="closeModal('ordoModal')">×</span>
+</div>
+<div id="ordoContent" contenteditable="true">${content}</div>
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('ordoModal')">Fermer</button>
+<button class="modal-btn modal-btn-primary" onclick="copyText('${textToCopy}')">📋 Copier</button>
+</div>
+</div>
+`;
+document.getElementById('ordoModal').classList.add('active');
+}
+
+function showBulleByIndex(idx){
+const bulle=state.currentBulles[idx];
+if(!bulle){
+console.error('Bulle non trouvée:',idx);
+return;
+}
+document.getElementById('bulleModal').innerHTML=`
+<div class="modal-content modal-bulle">
+<div class="modal-header">
+<span>💡 ${bulle.titre||'Info'}</span>
+<span class="modal-close" onclick="closeModal('bulleModal')">×</span>
+</div>
+<div class="bulle-content">${bulle.contenu||''}</div>
+</div>
+`;
+document.getElementById('bulleModal').classList.add('active');
+document.getElementById('bulleModal').onclick=function(){closeModal('bulleModal');};
+}
+
+function openXXXXModal(element){
+element.id='xxxx-'+Date.now();
+
+let propositions=[];
+try{
+const propsAttr=element.getAttribute('data-props');
+if(propsAttr){
+propositions=JSON.parse(propsAttr);
+}
+}catch(e){
+console.error('Erreur parse props:',e);
+}
+
+// Détecter le contexte en regardant le texte AVANT et APRÈS le XXXX
+const prevSibling=element.previousSibling;
+const nextSibling=element.nextSibling;
+
+const textBefore=prevSibling?prevSibling.textContent||'':'';
+const textAfter=nextSibling?nextSibling.textContent||'':'';
+
+// Date : précédé de "le " isolé (pas "abdominale", "normale", etc.)
+const isDate=/(?:^|\s)le\s*$/i.test(textBefore);
+// Heure : suivi de " h" ou "h"
+const isTime=/^\s*h/i.test(textAfter);
+
+// Stocker si on doit supprimer le h après validation
+element.setAttribute('data-remove-h',isTime?'true':'false');
+
+// Générer le calendrier (15 derniers jours + sélecteur d'heure)
+let dateOptionsHtml='';
+if(isDate){
+const now=new Date();
+const joursSemaine=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+const mois=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+
+// Générer les 28 derniers jours pour avoir 4 semaines complètes
+let calendarDays='';
+for(let i=27;i>=0;i--){
+const d=new Date(now);
+d.setDate(d.getDate()-i);
+const day=String(d.getDate()).padStart(2,'0');
+const month=String(d.getMonth()+1).padStart(2,'0');
+const dayName=joursSemaine[d.getDay()];
+const isToday=i===0;
+const dateValue=`${day}/${month}`;
+calendarDays+=`<div class="calendar-day${isToday?' today':''}" onclick="selectCalendarDate('${dateValue}',this)" data-date="${dateValue}">
+<div style="font-size:10px;color:#94a3b8">${dayName}</div>
+<div style="font-size:15px;font-weight:600">${d.getDate()}</div>
+</div>`;
+}
+
+// Générer les créneaux horaires (24h complètes)
+let timeSlots='';
+const times=['00h00','00h30','01h00','01h30','02h00','02h30','03h00','03h30','04h00','04h30','05h00','05h30','06h00','06h30','07h00','07h30','08h00','08h30','09h00','09h30','10h00','10h30','11h00','11h30','12h00','12h30','13h00','13h30','14h00','14h30','15h00','15h30','16h00','16h30','17h00','17h30','18h00','18h30','19h00','19h30','20h00','20h30','21h00','21h30','22h00','22h30','23h00','23h30'];
+// Déterminer l'heure actuelle arrondie
+const currentHour=now.getHours();
+const currentMin=now.getMinutes();
+const currentTimeStr=String(currentHour).padStart(2,'0')+'h'+(currentMin>=30?'30':'00');
+times.forEach(t=>{
+const isCurrent=t===currentTimeStr;
+timeSlots+=`<div class="time-slot${isCurrent?' current':''}" onclick="selectTimeSlot('${t}',this)">${t}</div>`;
+});
+
+dateOptionsHtml=`
+<div class="calendar-container">
+<div class="calendar-header">📅 ${mois[now.getMonth()]} ${now.getFullYear()}</div>
+<div class="calendar-days" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+${calendarDays}
+</div>
+<div class="calendar-section-title">⏰ Heure (optionnel) :</div>
+<div class="time-picker-grid">
+${timeSlots}
+</div>
+</div>`;
+}
+
+// Générer les options d'heure (24h par pas de 30 min = 48 options)
+let timeOptionsHtml='';
+if(isTime){
+const times=[];
+const now=new Date();
+// Arrondir à la demi-heure inférieure
+let minutes=now.getMinutes();
+minutes=minutes>=30?30:0;
+now.setMinutes(minutes);
+now.setSeconds(0);
+
+for(let i=0;i<48;i++){
+const t=new Date(now);
+t.setMinutes(t.getMinutes()-(i*30));
+const hours=String(t.getHours()).padStart(2,'0');
+const mins=String(t.getMinutes()).padStart(2,'0');
+times.push(`${hours}h${mins}`);
+}
+timeOptionsHtml=`
+<div class="datetime-picker">
+<label>Heure :</label>
+<select id="timeSelect" onchange="document.getElementById('xxxxInput').value=this.value;document.getElementById('xxxxInput').focus()">
+<option value="">Choisir...</option>
+${times.map(t=>`<option value="${t}">${t}</option>`).join('')}
+</select>
+</div>`;
+}
+
+// Créer les chips avec XXXX cliquables directement
+const chipsHtml=propositions&&propositions.length>0?`
+<div class="proposition-chips">
+${propositions.map(p=>{
+// Remplacer les XXXX par des spans cliquables
+const displayText=(p||'').replace(/XXXX/g,'<span class="xxxx-in-chip" onclick="event.stopPropagation();openXXXXModal2ForProp(this)">XXXX</span>');
+return `<div class="chip" data-value="${(p||'').replace(/"/g,'&quot;')}" data-element-id="${element.id}" onclick="selectPropositionChip(this)">${displayText}</div>`;
+}).join('')}
+</div>
+`:'';
+
+const validateFn=isDate?'validateXXXXWithTime':'validateXXXX';
+document.getElementById('xxxxModal').innerHTML=`
+<div class="modal-content${isDate?' modal-content-large':''}">
+<div class="modal-header">
+<span>Remplir le champ${isDate?' (Date et Heure)':isTime?' (Heure)':''}</span>
+<span class="modal-close" onclick="closeModal('xxxxModal')">×</span>
+</div>
+${dateOptionsHtml}
+${timeOptionsHtml}
+${chipsHtml}
+<input type="text" id="xxxxInput" class="modal-input" placeholder="${isDate?'JJ/MM':isTime?'HHhMM':'Entrez...'}" onkeypress="if(event.key==='Enter')${validateFn}('${element.id}')">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('xxxxModal')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="${validateFn}('${element.id}')">✓ Valider</button>
+</div>
+</div>
+`;
+// Réinitialiser les sélections
+selectedCalendarDate=null;
+selectedTimeSlot=null;
+document.getElementById('xxxxModal').classList.add('active');
+setTimeout(()=>document.getElementById('xxxxInput').focus(),100);
+}
+
+// Fonction pour sélectionner un chip de proposition (sélection multiple)
+function selectPropositionChip(chip){
+// Toggle la sélection du chip
+chip.classList.toggle('selected');
+
+// Récupérer tous les chips sélectionnés
+const selectedChips=chip.closest('.proposition-chips').querySelectorAll('.chip.selected');
+const values=Array.from(selectedChips).map(c=>c.getAttribute('data-value'));
+
+// Mettre à jour l'input avec les valeurs séparées par " + "
+document.getElementById('xxxxInput').value=values.join(', ');
+document.getElementById('xxxxInput').focus();
+}
+
+// Variables pour le calendrier
+let selectedCalendarDate=null;
+let selectedTimeSlot=null;
+let currentDateElementId=null;
+
+// Fonction pour sélectionner une date dans le calendrier
+function selectCalendarDate(dateValue,dayEl){
+// Désélectionner l'ancienne date
+document.querySelectorAll('.calendar-day.selected').forEach(d=>d.classList.remove('selected'));
+// Sélectionner la nouvelle
+dayEl.classList.add('selected');
+selectedCalendarDate=dateValue;
+// Mettre à jour l'input
+updateDateTimeInput();
+}
+
+// Fonction pour sélectionner un créneau horaire
+function selectTimeSlot(timeValue,slotEl){
+// Désélectionner l'ancien
+document.querySelectorAll('.time-slot.selected').forEach(s=>s.classList.remove('selected'));
+// Sélectionner le nouveau
+slotEl.classList.add('selected');
+selectedTimeSlot=timeValue;
+// Mettre à jour l'input
+updateDateTimeInput();
+}
+
+// Mettre à jour l'input avec date et éventuellement l'heure
+function updateDateTimeInput(){
+const input=document.getElementById('xxxxInput');
+if(selectedCalendarDate){
+input.value=selectedCalendarDate;
+input.focus();
+}
+}
+
+// Fonction pour valider et remplir automatiquement le XXXX d'heure suivant
+function validateXXXXWithTime(elementId){
+const value=document.getElementById('xxxxInput').value.trim();
+if(value){
+const element=document.getElementById(elementId);
+if(element){
+// Remplacer le texte
+element.textContent=value;
+element.classList.remove('xxxx');
+element.style.background='transparent';
+element.style.boxShadow='none';
+element.style.color='inherit';
+element.style.fontWeight='inherit';
+element.onclick=null;
+
+// Chercher le prochain XXXX qui est suivi de "h"
+let nextElement=element.nextSibling;
+while(nextElement){
+if(nextElement.nodeType===Node.TEXT_NODE){
+nextElement=nextElement.nextSibling;
+continue;
+}
+if(nextElement.classList&&nextElement.classList.contains('xxxx')){
+// Vérifier si c'est un champ d'heure (suivi de h)
+const afterNext=nextElement.nextSibling;
+if(afterNext&&/^\s*h/i.test(afterNext.textContent||'')){
+if(selectedTimeSlot){
+// Une heure a été sélectionnée, remplir le champ
+nextElement.textContent=selectedTimeSlot;
+nextElement.classList.remove('xxxx');
+nextElement.style.background='transparent';
+nextElement.style.boxShadow='none';
+nextElement.style.color='inherit';
+nextElement.style.fontWeight='inherit';
+nextElement.onclick=null;
+// Supprimer le "h" qui suit
+if(afterNext.nodeType===Node.TEXT_NODE){
+afterNext.textContent=afterNext.textContent.replace(/^\s*h\s*/,'');
+}
+}else{
+// Pas d'heure sélectionnée, supprimer "XXXX h" (en gardant l'espace avant éventuel)
+// Supprimer le texte " à " qui précède le XXXX s'il existe
+let prevText=nextElement.previousSibling;
+if(prevText&&prevText.nodeType===Node.TEXT_NODE){
+prevText.textContent=prevText.textContent.replace(/\s*à\s*$/,'');
+}
+// Supprimer le "h" qui suit
+if(afterNext.nodeType===Node.TEXT_NODE){
+afterNext.textContent=afterNext.textContent.replace(/^\s*h\s*/,'');
+}
+// Supprimer le XXXX lui-même
+nextElement.remove();
+}
+break;
+}
+}
+nextElement=nextElement.nextSibling;
+}
+element.removeAttribute('data-props');
+element.removeAttribute('data-remove-h');
+}
+}
+// Réinitialiser les sélections
+selectedCalendarDate=null;
+selectedTimeSlot=null;
+closeModal('xxxxModal');
+}
+
+// Variable pour stocker le chip actuel pour XXXX dans propositions
+let currentPropChipForXXXX=null;
+
+// Modal XXXX secondaire pour les propositions
+function openXXXXModal2ForProp(xxxxSpan){
+currentPropChipForXXXX=xxxxSpan.closest('.chip');
+
+// Détecter le contexte en regardant le texte AVANT et APRÈS le XXXX dans le chip
+const prevSibling=xxxxSpan.previousSibling;
+const nextSibling=xxxxSpan.nextSibling;
+
+const textBefore=prevSibling?prevSibling.textContent||'':'';
+const textAfter=nextSibling?nextSibling.textContent||'':'';
+
+// Date : précédé de "le " isolé (pas "abdominale", "normale", etc.)
+const isDate=/(?:^|\s)le\s*$/i.test(textBefore);
+// Heure : suivi de " h" ou "h"
+const isTime=/^\s*h/i.test(textAfter);
+
+// Générer les options
+let dateTimeHtml='';
+if(isDate){
+const dates=[];
+const now=new Date();
+for(let i=0;i<15;i++){
+const d=new Date(now);
+d.setDate(d.getDate()-i);
+dates.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
+}
+dateTimeHtml=`<div class="datetime-picker"><label>Date :</label><select id="dateSelect2" onchange="document.getElementById('xxxxInput2').value=this.value"><option value="">Choisir...</option>${dates.map(d=>`<option value="${d}">${d}</option>`).join('')}</select></div>`;
+}
+if(isTime){
+const times=[];
+const now=new Date();
+now.setMinutes(now.getMinutes()>=30?30:0);
+for(let i=0;i<48;i++){
+const t=new Date(now);
+t.setMinutes(t.getMinutes()-(i*30));
+times.push(`${String(t.getHours()).padStart(2,'0')}h${String(t.getMinutes()).padStart(2,'0')}`);
+}
+dateTimeHtml=`<div class="datetime-picker"><label>Heure :</label><select id="timeSelect2" onchange="document.getElementById('xxxxInput2').value=this.value"><option value="">Choisir...</option>${times.map(t=>`<option value="${t}">${t}</option>`).join('')}</select></div>`;
+}
+
+document.getElementById('xxxxModal2').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>Remplir le champ${isDate?' (Date)':isTime?' (Heure)':''}</span>
+<span class="modal-close" onclick="closeModal('xxxxModal2')">×</span>
+</div>
+${dateTimeHtml}
+<input type="text" id="xxxxInput2" class="modal-input" placeholder="${isDate?'JJ/MM':isTime?'HHhMM':'Entrez...'}" onkeypress="if(event.key==='Enter')validateXXXX2ForProp()">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('xxxxModal2')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="validateXXXX2ForProp()">✓ Valider</button>
+</div>
+</div>
+`;
+document.getElementById('xxxxModal2').classList.add('active');
+setTimeout(()=>document.getElementById('xxxxInput2').focus(),100);
+}
+
+function validateXXXX2ForProp(){
+const value=document.getElementById('xxxxInput2').value.trim();
+if(value&&currentPropChipForXXXX){
+// Mettre à jour la data-value du chip
+let chipValue=currentPropChipForXXXX.getAttribute('data-value');
+chipValue=chipValue.replace('XXXX',value);
+currentPropChipForXXXX.setAttribute('data-value',chipValue);
+
+// Mettre à jour l'affichage du chip (remplacer le premier xxxx-in-chip)
+const xxxxSpans=currentPropChipForXXXX.querySelectorAll('.xxxx-in-chip');
+if(xxxxSpans.length>0){
+xxxxSpans[0].outerHTML=value;
+}
+
+// Mettre à jour l'input
+const mainInput=document.getElementById('xxxxInput');
+if(mainInput&&mainInput.value.includes('XXXX')){
+mainInput.value=mainInput.value.replace('XXXX',value);
+}
+}
+currentPropChipForXXXX=null;
+closeModal('xxxxModal2');
+}
+
+function fillXXXX(elementId,value){
+document.getElementById('xxxxInput').value=value;
+}
+
+function validateXXXX(elementId){
+const value=document.getElementById('xxxxInput').value.trim();
+if(value){
+const element=document.getElementById(elementId);
+if(element){
+// Vérifier si on doit supprimer le "h" qui suit (pour les heures)
+const removeH=element.getAttribute('data-remove-h')==='true';
+if(removeH){
+const nextSibling=element.nextSibling;
+if(nextSibling&&nextSibling.nodeType===Node.TEXT_NODE){
+// Supprimer le "h" ou " h" au début du texte suivant
+nextSibling.textContent=nextSibling.textContent.replace(/^\s*h\s*/,'');
+}
+}
+
+// Vérifier si la valeur contient des XXXX
+if(value.includes('XXXX')){
+// Créer le HTML avec des spans cliquables pour chaque XXXX
+const parts=value.split(/(XXXX)/g);
+element.innerHTML=parts.map(part=>{
+if(part==='XXXX'){
+return `<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>`;
+}
+return part;
+}).join('');
+element.classList.remove('xxxx');
+element.style.background='transparent';
+element.style.border='none';
+element.style.color='inherit';
+element.style.fontWeight='inherit';
+element.onclick=null;
+}else{
+element.textContent=value;
+element.classList.remove('xxxx');
+element.style.background='transparent';
+element.style.border='none';
+element.style.color='inherit';
+element.style.fontWeight='inherit';
+element.onclick=null;
+}
+element.removeAttribute('data-props');
+element.removeAttribute('data-remove-h');
+}
+}
+closeModal('xxxxModal');
+}
+
+function openAlternativeModal(element){
+element.id='alt-'+Date.now();
+
+let alternatives=[];
+try{
+const altsAttr=element.getAttribute('data-alts');
+if(altsAttr){
+alternatives=JSON.parse(altsAttr);
+}
+}catch(e){
+console.error('Erreur parse alternatives:',e);
+}
+
+// Afficher uniquement les alternatives APRÈS la première (qui est déjà affichée)
+const autresAlternatives=alternatives.slice(1);
+
+// Créer les chips avec XXXX cliquables directement
+const chipsHtml=autresAlternatives&&autresAlternatives.length>0?`
+<div class="proposition-chips">
+${autresAlternatives.map((a,idx)=>{
+const safeValue=(a||'').replace(/'/g,"\\'");
+// Remplacer les XXXX par des spans cliquables
+const displayText=(a||'').replace(/XXXX/g,'<span class="xxxx-in-chip" onclick="event.stopPropagation();openXXXXModalForChip(this)">XXXX</span>');
+return `<div class="chip" data-value="${(a||'').replace(/"/g,'&quot;')}" data-element-id="${element.id}" onclick="selectAlternativeChip(this)">${displayText}</div>`;
+}).join('')}
+</div>
+`:'';
+
+document.getElementById('alternativeModal').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>Choisir une alternative</span>
+<span class="modal-close" onclick="closeModal('alternativeModal')">×</span>
+</div>
+${chipsHtml}
+<input type="text" id="alternativeInput" class="modal-input" placeholder="Ou entrez votre texte..." onkeypress="if(event.key==='Enter')validateAlternative('${element.id}')">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('alternativeModal')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="validateAlternative('${element.id}')">✓ Valider</button>
+</div>
+</div>
+`;
+document.getElementById('alternativeModal').classList.add('active');
+setTimeout(()=>document.getElementById('alternativeInput').focus(),100);
+}
+
+// Fonction pour sélectionner un chip d'alternative
+function selectAlternativeChip(chip){
+// Toggle la sélection du chip
+chip.classList.toggle('selected');
+
+// Récupérer tous les chips sélectionnés
+const selectedChips=chip.closest('.proposition-chips').querySelectorAll('.chip.selected');
+const values=Array.from(selectedChips).map(c=>c.getAttribute('data-value'));
+
+// Mettre à jour l'input avec les valeurs séparées par " + "
+document.getElementById('alternativeInput').value=values.join(', ');
+}
+
+// Variable pour stocker le chip actuel
+let currentChipForXXXX=null;
+
+// Modal XXXX pour les chips d'alternatives
+function openXXXXModalForChip(xxxxSpan){
+currentChipForXXXX=xxxxSpan.closest('.chip');
+
+// Détecter le contexte en regardant le texte AVANT et APRÈS le XXXX dans le chip
+const prevSibling=xxxxSpan.previousSibling;
+const nextSibling=xxxxSpan.nextSibling;
+
+const textBefore=prevSibling?prevSibling.textContent||'':'';
+const textAfter=nextSibling?nextSibling.textContent||'':'';
+
+// Date : précédé de "le " isolé (pas "abdominale", "normale", etc.)
+const isDate=/(?:^|\s)le\s*$/i.test(textBefore);
+// Heure : suivi de " h" ou "h"
+const isTime=/^\s*h/i.test(textAfter);
+
+// Générer les options
+let dateTimeHtml='';
+if(isDate){
+const dates=[];
+const now=new Date();
+for(let i=0;i<15;i++){
+const d=new Date(now);
+d.setDate(d.getDate()-i);
+dates.push(`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`);
+}
+dateTimeHtml=`<div class="datetime-picker"><label>Date :</label><select id="dateSelect2" onchange="document.getElementById('xxxxInput2').value=this.value"><option value="">Choisir...</option>${dates.map(d=>`<option value="${d}">${d}</option>`).join('')}</select></div>`;
+}
+if(isTime){
+const times=[];
+const now=new Date();
+now.setMinutes(now.getMinutes()>=30?30:0);
+for(let i=0;i<48;i++){
+const t=new Date(now);
+t.setMinutes(t.getMinutes()-(i*30));
+times.push(`${String(t.getHours()).padStart(2,'0')}h${String(t.getMinutes()).padStart(2,'0')}`);
+}
+dateTimeHtml=`<div class="datetime-picker"><label>Heure :</label><select id="timeSelect2" onchange="document.getElementById('xxxxInput2').value=this.value"><option value="">Choisir...</option>${times.map(t=>`<option value="${t}">${t}</option>`).join('')}</select></div>`;
+}
+
+document.getElementById('xxxxModal2').innerHTML=`
+<div class="modal-content">
+<div class="modal-header">
+<span>Remplir le champ${isDate?' (Date)':isTime?' (Heure)':''}</span>
+<span class="modal-close" onclick="closeModal('xxxxModal2')">×</span>
+</div>
+${dateTimeHtml}
+<input type="text" id="xxxxInput2" class="modal-input" placeholder="${isDate?'JJ/MM':isTime?'HHhMM':'Entrez...'}" onkeypress="if(event.key==='Enter')validateXXXXForChip()">
+<div class="modal-buttons">
+<button class="modal-btn modal-btn-secondary" onclick="closeModal('xxxxModal2')">Annuler</button>
+<button class="modal-btn modal-btn-primary" onclick="validateXXXXForChip()">✓ Valider</button>
+</div>
+</div>
+`;
+document.getElementById('xxxxModal2').classList.add('active');
+setTimeout(()=>document.getElementById('xxxxInput2').focus(),100);
+}
+
+function validateXXXXForChip(){
+const value=document.getElementById('xxxxInput2').value.trim();
+if(value&&currentChipForXXXX){
+// Mettre à jour la data-value du chip
+let chipValue=currentChipForXXXX.getAttribute('data-value');
+chipValue=chipValue.replace('XXXX',value);
+currentChipForXXXX.setAttribute('data-value',chipValue);
+
+// Mettre à jour l'affichage du chip (remplacer le premier xxxx-in-chip)
+const xxxxSpans=currentChipForXXXX.querySelectorAll('.xxxx-in-chip');
+if(xxxxSpans.length>0){
+xxxxSpans[0].outerHTML=value;
+}
+
+// Mettre à jour l'input
+const altInput=document.getElementById('alternativeInput');
+if(altInput&&altInput.value.includes('XXXX')){
+altInput.value=altInput.value.replace('XXXX',value);
+}
+}
+currentChipForXXXX=null;
+closeModal('xxxxModal2');
+}
+
+function fillAlternative(elementId,value){
+// Remplir le champ input
+document.getElementById('alternativeInput').value=value;
+// Directement valider et remplacer dans l'élément
+const element=document.getElementById(elementId);
+if(element){
+// Si la valeur contient des XXXX, les rendre cliquables
+if(value.includes('XXXX')){
+element.innerHTML=value.replace(/XXXX/g,'<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>');
+}else{
+element.textContent=value;
+}
+element.classList.remove('alternative');
+element.style.background='transparent';
+element.style.boxShadow='none';
+element.style.animation='none';
+element.style.color='inherit';
+element.style.fontWeight='inherit';
+element.onclick=null;
+element.removeAttribute('data-alts');
+}
+closeModal('alternativeModal');
+}
+
+function validateAlternative(elementId){
+const value=document.getElementById('alternativeInput').value.trim();
+if(value){
+const element=document.getElementById(elementId);
+if(element){
+// Si la valeur contient des XXXX, les rendre cliquables
+if(value.includes('XXXX')){
+element.innerHTML=value.replace(/XXXX/g,'<span class="xxxx" onclick="openXXXXModal(this)">XXXX</span>');
+}else{
+element.textContent=value;
+}
+element.classList.remove('alternative');
+element.style.background='transparent';
+element.style.boxShadow='none';
+element.style.animation='none';
+element.style.color='inherit';
+element.style.fontWeight='inherit';
+element.onclick=null;
+element.removeAttribute('data-alts');
+}
+}
+closeModal('alternativeModal');
+}
+
+function openModal(modalId){
+document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId){
+document.getElementById(modalId).classList.remove('active');
+}
+
+function copyText(text){
+navigator.clipboard.writeText(text);
+toast('✅ Copié !');
+}
+
+function deleteModule(btn){
+const module=btn.closest('.module');
+if(module){
+// Animation de suppression
+module.style.transition='all 0.3s';
+module.style.opacity='0';
+module.style.transform='translateX(-20px)';
+setTimeout(()=>{
+module.remove();
+showToast('🗑️ Module supprimé');
+},300);
+}
+}
+
+function copyModule(moduleType){
+if(!state.conclusion||!state.conclusion.modules)return;
+
+const module=state.conclusion.modules.find(m=>m.type===moduleType);
+if(!module)return;
+
+let text='';
+
+if(module.type==='hdm'){
+// Pour HDM : récupérer depuis le DOM sans les titres de sections
+const hdmDiv=document.querySelector(`[data-module-content="hdm"]`);
+if(hdmDiv){
+const sections=hdmDiv.querySelectorAll('.hdm-section-content');
+text=Array.from(sections).map(section=>{
+const clone=section.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+return cleanTextFromDOM(clone);
+}).filter(s=>s).join('\n\n');
+}
+}else{
+// Pour les autres modules : récupérer depuis le DOM
+const moduleDiv=document.querySelector(`[data-module-content="${moduleType}"]`);
+if(moduleDiv){
+const clone=moduleDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-number').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-actions').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-add-line').forEach(el=>el.remove());
+text=cleanTextFromDOM(clone);
+}
+}
+
+copyText(text.trim());
+}
+
+function copyHDM(){
+if(!state.conclusion||!state.conclusion.modules)return;
+
+const hdmModule=state.conclusion.modules.find(m=>m.type==='hdm');
+if(!hdmModule)return;
+
+let text='';
+
+const hdmDiv=document.querySelector(`[data-module-content="hdm"]`);
+if(hdmDiv){
+const sections=hdmDiv.querySelectorAll('.hdm-section-content');
+text=Array.from(sections).map(section=>{
+const clone=section.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+return cleanTextFromDOM(clone);
+}).filter(s=>s).join('\n\n');
+}
+
+copyText(text.trim());
+}
+
+function copyExamen(){
+if(!state.conclusion||!state.conclusion.modules)return;
+
+const examenModules=state.conclusion.modules.filter(m=>
+m.type.startsWith('examen_')
+);
+
+let text='';
+let addedModules=0;
+
+examenModules.forEach((module)=>{
+// Vérifier si le module existe encore dans le DOM
+const moduleContainer=document.querySelector(`[data-module-type="${module.type}"]`);
+if(!moduleContainer)return; // Module supprimé, on l'ignore
+
+const moduleDiv=document.querySelector(`[data-module-content="${module.type}"]`);
+let moduleText='';
+if(moduleDiv){
+const clone=moduleDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+moduleText=cleanTextFromDOM(clone).trim();
+}
+
+// Ne copier que si le contenu n'est pas vide
+if(moduleText){
+if(addedModules>0)text+='\n\n';
+const titre=module.titre?module.titre.replace(/^[^a-zA-ZÀ-ÿ]+/,'').trim():'';
+if(titre)text+=titre.toUpperCase()+'\n';
+text+=moduleText;
+addedModules++;
+}
+});
+
+// Ajouter le module de note si checkbox cochée et contenu non vide
+const includeNote=document.getElementById('includeNoteCheckbox');
+const noteContent=document.querySelector('[data-module-content="note_examen"]');
+if(includeNote&&includeNote.checked&&noteContent){
+const noteText=(noteContent.innerText||noteContent.textContent||'').trim();
+if(noteText){
+if(addedModules>0)text+='\n\n';
+text+=noteText;
+}
+}
+
+copyText(text.trim());
+}
+
+function copyConclusion(){
+if(!state.conclusion)return;
+
+// Liste des types de modules de conclusion dans l'ordre
+const conclusionTypes=['diagnostic','signes_gravite','soins_urgences','conduite_tenir','conseils','suivi','consignes_reconsultation'];
+
+let text='';
+let addedModules=0;
+
+conclusionTypes.forEach((moduleType)=>{
+// Vérifier si le module existe dans le DOM
+const moduleContainer=document.querySelector(`[data-module-type="${moduleType}"]`);
+if(!moduleContainer)return;
+
+// Extraire le texte depuis le DOM
+const moduleDiv=document.querySelector(`[data-module-content="${moduleType}"]`);
+let moduleText='';
+if(moduleDiv){
+const clone=moduleDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-number').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-actions').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-add-line').forEach(el=>el.remove());
+moduleText=cleanTextFromDOM(clone).trim();
+}
+
+// Ne copier que si le contenu n'est pas vide
+if(moduleText){
+if(addedModules>0)text+='\n\n';
+
+// Modules sans titre : diagnostic et signes_gravite
+const modulesWithoutTitle=['diagnostic','signes_gravite'];
+const showTitle=!modulesWithoutTitle.includes(moduleType);
+
+// Récupérer le titre depuis le DOM
+if(showTitle){
+const titleEl=moduleContainer.querySelector('.module-title');
+if(titleEl){
+let titre=titleEl.textContent.replace(/^[^a-zA-ZÀ-ÿ]+/,'').trim();
+if(titre)text+=titre.toUpperCase()+'\n';
+}
+}
+
+text+=moduleText;
+addedModules++;
+}
+});
+
+copyText(text.trim());
+}
+
+// Fonction utilitaire pour nettoyer et extraire le texte du DOM
+function cleanTextFromDOM(element){
+// Parcourir les lignes du module pour préserver les retours à la ligne
+const lines=[];
+
+// Chercher les lignes de module
+const moduleLines=element.querySelectorAll('.module-line');
+if(moduleLines.length>0){
+moduleLines.forEach(line=>{
+const clone=line.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+const text=(clone.innerText||clone.textContent||'').trim();
+if(text)lines.push(text);
+});
+return lines.join('\n');
+}
+
+// Chercher les lignes de conduite
+const conduiteLines=element.querySelectorAll('.conduite-line');
+if(conduiteLines.length>0){
+conduiteLines.forEach(line=>{
+const textSpan=line.querySelector('.conduite-text');
+if(textSpan){
+const clone=textSpan.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+const text=(clone.innerText||clone.textContent||'').trim();
+if(text)lines.push(text);
+}
+});
+return lines.join('\n');
+}
+
+// Chercher les divs enfants directs (pour contenteditable modifié)
+const childDivs=element.querySelectorAll(':scope > div');
+if(childDivs.length>0){
+childDivs.forEach(div=>{
+const clone=div.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+const text=(clone.innerText||clone.textContent||'').trim();
+if(text)lines.push(text);
+});
+if(lines.length>0)return lines.join('\n');
+}
+
+// Fallback : séparer par les <br> ou les retours à la ligne
+let html=element.innerHTML||'';
+// Remplacer les <br> par des marqueurs de ligne
+html=html.replace(/<br\s*\/?>/gi,'\n');
+// Remplacer les </div><div> par des retours à la ligne
+html=html.replace(/<\/div>\s*<div/gi,'\n<div');
+// Créer un élément temporaire pour extraire le texte
+const temp=document.createElement('div');
+temp.innerHTML=html;
+// Supprimer les commentaires
+temp.querySelectorAll('.comment').forEach(el=>el.remove());
+let text=temp.innerText||temp.textContent||'';
+text=text.split('\n').map(line=>line.trim()).filter(line=>line!=='').join('\n');
+
+return text.trim();
+}
+
+function extractLigneText(ligne){
+if(!ligne)return'';
+// Pour les lignes avec elements (structure standard)
+if(ligne.elements&&Array.isArray(ligne.elements)){
+return ligne.elements.filter(e=>!e.commentaire).map(e=>e.texte||'').join('').trim();
+}
+// Pour les conduiteLines qui utilisent .text
+if(ligne.text)return ligne.text.trim();
+// Pour les lignes simples avec .texte
+if(ligne.texte)return ligne.texte.trim();
+return'';
+}
+
+function copyAll(){
+if(!state.conclusion)return;
+let text='';
+let addedExamenModules=0;
+
+// Copier l'examen
+const examenModules=state.conclusion.modules.filter(m=>
+m.type==='hdm'||m.type.startsWith('examen_')
+);
+
+examenModules.forEach((module)=>{
+// Vérifier si le module existe encore dans le DOM
+const moduleContainer=document.querySelector(`[data-module-type="${module.type}"]`);
+if(!moduleContainer)return; // Module supprimé, on l'ignore
+
+if(module.type==='hdm'){
+const hdmDiv=document.querySelector(`[data-module-content="hdm"]`);
+if(hdmDiv){
+const sections=hdmDiv.querySelectorAll('.hdm-section-content');
+const sectionsText=Array.from(sections).map(section=>{
+const clone=section.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+return cleanTextFromDOM(clone);
+}).filter(s=>s.trim()).join('\n\n');
+if(sectionsText.trim()){
+if(addedExamenModules>0)text+='\n\n';
+text+=sectionsText;
+addedExamenModules++;
+}
+}
+}else{
+const moduleDiv=document.querySelector(`[data-module-content="${module.type}"]`);
+let moduleText='';
+if(moduleDiv){
+const clone=moduleDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+moduleText=cleanTextFromDOM(clone).trim();
+}
+if(moduleText){
+if(addedExamenModules>0)text+='\n\n';
+const titre=module.titre?module.titre.replace(/^[^a-zA-ZÀ-ÿ]+/,'').trim():'';
+if(titre)text+=titre.toUpperCase()+'\n';
+text+=moduleText;
+addedExamenModules++;
+}
+}
+});
+
+// Ajouter le module de note si checkbox cochée et contenu non vide
+const includeNote=document.getElementById('includeNoteCheckbox');
+const noteContent=document.querySelector('[data-module-content="note_examen"]');
+if(includeNote&&includeNote.checked&&noteContent){
+const noteText=(noteContent.innerText||noteContent.textContent||'').trim();
+if(noteText){
+if(addedExamenModules>0)text+='\n\n';
+text+=noteText;
+}
+}
+
+text+='\n\n---\n\n';
+
+// Copier la conclusion - parcourir les types de modules dans l'ordre
+const conclusionTypes=['diagnostic','signes_gravite','soins_urgences','conduite_tenir','conseils','suivi','consignes_reconsultation'];
+const modulesWithoutTitle=['diagnostic','signes_gravite'];
+let addedConclusionModules=0;
+
+conclusionTypes.forEach((moduleType)=>{
+// Vérifier si le module existe dans le DOM
+const moduleContainer=document.querySelector(`[data-module-type="${moduleType}"]`);
+if(!moduleContainer)return;
+
+const moduleDiv=document.querySelector(`[data-module-content="${moduleType}"]`);
+let moduleText='';
+if(moduleDiv){
+const clone=moduleDiv.cloneNode(true);
+clone.querySelectorAll('.comment').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-number').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-actions').forEach(el=>el.remove());
+clone.querySelectorAll('.conduite-add-line').forEach(el=>el.remove());
+moduleText=cleanTextFromDOM(clone).trim();
+}
+
+if(moduleText){
+if(addedConclusionModules>0)text+='\n\n';
+const showTitle=!modulesWithoutTitle.includes(moduleType);
+if(showTitle){
+const titleEl=moduleContainer.querySelector('.module-title');
+if(titleEl){
+let titre=titleEl.textContent.replace(/^[^a-zA-ZÀ-ÿ]+/,'').trim();
+if(titre)text+=titre.toUpperCase()+'\n';
+}
+}
+text+=moduleText;
+addedConclusionModules++;
+}
+});
+
+copyText(text.trim());
+}
+
+function openThemeModal(){
+const currentTheme=document.documentElement.getAttribute('data-theme')||'default';
+document.querySelectorAll('.theme-option').forEach(opt=>{
+opt.classList.toggle('active',opt.getAttribute('data-theme')===currentTheme);
+});
+document.getElementById('themeModal').classList.add('active');
+}
+
+function setTheme(theme){
+if(theme==='default'){
+document.documentElement.removeAttribute('data-theme');
+}else{
+document.documentElement.setAttribute('data-theme',theme);
+}
+localStorage.setItem('medicalAppTheme',theme);
+document.querySelectorAll('.theme-option').forEach(opt=>{
+opt.classList.toggle('active',opt.getAttribute('data-theme')===theme);
+});
+closeModal('themeModal');
+toast('✅ Thème appliqué');
+}
+
+function loadSavedTheme(){
+const savedTheme=localStorage.getItem('medicalAppTheme');
+if(savedTheme&&savedTheme!=='default'){
+document.documentElement.setAttribute('data-theme',savedTheme);
+}
+}
+
+loadSavedTheme();
+
+function resetAll(){
+state={categories:state.categories,motifPrincipal:null,motifsSecondaires:[],conclusion:null,conduiteLines:[],allOrdonnances:[],currentMode:null,currentBulles:[],allMotifs:state.allMotifs};
+document.querySelectorAll('.category-btn,.motif-btn').forEach(btn=>btn.classList.remove('active','principal','secondaire'));
+document.querySelectorAll('.motifs-list').forEach(list=>list.classList.remove('active'));
+document.getElementById('generateTop').disabled=true;
+document.getElementById('generateBottom').disabled=true;
+document.getElementById('floatingActions').style.display='none';
+document.getElementById('mainSelectionBox').style.display='none';
+document.getElementById('secondarySelectionBox').style.display='none';
+document.getElementById('motifSearch').value='';
+document.getElementById('searchResults').classList.remove('active');
+document.getElementById('resultContainer').innerHTML='<div class="empty-state"><div style="font-size:64px;margin-bottom:20px">📝</div><h3>Aucune conclusion générée</h3><p>Sélectionnez un motif principal et cliquez sur "Générer"</p></div>';
+toast('🔄 Réinitialisé');
+}
+
+function toast(message,type='info'){
+const toastEl=document.createElement('div');
+toastEl.className='toast';
+toastEl.textContent=message;
+if(type==='error')toastEl.style.borderColor='#dc2626';
+document.body.appendChild(toastEl);
+setTimeout(()=>toastEl.remove(),3000);
+}
+
+// Event listener global pour valider les modals XXXX avec la touche Entrée
+document.addEventListener('keydown',(e)=>{
+if(e.key==='Enter'){
+// Vérifier si le modal xxxxModal2 est actif
+const modal2=document.getElementById('xxxxModal2');
+if(modal2&&modal2.classList.contains('active')){
+const input2=document.getElementById('xxxxInput2');
+if(input2&&input2.value.trim()){
+// Trouver quel bouton de validation appeler
+const validateBtn=modal2.querySelector('.modal-btn-primary');
+if(validateBtn)validateBtn.click();
+e.preventDefault();
+return;
+}
+}
+// Vérifier si le modal xxxxModal est actif
+const modal=document.getElementById('xxxxModal');
+if(modal&&modal.classList.contains('active')){
+const input=document.getElementById('xxxxInput');
+if(input&&input.value.trim()){
+const validateBtn=modal.querySelector('.modal-btn-primary');
+if(validateBtn)validateBtn.click();
+e.preventDefault();
+return;
+}
+}
+// Vérifier si le modal alternativeModal est actif
+const altModal=document.getElementById('alternativeModal');
+if(altModal&&altModal.classList.contains('active')){
+const altInput=document.getElementById('alternativeInput');
+if(altInput&&altInput.value.trim()){
+const validateBtn=altModal.querySelector('.modal-btn-primary');
+if(validateBtn)validateBtn.click();
+e.preventDefault();
+return;
+}
+}
+// Vérifier si le modal de sélection de mode est actif
+const modeModal=document.getElementById('modeSelectionModal');
+if(modeModal&&modeModal.classList.contains('active')){
+selectMode('examen_conclusion');
+e.preventDefault();
+return;
+}
+// Si aucun modal n'est actif et qu'un motif est sélectionné, générer la conclusion
+const activeElement=document.activeElement;
+const isInInput=activeElement&&(
+activeElement.tagName==='INPUT'||
+activeElement.tagName==='TEXTAREA'||
+activeElement.isContentEditable||
+activeElement.closest('input')||
+activeElement.closest('textarea')||
+activeElement.closest('[contenteditable="true"]')
+);
+const anyModalActive=document.querySelector('.modal.active');
+if(!isInInput&&!anyModalActive&&state.motifPrincipal){
+showModeSelection();
+e.preventDefault();
+return;
+}
+}
+});
+
+window.addEventListener('click',(e)=>{
+if(e.target.classList.contains('modal'))e.target.classList.remove('active');
+});
+</script>
+</body>
+</html>
